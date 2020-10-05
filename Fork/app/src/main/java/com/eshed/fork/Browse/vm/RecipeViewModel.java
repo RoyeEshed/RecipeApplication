@@ -1,10 +1,8 @@
 package com.eshed.fork.Browse.vm;
 
-import androidx.lifecycle.ViewModel;
+import com.eshed.fork.data.model.Recipe;
 
-import com.eshed.fork.Recipe;
-
-public class RecipeViewModel extends ViewModel {
+public class RecipeViewModel {
     private Recipe recipe;
 
     public RecipeViewModel(Recipe recipe) {

@@ -1,5 +1,6 @@
 package com.eshed.fork.Browse.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,15 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.eshed.fork.Browse.vm.BrowseViewModel;
 import com.eshed.fork.Browse.vm.RecipeViewModel;
 import com.eshed.fork.R;
+import com.eshed.fork.Recipe.view.RecipeActivity;
 import com.eshed.fork.data.DebugRecipeRepository;
 import com.eshed.fork.data.RecipeRepository;
 
 import static androidx.recyclerview.widget.RecyclerView.*;
 
-public class BrowseActivity extends AppCompatActivity {
-    private RecyclerView recyclerView;
-    private Adapter adapter;
-    private TextView title;
+public class BrowseActivity extends AppCompatActivity implements RecipeRecyclerViewAdapter.RecipeAdapterHandler{
     private BrowseViewModel vm;
     private RecipeRepository recipeRepository = DebugRecipeRepository.getInstance();
 
@@ -40,7 +39,7 @@ public class BrowseActivity extends AppCompatActivity {
 
         Toolbar tabBar = findViewById(R.id.tab_bar);
 
-        title = toolbar.findViewById(R.id.toolbar_title);
+        TextView title = toolbar.findViewById(R.id.toolbar_title);
         title.setText("Browse");
 
         ImageView backArrow = toolbar.findViewById(R.id.back_arrow);
@@ -66,11 +65,19 @@ public class BrowseActivity extends AppCompatActivity {
     }
 
     private void initRecyclerView() {
-        recyclerView = findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        adapter = new RecipeRecyclerViewAdapter(this, vm);
-
+        Adapter adapter = new RecipeRecyclerViewAdapter(this, vm);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
+
+        ((RecipeRecyclerViewAdapter) adapter).handler = this;
+    }
+
+    @Override
+    public void selectRecipeCard(RecipeViewModel vm) {
+        Intent intent = new Intent(this, RecipeActivity.class);
+        intent.putExtra("recipe", vm.getRecipe().getName());
+        this.startActivity(intent);
     }
 }

@@ -1,4 +1,4 @@
-package com.eshed.fork;
+package com.eshed.fork.data.model;
 
 public class Recipe {
     private String name;

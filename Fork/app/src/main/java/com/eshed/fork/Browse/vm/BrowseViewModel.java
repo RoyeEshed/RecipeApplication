@@ -1,14 +1,12 @@
 package com.eshed.fork.Browse.vm;
 
-import androidx.lifecycle.ViewModel;
-
-import com.eshed.fork.Recipe;
+import com.eshed.fork.data.model.Recipe;
 import com.eshed.fork.data.RecipeRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BrowseViewModel extends ViewModel {
+public class BrowseViewModel {
     private List<RecipeViewModel> recipeList = new ArrayList<>();
     private RecipeRepository recipeRepository;
 
