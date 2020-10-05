@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Fork.iml" filepath="$PROJECT_DIR$/.idea/modules/Fork.iml" group="Fork" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Fork-app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Fork-app.iml" group="Fork/app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/RecipeApplication-Fork.iml" filepath="$PROJECT_DIR$/.idea/modules/RecipeApplication-Fork.iml" group="Fork" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.iml" group="Fork/app" />
     </modules>
   </component>
