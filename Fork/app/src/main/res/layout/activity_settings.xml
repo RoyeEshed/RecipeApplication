@@ -46,6 +46,7 @@
             app:layout_constraintTop_toBottomOf="@+id/name_textview" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
@@ -97,7 +98,36 @@
                 app:layout_constraintStart_toStartOf="@+id/recipes_submitted_label"
                 app:layout_constraintTop_toBottomOf="@+id/recipes_submitted_label" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@color/gray"
+            android:orientation="vertical"
+            android:paddingBottom="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:textSize="18sp"
+                android:text="Email:" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:textSize="18sp"
+                android:text="Dietary Restrictions:" />
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <include
         android:id="@+id/tab_bar"
         layout="@layout/tab_bar"

@@ -1,5 +1,6 @@
 package com.eshed.fork.Settings;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -37,6 +38,7 @@ public class SettingsActivity extends AppCompatActivity {
         addButton.setVisibility(View.INVISIBLE);
         ImageView settingsButton = tabBar.findViewById(R.id.user_settings);
         ImageView starredRecipesButton = tabBar.findViewById(R.id.star);
+        ImageView browseButton = tabBar.findViewById(R.id.home);
 
         backButton.setOnClickListener((View v)-> {
             this.finish();
@@ -47,6 +49,11 @@ public class SettingsActivity extends AppCompatActivity {
         });
         starredRecipesButton.setOnClickListener((View v)-> {
             Toast.makeText(this, "TODO: starred recipes button", Toast.LENGTH_SHORT).show();
+        });
+        browseButton.setOnClickListener((View v)-> {
+            Intent intent = new Intent(this, BrowseActivity.class);
+            this.startActivity(intent);
+            this.finish();
         });
     }
 }
