@@ -19,6 +19,7 @@ import com.eshed.fork.Browse.vm.BrowseViewModel;
 import com.eshed.fork.Browse.vm.RecipeViewModel;
 import com.eshed.fork.R;
 import com.eshed.fork.Recipe.view.RecipeActivity;
+import com.eshed.fork.Settings.SettingsActivity;
 import com.eshed.fork.data.DebugRecipeRepository;
 import com.eshed.fork.data.RecipeRepository;
 
@@ -58,7 +59,8 @@ public class BrowseActivity extends AppCompatActivity implements RecipeRecyclerV
             Toast.makeText(this, "TODO: back button", Toast.LENGTH_SHORT).show();
         });
         settingsButton.setOnClickListener((View v)-> {
-            Toast.makeText(this, "TODO: settings button", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, SettingsActivity.class);
+            this.startActivity(intent);
         });
         addButton.setOnClickListener((View v)-> {
             Toast.makeText(this, "TODO: add button", Toast.LENGTH_SHORT).show();
