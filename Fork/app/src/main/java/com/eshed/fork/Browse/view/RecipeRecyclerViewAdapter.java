@@ -14,26 +14,25 @@ import com.eshed.fork.Browse.vm.RecipeViewModel;
 import com.eshed.fork.R;
 
 public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter implements RecipeViewHolder.RecipeCardCallback{
+
+    public interface RecipeAdapterHandler {
+        void selectRecipeCard(RecipeViewModel vm);
+    }
+    private final Context context;
+    private BrowseViewModel vm;
+    public RecipeRecyclerViewAdapter.RecipeAdapterHandler handler;
+
+    public RecipeRecyclerViewAdapter(Context context, BrowseViewModel vm) {
+        this.context = context;
+        this.vm = vm;
+    }
+
     @Override
     public void cardTappedOn(RecipeViewModel vm) {
         if (vm == null) {
             Log.d("RecyclerViewAdapter", "cardTappedOn --> vm is null");
         }
         handler.selectRecipeCard(vm);
-    }
-
-    public interface RecipeAdapterHandler {
-        void selectRecipeCard(RecipeViewModel vm);
-    }
-
-    public RecipeRecyclerViewAdapter.RecipeAdapterHandler handler;
-
-    private final Context context;
-    private BrowseViewModel vm;
-
-    public RecipeRecyclerViewAdapter(Context context, BrowseViewModel vm) {
-        this.context = context;
-        this.vm = vm;
     }
 
     @NonNull

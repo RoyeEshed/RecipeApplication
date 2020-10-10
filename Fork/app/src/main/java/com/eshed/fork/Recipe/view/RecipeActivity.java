@@ -29,21 +29,21 @@ public class RecipeActivity extends AppCompatActivity {
         String recipeName = getIntent().getExtras().getString("recipe");
         title.setText(recipeName);
 
-        ImageView backArrow = toolbar.findViewById(R.id.back_arrow);
-        ImageView userSetting = toolbar.findViewById(R.id.user_settings);
-        ImageView starredRecipes = tabBar.findViewById(R.id.star);
-        ImageView search = tabBar.findViewById(R.id.search);
+        ImageView backButton = toolbar.findViewById(R.id.back_arrow);
+        ImageView addButton = toolbar.findViewById(R.id.add_recipe);
+        ImageView settingsButton = tabBar.findViewById(R.id.user_settings);
+        ImageView starredRecipesButton = tabBar.findViewById(R.id.star);
 
-        backArrow.setOnClickListener((View v)-> {
+        backButton.setOnClickListener((View v)-> {
             this.finish();
         });
-        userSetting.setOnClickListener((View v)-> {
+        settingsButton.setOnClickListener((View v)-> {
             Toast.makeText(this, "TODO: settings button", Toast.LENGTH_SHORT).show();
         });
-        search.setOnClickListener((View v)-> {
-            Toast.makeText(this, "TODO: search button", Toast.LENGTH_SHORT).show();
+        addButton.setOnClickListener((View v)-> {
+            Toast.makeText(this, "TODO: add button", Toast.LENGTH_SHORT).show();
         });
-        starredRecipes.setOnClickListener((View v)-> {
+        starredRecipesButton.setOnClickListener((View v)-> {
             Toast.makeText(this, "TODO: starred recipes button", Toast.LENGTH_SHORT).show();
         });
     }

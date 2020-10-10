@@ -3,4 +3,8 @@
     <string name="placeholder">placeholder</string>
     <string name="modifications_label">Modifications</string>
     <string name="modifications_placeholder">GF, V</string>
+    <string name="search_icon">Search Icon</string>
+    <string name="search">Search</string>
+    <string name="filter_button">Filter Button</string>
+    <string name="sort_button">Sort Button</string>
 </resources>
