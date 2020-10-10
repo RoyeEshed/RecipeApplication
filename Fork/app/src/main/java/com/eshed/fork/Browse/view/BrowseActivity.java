@@ -3,12 +3,15 @@ package com.eshed.fork.Browse.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,6 +26,8 @@ import static androidx.recyclerview.widget.RecyclerView.*;
 
 public class BrowseActivity extends AppCompatActivity implements RecipeRecyclerViewAdapter.RecipeAdapterHandler{
     private BrowseViewModel vm;
+    private ConstraintLayout searchBar;
+
     private RecipeRepository recipeRepository = DebugRecipeRepository.getInstance();
 
     @Override
@@ -42,23 +47,27 @@ public class BrowseActivity extends AppCompatActivity implements RecipeRecyclerV
         TextView title = toolbar.findViewById(R.id.toolbar_title);
         title.setText("Browse");
 
-        ImageView backArrow = toolbar.findViewById(R.id.back_arrow);
-        ImageView userSetting = toolbar.findViewById(R.id.user_settings);
-        ImageView starredRecipes = tabBar.findViewById(R.id.star);
-        ImageView search = tabBar.findViewById(R.id.search);
+        ImageView backButton = toolbar.findViewById(R.id.back_arrow);
+        ImageView addButton = toolbar.findViewById(R.id.add_recipe);
+        ImageView settingsButton = tabBar.findViewById(R.id.user_settings);
+        ImageView starredRecipesButton = tabBar.findViewById(R.id.star);
+        searchBar = findViewById(R.id.search_bar);
+        EditText searchInput = searchBar.findViewById(R.id.edit_search);
 
-        backArrow.setOnClickListener((View v)-> {
+        backButton.setOnClickListener((View v)-> {
             Toast.makeText(this, "TODO: back button", Toast.LENGTH_SHORT).show();
         });
-        userSetting.setOnClickListener((View v)-> {
+        settingsButton.setOnClickListener((View v)-> {
             Toast.makeText(this, "TODO: settings button", Toast.LENGTH_SHORT).show();
         });
-        search.setOnClickListener((View v)-> {
-            Toast.makeText(this, "TODO: search button", Toast.LENGTH_SHORT).show();
+        addButton.setOnClickListener((View v)-> {
+            Toast.makeText(this, "TODO: add button", Toast.LENGTH_SHORT).show();
         });
-        starredRecipes.setOnClickListener((View v)-> {
+        starredRecipesButton.setOnClickListener((View v)-> {
             Toast.makeText(this, "TODO: starred recipes button", Toast.LENGTH_SHORT).show();
         });
+
+        searchInput.setOnClickListener(new SearchBarClickListener());
 
         vm = new BrowseViewModel(recipeRepository);
         initRecyclerView();
@@ -80,4 +89,18 @@ public class BrowseActivity extends AppCompatActivity implements RecipeRecyclerV
         intent.putExtra("recipe", vm.getRecipe().getName());
         this.startActivity(intent);
     }
+
+    private class SearchBarClickListener implements OnClickListener {
+
+        @Override
+        public void onClick(View view) {
+            LinearLayout sortOptions = searchBar.findViewById(R.id.sort_options);
+            if (sortOptions.getVisibility() == View.VISIBLE) {
+                sortOptions.setVisibility(View.GONE);
+            } else {
+                sortOptions.setVisibility(View.VISIBLE);
+            }
+        }
+    }
 }
+
