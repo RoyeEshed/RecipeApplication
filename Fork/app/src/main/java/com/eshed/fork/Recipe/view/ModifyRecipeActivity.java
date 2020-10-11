@@ -14,9 +14,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.eshed.fork.Browse.view.BrowseActivity;
+import com.eshed.fork.Browse.vm.RecipeViewModel;
 import com.eshed.fork.R;
+import com.eshed.fork.Settings.SettingsActivity;
+import com.eshed.fork.data.DebugRecipeRepository;
+import com.eshed.fork.data.RecipeRepository;
 
 public class ModifyRecipeActivity extends AppCompatActivity {
+    private RecipeViewModel recipeVm;
+    private RecipeRepository recipeRepository = DebugRecipeRepository.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +39,10 @@ public class ModifyRecipeActivity extends AppCompatActivity {
         Toolbar tabBar = findViewById(R.id.tab_bar);
 
         TextView title = toolbar.findViewById(R.id.toolbar_title);
-        title.setText("Modify Recipe 1");
+        int recipeID = getIntent().getExtras().getInt("recipe");
+        recipeVm = new RecipeViewModel(recipeID, recipeRepository);
+        title.setText(recipeVm.getRecipe().getName());
+        initRecipeData();
 
         ImageView backButton = toolbar.findViewById(R.id.back_arrow);
         ImageView addButton = toolbar.findViewById(R.id.add_recipe);
@@ -51,8 +61,10 @@ public class ModifyRecipeActivity extends AppCompatActivity {
             this.finish();
         });
         settingsButton.setOnClickListener((View v)-> {
-            Toast.makeText(this, "TODO: settings button", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, SettingsActivity.class);
+            this.startActivity(intent);
         });
+
         starredRecipesButton.setOnClickListener((View v)-> {
             Toast.makeText(this, "TODO: starred recipes button", Toast.LENGTH_SHORT).show();
         });
@@ -68,6 +80,13 @@ public class ModifyRecipeActivity extends AppCompatActivity {
             this.startActivity(intent);
             this.finish();
         });
-
+    }
+    private void initRecipeData() {
+        EditText ingredients = findViewById(R.id.ingredients_input);
+        ingredients.setText(recipeVm.getRecipe().getIngredients());
+        EditText directions = findViewById(R.id.directions_input);
+        directions.setText(recipeVm.getRecipe().getDirections());
+        EditText tags = findViewById(R.id.tags_input);
+        tags.setText(recipeVm.getRecipe().getTags());
     }
 }

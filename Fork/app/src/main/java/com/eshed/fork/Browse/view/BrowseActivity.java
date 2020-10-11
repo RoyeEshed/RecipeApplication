@@ -37,7 +37,6 @@ public class BrowseActivity extends AppCompatActivity implements RecipeRecyclerV
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_browse);
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (this.getSupportActionBar() != null) {
@@ -45,7 +44,6 @@ public class BrowseActivity extends AppCompatActivity implements RecipeRecyclerV
         }
 
         Toolbar tabBar = findViewById(R.id.tab_bar);
-
         TextView title = toolbar.findViewById(R.id.toolbar_title);
         title.setText("Browse");
 
@@ -90,7 +88,7 @@ public class BrowseActivity extends AppCompatActivity implements RecipeRecyclerV
     @Override
     public void selectRecipeCard(RecipeViewModel vm) {
         Intent intent = new Intent(this, RecipeActivity.class);
-        intent.putExtra("recipe", vm.getRecipe().getName());
+        intent.putExtra("recipe", vm.getRecipe().getRecipeID());
         this.startActivity(intent);
     }
 

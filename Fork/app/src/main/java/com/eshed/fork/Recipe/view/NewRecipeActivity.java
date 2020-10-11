@@ -15,6 +15,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.eshed.fork.Browse.view.BrowseActivity;
 import com.eshed.fork.R;
+import com.eshed.fork.Settings.SettingsActivity;
 
 public class NewRecipeActivity extends AppCompatActivity {
     @Override
@@ -51,7 +52,8 @@ public class NewRecipeActivity extends AppCompatActivity {
             this.finish();
         });
         settingsButton.setOnClickListener((View v)-> {
-            Toast.makeText(this, "TODO: settings button", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, SettingsActivity.class);
+            this.startActivity(intent);
         });
         addButton.setOnClickListener((View v)-> {
 

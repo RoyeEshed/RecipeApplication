@@ -43,22 +43,33 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
+            <TextView
+                android:id="@+id/contributor_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:text="Contributed by: Sam"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="22sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recipe_image" />
             <TextView
                 android:id="@+id/ingredients_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
                 android:text="Ingredients"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="28sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recipe_image" />
+                app:layout_constraintTop_toBottomOf="@+id/contributor_label" />
 
             <TextView
-                android:id="@+id/recipe_input"
+                android:id="@+id/ingredients_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -79,7 +90,7 @@
                 android:paddingEnd="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recipe_input">
+                app:layout_constraintTop_toBottomOf="@+id/ingredients_input">
 
                 <TextView
                     android:id="@+id/directions_label"
@@ -145,6 +156,29 @@
                 android:textSize="22sp"
                 app:layout_constraintStart_toStartOf="@+id/tags_label"
                 app:layout_constraintTop_toBottomOf="@+id/tags_label" />
+
+            <TextView
+                android:id="@+id/nutrition_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
+                android:paddingBottom="10dp"
+                android:text="Nutrition Information"
+                android:textSize="28sp"
+                android:textColor="@color/colorPrimaryDark"
+                app:layout_constraintStart_toStartOf="@+id/tags_label"
+                app:layout_constraintTop_toBottomOf="@+id/tags_input" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@color/gray"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
+                app:layout_constraintStart_toStartOf="@+id/tags_label"
+                app:layout_constraintTop_toBottomOf="@+id/nutrition_info" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
