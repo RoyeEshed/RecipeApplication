@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.eshed.fork.Browse.vm.BrowseViewModel;
 import com.eshed.fork.Browse.vm.RecipeViewModel;
 import com.eshed.fork.R;
+import com.eshed.fork.Recipe.view.NewRecipeActivity;
 import com.eshed.fork.Recipe.view.RecipeActivity;
 import com.eshed.fork.Settings.SettingsActivity;
 import com.eshed.fork.data.DebugRecipeRepository;
@@ -63,7 +64,8 @@ public class BrowseActivity extends AppCompatActivity implements RecipeRecyclerV
             this.startActivity(intent);
         });
         addButton.setOnClickListener((View v)-> {
-            Toast.makeText(this, "TODO: add button", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, NewRecipeActivity.class);
+            this.startActivity(intent);
         });
         starredRecipesButton.setOnClickListener((View v)-> {
             Toast.makeText(this, "TODO: starred recipes button", Toast.LENGTH_SHORT).show();

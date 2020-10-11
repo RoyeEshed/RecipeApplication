@@ -2,7 +2,10 @@ package com.eshed.fork.Recipe.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -11,18 +14,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.eshed.fork.Browse.view.BrowseActivity;
-import com.eshed.fork.Browse.vm.RecipeViewModel;
 import com.eshed.fork.R;
-import com.eshed.fork.Settings.SettingsActivity;
 
-public class RecipeActivity extends AppCompatActivity {
-    private RecipeViewModel recipeVm;
-
+public class NewRecipeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_recipe);
+        setContentView(R.layout.activity_new_recipe);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -33,11 +32,12 @@ public class RecipeActivity extends AppCompatActivity {
         Toolbar tabBar = findViewById(R.id.tab_bar);
 
         TextView title = toolbar.findViewById(R.id.toolbar_title);
-        String recipeName = getIntent().getExtras().getString("recipe");
-        title.setText(recipeName);
+        title.setText("Add New Recipe");
 
         ImageView backButton = toolbar.findViewById(R.id.back_arrow);
         ImageView addButton = toolbar.findViewById(R.id.add_recipe);
+        addButton.setVisibility(View.INVISIBLE);
+        Button submitButton = findViewById(R.id.button);
         ImageView settingsButton = tabBar.findViewById(R.id.user_settings);
         ImageView starredRecipesButton = tabBar.findViewById(R.id.star);
         ImageView homeButton = tabBar.findViewById(R.id.home);
@@ -54,15 +54,22 @@ public class RecipeActivity extends AppCompatActivity {
             Toast.makeText(this, "TODO: settings button", Toast.LENGTH_SHORT).show();
         });
         addButton.setOnClickListener((View v)-> {
-            Intent intent = new Intent(this, ModifyRecipeActivity.class);
-            this.startActivity(intent);
+
         });
         starredRecipesButton.setOnClickListener((View v)-> {
             Toast.makeText(this, "TODO: starred recipes button", Toast.LENGTH_SHORT).show();
         });
-    }
-
-    private void initIngredients() {
-
+        submitButton.setOnClickListener((View v)-> {
+            EditText ingredients = findViewById(R.id.ingredients_input);
+            Log.d("Ingredients:", ingredients.getText().toString());
+            EditText directions = findViewById(R.id.directions_input);
+            Log.d("Directions:", directions.getText().toString());
+            EditText tags = findViewById(R.id.tags_input);
+            Log.d("Tags:", tags.getText().toString());
+            Toast.makeText(this, "Recipe Submitted", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, BrowseActivity.class);
+            this.finish();
+            this.startActivity(intent);
+        });
     }
 }

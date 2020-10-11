@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".Recipe.view.RecipeActivity"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    tools:context=".Recipe.view.NewRecipeActivity">
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar"
@@ -21,10 +19,8 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/tab_bar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -52,19 +48,19 @@
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
                 android:text="Ingredients"
-                android:textColor="@color/colorPrimaryDark"
                 android:textSize="28sp"
+                android:textColor="@color/colorPrimaryDark"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/recipe_image" />
 
-            <TextView
-                android:id="@+id/recipe_input"
+            <EditText
+                android:id="@+id/ingredients_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
-                android:textSize="22sp"
                 android:text="- Eggs\n- Milk\n- Salt\n- Pepper\n- Olive Oil"
+                android:textSize="22sp"
                 app:layout_constraintEnd_toEndOf="@+id/ingredients_label"
                 app:layout_constraintStart_toStartOf="@+id/ingredients_label"
                 app:layout_constraintTop_toBottomOf="@+id/ingredients_label" />
@@ -79,7 +75,7 @@
                 android:paddingEnd="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recipe_input">
+                app:layout_constraintTop_toBottomOf="@+id/ingredients_input">
 
                 <TextView
                     android:id="@+id/directions_label"
@@ -93,7 +89,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
+                <EditText
                     android:id="@+id/directions_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -113,10 +109,8 @@
                     android:textSize="22sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/directions_label"
-                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="@+id/directions_label"
-                    app:layout_constraintTop_toBottomOf="@+id/directions_label"
-                    app:layout_constraintVertical_bias="0.0" />
+                    app:layout_constraintTop_toBottomOf="@+id/directions_label" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -125,30 +119,39 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:text="Tags"
+                android:textSize="28sp"
+                android:textColor="@color/colorPrimaryDark"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
-                android:text="Tags"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="28sp"
                 app:layout_constraintStart_toStartOf="@+id/directions_constraint_layout"
                 app:layout_constraintTop_toBottomOf="@+id/directions_constraint_layout" />
 
-            <TextView
+            <EditText
                 android:id="@+id/tags_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginBottom="20dp"
-                android:paddingBottom="20dp"
                 android:text="Breakfast, Vegetarian, Eggs"
                 android:textSize="22sp"
                 app:layout_constraintStart_toStartOf="@+id/tags_label"
                 app:layout_constraintTop_toBottomOf="@+id/tags_label" />
 
+            <Button
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:text="Submit Modification"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tags_input" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-
     <include
         android:id="@+id/tab_bar"
         layout="@layout/tab_bar"
