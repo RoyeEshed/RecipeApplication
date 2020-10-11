@@ -2,7 +2,10 @@ package com.eshed.fork.Recipe.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,7 +20,7 @@ import com.eshed.fork.Settings.SettingsActivity;
 import com.eshed.fork.data.DebugRecipeRepository;
 import com.eshed.fork.data.RecipeRepository;
 
-public class RecipeActivity extends AppCompatActivity {
+public class ModifyRecipeActivity extends AppCompatActivity {
     private RecipeViewModel recipeVm;
     private RecipeRepository recipeRepository = DebugRecipeRepository.getInstance();
 
@@ -25,7 +28,7 @@ public class RecipeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_recipe);
+        setContentView(R.layout.activity_modify_recipe);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -43,8 +46,10 @@ public class RecipeActivity extends AppCompatActivity {
 
         ImageView backButton = toolbar.findViewById(R.id.back_arrow);
         ImageView addButton = toolbar.findViewById(R.id.add_recipe);
+        addButton.setVisibility(View.INVISIBLE);
         ImageView settingsButton = tabBar.findViewById(R.id.user_settings);
         ImageView starredRecipesButton = tabBar.findViewById(R.id.star);
+        Button submitButton = findViewById(R.id.button);
         ImageView homeButton = tabBar.findViewById(R.id.home);
 
         homeButton.setOnClickListener((View v)-> {
@@ -59,22 +64,29 @@ public class RecipeActivity extends AppCompatActivity {
             Intent intent = new Intent(this, SettingsActivity.class);
             this.startActivity(intent);
         });
-        addButton.setOnClickListener((View v)-> {
-            Intent intent = new Intent(this, ModifyRecipeActivity.class);
-            intent.putExtra("recipe", recipeVm.getRecipe().getRecipeID());
-            this.startActivity(intent);
-        });
+
         starredRecipesButton.setOnClickListener((View v)-> {
             Toast.makeText(this, "TODO: starred recipes button", Toast.LENGTH_SHORT).show();
         });
+        submitButton.setOnClickListener((View v)-> {
+            EditText ingredients = findViewById(R.id.ingredients_input);
+            Log.d("Ingredients:", ingredients.getText().toString());
+            EditText directions = findViewById(R.id.directions_input);
+            Log.d("Directions:", directions.getText().toString());
+            EditText tags = findViewById(R.id.tags_input);
+            Log.d("Tags:", tags.getText().toString());
+            Toast.makeText(this, "Recipe Submitted", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, BrowseActivity.class);
+            this.startActivity(intent);
+            this.finish();
+        });
     }
-
     private void initRecipeData() {
-        TextView ingredients = findViewById(R.id.ingredients_input);
+        EditText ingredients = findViewById(R.id.ingredients_input);
         ingredients.setText(recipeVm.getRecipe().getIngredients());
-        TextView directions = findViewById(R.id.directions_input);
+        EditText directions = findViewById(R.id.directions_input);
         directions.setText(recipeVm.getRecipe().getDirections());
-        TextView tags = findViewById(R.id.tags_input);
+        EditText tags = findViewById(R.id.tags_input);
         tags.setText(recipeVm.getRecipe().getTags());
     }
 }
