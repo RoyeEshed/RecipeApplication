@@ -83,10 +83,10 @@ public class ModifyRecipeActivity extends AppCompatActivity {
     }
     private void initRecipeData() {
         EditText ingredients = findViewById(R.id.ingredients_input);
-        ingredients.setText(recipeVm.getRecipe().getIngredients());
+       // ingredients.setText(recipeVm.getRecipe().getIngredients());
         EditText directions = findViewById(R.id.directions_input);
-        directions.setText(recipeVm.getRecipe().getDirections());
+       // directions.setText(recipeVm.getRecipe().getDirections());
         EditText tags = findViewById(R.id.tags_input);
-        tags.setText(recipeVm.getRecipe().getTags());
+       // tags.setText(recipeVm.getRecipe().getTags());
     }
 }
