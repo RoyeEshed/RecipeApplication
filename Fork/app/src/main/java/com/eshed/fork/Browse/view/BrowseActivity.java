@@ -73,6 +73,7 @@ public class BrowseActivity extends AppCompatActivity implements RecipeRecyclerV
 
         vm = new BrowseViewModel(recipeRepository);
         initRecyclerView();
+
     }
 
     private void initRecyclerView() {

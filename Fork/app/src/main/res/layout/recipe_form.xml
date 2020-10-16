@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:text="Contributor: "
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="22sp"/>
+            android:textSize="20sp"/>
 
         <EditText
             android:id="@+id/contributor_input"
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textColor="@color/black"
-            android:textSize="22sp"/>
+            android:textSize="20sp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:text="Ingredients"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="28sp"/>
+            android:textSize="22sp"/>
         <LinearLayout
             android:id="@+id/list_of_ingredients"
             android:layout_width="match_parent"
@@ -111,7 +111,7 @@
             android:layout_height="wrap_content"
             android:text="Directions"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="28sp" />
+            android:textSize="22sp" />
         <LinearLayout
             android:id="@+id/list_of_directions"
             android:layout_width="match_parent"
@@ -166,12 +166,12 @@
             android:layout_height="wrap_content"
             android:text="Tags"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="28sp" />
+            android:textSize="22sp" />
 
         <EditText
             android:id="@+id/tags_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="22sp" />
+            android:textSize="20sp" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

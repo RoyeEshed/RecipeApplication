@@ -8,4 +8,6 @@ public interface RecipeRepository {
     List<Recipe> getRecipes();
     Recipe getRecipeWithName(String recipeName);
     Recipe getRecipeWithID(int recipeID);
+    void addRecipe(Recipe recipe);
+    int getSize();
 }

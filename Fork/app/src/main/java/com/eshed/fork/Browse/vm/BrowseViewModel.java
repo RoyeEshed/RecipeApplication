@@ -6,6 +6,8 @@ import com.eshed.fork.data.RecipeRepository;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.rxjava3.subjects.BehaviorSubject;
+
 public class BrowseViewModel {
     private List<RecipeViewModel> recipeList = new ArrayList<>();
     private RecipeRepository recipeRepository;

@@ -116,7 +116,7 @@ public class RecipeActivity extends AppCompatActivity {
             TextView ingredientAmount = new TextView(this);
             ingredientAmount.setLayoutParams(lp);
             ingredientAmount.setText(stepNumber);
-            ingredientAmount.setTextSize(22);
+            ingredientAmount.setTextSize(20);
             ingredientAmount.setTypeface(ingredientAmount.getTypeface(), Typeface.BOLD);
             ingredientAmount.setTextColor(this.getResources().getColor(R.color.black));
             ingredientAmount.setText(currentIngredient.getAmount() + " \t");
@@ -127,7 +127,7 @@ public class RecipeActivity extends AppCompatActivity {
             ingredientName.setLayoutParams(lp);
             ingredientName.setText(currentIngredient.getIngredientName());
             ingredientName.setTextColor(this.getResources().getColor(R.color.black));
-            ingredientName.setTextSize(22);
+            ingredientName.setTextSize(20);
 
             layout.addView(ingredientAmount);
             layout.addView(ingredientName);
@@ -154,7 +154,7 @@ public class RecipeActivity extends AppCompatActivity {
             TextView directionNumber = new TextView(this);
             directionNumber.setLayoutParams(lp);
             directionNumber.setText(stepNumber);
-            directionNumber.setTextSize(22);
+            directionNumber.setTextSize(20);
             directionNumber.setTextColor(this.getResources().getColor(R.color.colorPrimaryDark));
             String n = i + 1 + ". ";
             directionNumber.setText(n);
@@ -165,7 +165,7 @@ public class RecipeActivity extends AppCompatActivity {
             directionText.setLayoutParams(lp);
             directionText.setText(directions.get(i));
             directionText.setTextColor(this.getResources().getColor(R.color.black));
-            directionText.setTextSize(22);
+            directionText.setTextSize(20);
 
             layout.addView(directionNumber);
             layout.addView(directionText);

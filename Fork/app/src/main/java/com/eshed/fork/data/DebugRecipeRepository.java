@@ -15,8 +15,8 @@ public class DebugRecipeRepository implements RecipeRepository {
         return instance;
     }
 
-    private Recipe[] recipes  = {
-            new Recipe(1,"Scrambled Eggs", R.drawable.ic_launcher_foreground, "Roye",
+    private static List<Recipe> recipes  = new ArrayList<>(Arrays.asList(
+            new Recipe(1,"Scrambled Eggs", R.drawable.eggs, "Roye",
                     new ArrayList<>(Arrays.asList(new Ingredient("2", "Eggs"),
                             new Ingredient("1/4 cup", "Milk"),
                             new Ingredient("To taste","Salt"),
@@ -34,7 +34,7 @@ public class DebugRecipeRepository implements RecipeRepository {
                             "Continue mixing and moving the egg around with the spatula until the eggs become solid",
                             "Pour onto a plate and let rest for a minute or two before eating")),
                     new ArrayList<>(Arrays.asList("Breakfast, Vegetarian, Eggs"))),
-            new Recipe(2,"Pesto", R.drawable.ic_launcher_foreground, "Ashley",
+            new Recipe(2,"Pesto", R.drawable.eggs, "Ashley",
                     new ArrayList<>(Arrays.asList(new Ingredient("1/4 cup", "Basil"),
                             new Ingredient("1/2 cup", "Parmesan cheese"),
                             new Ingredient("2", "Garlic cloves"),
@@ -54,10 +54,10 @@ public class DebugRecipeRepository implements RecipeRepository {
 //                    + "2. Add remaining ingredients\n"
 //                    + "3. Simmer for at least 30 minutes\n",
 //                    "Vegan, Dinner, Lunch")
-    };
+    ));
 
     public List<Recipe> getRecipes() {
-        return Arrays.asList(recipes);
+        return recipes;
     }
 
     public Recipe getRecipeWithName(String recipeName) {
@@ -75,5 +75,12 @@ public class DebugRecipeRepository implements RecipeRepository {
             }
         }
         return null;
+    }
+
+    public void addRecipe(Recipe recipe) {
+        recipes.add(recipe);
+    }
+    public int getSize() {
+        return recipes.size();
     }
 }
