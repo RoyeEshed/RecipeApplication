@@ -12,11 +12,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.eshed.fork.Recipe.vm.RecipeViewModel;
 import com.eshed.fork.Recipe.vm.component.DirectionViewModel;
 import com.eshed.fork.Recipe.vm.component.HeaderViewModel;
 import com.eshed.fork.Recipe.vm.component.IngredientViewModel;
 import com.eshed.fork.Recipe.vm.component.RecipeInformation;
-import com.eshed.fork.Recipe.vm.RecipeViewModel;
 import com.eshed.fork.Recipe.vm.component.TagViewModel;
 import com.eshed.fork.R;
 

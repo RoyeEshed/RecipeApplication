@@ -45,16 +45,6 @@ public class DebugRecipeRepository implements RecipeRepository {
                          new Direction(2,"Slowly add in olive oil, processing until smooth"),
                          new Direction(3,"Add parmesan and continue processing just until combined"))),
                     new ArrayList<>(Arrays.asList("Vegetarian, Dinner, Italian")))
-//            new Recipe(3,"Oatmeal", R.drawable.ic_launcher_foreground, "- Rolled Oats\n- Milk\n- Water\n- Salt\n- Cinnamon\n- Other Toppings",
-//                    "1. Mix oats, milk, water, salt, and cinnamon in a medium saucepan. Bring to a boil, then reduce heat to low.\n"
-//                    + "2. Simmer for 3 - 5 minutes. Stirring occasionally.\n"
-//                    + "3. Remove from heat and add additional desired toppings\n",
-//                    "Breakfast, Vegetarian"),
-//            new Recipe(4,"Vegetable Soup", R.drawable.ic_launcher_foreground, "- Can of tomatoes\n- Can of vegetable broth\n- Water\n- Diced potato\n- Sliced carrot\n- Diced celery\n- Salt and pepper\n",
-//                    "1. Combine broth, tomatoes, and water in a large pot. Bring to boil\n"
-//                    + "2. Add remaining ingredients\n"
-//                    + "3. Simmer for at least 30 minutes\n",
-//                    "Vegan, Dinner, Lunch")
     ));
 
     public List<Recipe> getRecipes() {
