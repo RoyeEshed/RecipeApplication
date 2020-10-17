@@ -3,7 +3,6 @@ package com.eshed.fork.Recipe.view;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -19,9 +18,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.eshed.fork.Browse.view.BrowseActivity;
 import com.eshed.fork.R;
-import com.eshed.fork.Recipe.vm.NewRecipeViewModel;
 import com.eshed.fork.Settings.SettingsActivity;
-import com.eshed.fork.data.DebugRecipeRepository;
+import com.eshed.fork.data.model.Direction;
 import com.eshed.fork.data.model.Ingredient;
 import com.eshed.fork.data.model.Recipe;
 
@@ -29,7 +27,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.widget.LinearLayout.*;
 
 public class NewRecipeActivity extends AppCompatActivity {
@@ -37,7 +34,6 @@ public class NewRecipeActivity extends AppCompatActivity {
     private View recipeForm;
     private LinearLayout ingredientsLayout;
     private LinearLayout directionsLayout;
-    private NewRecipeViewModel vm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +53,6 @@ public class NewRecipeActivity extends AppCompatActivity {
 
         TextView title = toolbar.findViewById(R.id.toolbar_title);
         title.setText("Add New Recipe");
-        vm = new NewRecipeViewModel(DebugRecipeRepository.getInstance());
         ImageView backButton = toolbar.findViewById(R.id.back_arrow);
         ImageView addButton = toolbar.findViewById(R.id.add_recipe);
         addButton.setVisibility(View.INVISIBLE);
@@ -106,13 +101,13 @@ public class NewRecipeActivity extends AppCompatActivity {
 
         LinearLayout ingredientsLayout = recipeForm.findViewById(R.id.list_of_ingredients);
         LinearLayout directionsLayout = recipeForm.findViewById(R.id.list_of_directions);
-        List<String> directions = new ArrayList<>();
+        List<Direction> directions = new ArrayList<>();
         List<Ingredient> ingredients = new ArrayList<>();
         // grab input from cooking directions textviews
         for(int index = 0; index < directionsLayout.getChildCount(); index++) {
             View nextChild = directionsLayout.getChildAt(index);
             String direction = ((EditText)((ViewGroup) nextChild).getChildAt(1)).getText().toString();
-            directions.add(direction);
+            directions.add(new Direction(index, direction));
         }
         // grab input from ingredients textviews
         for(int index = 0; index < ingredientsLayout.getChildCount(); index++) {

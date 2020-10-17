@@ -9,20 +9,20 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.eshed.fork.Browse.vm.BrowseViewModel;
-import com.eshed.fork.Browse.vm.RecipeViewModel;
+import com.eshed.fork.Browse.vm.browse.BrowseViewModel;
+import com.eshed.fork.Recipe.vm.RecipeViewModel;
 import com.eshed.fork.R;
 
-public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter implements RecipeViewHolder.RecipeCardCallback{
+public class BrowseRecyclerViewAdapter extends RecyclerView.Adapter implements RecipeHolder.RecipeCardCallback{
 
     public interface RecipeAdapterHandler {
         void selectRecipeCard(RecipeViewModel vm);
     }
     private final Context context;
     private BrowseViewModel vm;
-    public RecipeRecyclerViewAdapter.RecipeAdapterHandler handler;
+    public BrowseRecyclerViewAdapter.RecipeAdapterHandler handler;
 
-    public RecipeRecyclerViewAdapter(Context context, BrowseViewModel vm) {
+    public BrowseRecyclerViewAdapter(Context context, BrowseViewModel vm) {
         this.context = context;
         this.vm = vm;
     }
@@ -39,14 +39,14 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter implements R
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_card, parent, false);
-        RecipeViewHolder viewHolder = new RecipeViewHolder(view);
+        RecipeHolder viewHolder = new RecipeHolder(view);
         viewHolder.callback = this;
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        ((RecipeViewHolder) holder).setViewModel(vm.getRecipeList().get(position));
+        ((RecipeHolder) holder).setViewModel(vm.getRecipeList().get(position));
     }
 
     @Override

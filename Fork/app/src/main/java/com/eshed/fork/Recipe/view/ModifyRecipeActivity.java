@@ -18,11 +18,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.eshed.fork.Browse.view.BrowseActivity;
-import com.eshed.fork.Browse.vm.RecipeViewModel;
+import com.eshed.fork.Recipe.vm.RecipeViewModel;
 import com.eshed.fork.R;
 import com.eshed.fork.Settings.SettingsActivity;
 import com.eshed.fork.data.DebugRecipeRepository;
 import com.eshed.fork.data.RecipeRepository;
+import com.eshed.fork.data.model.Direction;
 import com.eshed.fork.data.model.Ingredient;
 
 import java.util.List;
@@ -53,7 +54,7 @@ public class ModifyRecipeActivity extends AppCompatActivity {
 
         TextView title = toolbar.findViewById(R.id.toolbar_title);
         int recipeID = getIntent().getExtras().getInt("recipe");
-        recipeVm = new RecipeViewModel(recipeID, recipeRepository);
+        recipeVm = new RecipeViewModel(recipeID);
         title.setText(recipeVm.getRecipe().getName());
 
         ImageView backButton = toolbar.findViewById(R.id.back_arrow);
@@ -148,7 +149,7 @@ public class ModifyRecipeActivity extends AppCompatActivity {
 
         lp.setMargins(0,0,0, 10);
         String stepNumber = (directionsLayout.getChildCount() + 1) + ". ";
-        List<String> directions = recipeVm.getRecipe().getDirections();
+        List<Direction> directions = recipeVm.getRecipe().getDirections();
         directionsLayout.getChildAt(0).setVisibility(View.GONE);
         for (int i = 0; i < directions.size(); i++) {
             LinearLayout layout = new LinearLayout(this);
@@ -167,7 +168,7 @@ public class ModifyRecipeActivity extends AppCompatActivity {
             directionText.setSingleLine(false);
             directionText.setImeOptions(EditorInfo.IME_FLAG_NO_ENTER_ACTION);
             directionText.setLayoutParams(lp);
-            directionText.setText(directions.get(i));
+            directionText.setText(directions.get(i).getDirectionText());
             directionText.setTextColor(this.getResources().getColor(R.color.black));
             directionText.setTextSize(20);
 

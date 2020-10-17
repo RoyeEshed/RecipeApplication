@@ -7,11 +7,11 @@ public class Recipe {
     private String name;
     private int imageResource;
     private String contributor;
-    private List<String> directions;
+    private List<Direction> directions;
     private List<Ingredient> ingredients;
     private List<String> tags;
 
-    public Recipe(int recipeID, String name, int imageResource, String contributor, List<Ingredient> ingredients, List<String> directions, List<String> tags) {
+    public Recipe(int recipeID, String name, int imageResource, String contributor, List<Ingredient> ingredients, List<Direction> directions, List<String> tags) {
         this.recipeID = recipeID;
         this.name = name;
         this.imageResource = imageResource;
@@ -33,7 +33,7 @@ public class Recipe {
         return imageResource;
     }
 
-    public List<String> getDirections() {
+    public List<Direction> getDirections() {
         return directions;
     }
 

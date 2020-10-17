@@ -15,18 +15,18 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.eshed.fork.Browse.vm.BrowseViewModel;
-import com.eshed.fork.Browse.vm.RecipeViewModel;
+import com.eshed.fork.Browse.vm.browse.BrowseViewModel;
+import com.eshed.fork.Recipe.vm.RecipeViewModel;
 import com.eshed.fork.R;
 import com.eshed.fork.Recipe.view.NewRecipeActivity;
-import com.eshed.fork.Recipe.view.RecipeActivity;
+import com.eshed.fork.Recipe.view.RecipeDetailActivity;
 import com.eshed.fork.Settings.SettingsActivity;
 import com.eshed.fork.data.DebugRecipeRepository;
 import com.eshed.fork.data.RecipeRepository;
 
 import static androidx.recyclerview.widget.RecyclerView.*;
 
-public class BrowseActivity extends AppCompatActivity implements RecipeRecyclerViewAdapter.RecipeAdapterHandler{
+public class BrowseActivity extends AppCompatActivity implements BrowseRecyclerViewAdapter.RecipeAdapterHandler{
     private BrowseViewModel vm;
     private ConstraintLayout searchBar;
 
@@ -79,16 +79,16 @@ public class BrowseActivity extends AppCompatActivity implements RecipeRecyclerV
     private void initRecyclerView() {
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        Adapter adapter = new RecipeRecyclerViewAdapter(this, vm);
+        Adapter adapter = new BrowseRecyclerViewAdapter(this, vm);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
 
-        ((RecipeRecyclerViewAdapter) adapter).handler = this;
+        ((BrowseRecyclerViewAdapter) adapter).handler = this;
     }
 
     @Override
     public void selectRecipeCard(RecipeViewModel vm) {
-        Intent intent = new Intent(this, RecipeActivity.class);
+        Intent intent = new Intent(this, RecipeDetailActivity.class);
         intent.putExtra("recipe", vm.getRecipe().getRecipeID());
         this.startActivity(intent);
     }
