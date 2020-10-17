@@ -1,16 +1,17 @@
 package com.eshed.fork.Recipe.vm.component;
 
-public class TagViewModel implements RecipeComponentViewModel, RecipeComponentIsEditable {
-    public String tag;
+public class FooterViewModel implements RecipeComponentViewModel, RecipeComponentIsEditable {
+    public int imageResource;
     public boolean isEditable;
 
-    public TagViewModel(String tag) {
-        this.tag = tag;
+    public FooterViewModel(int imageResource, boolean isEditable) {
+        this.imageResource = imageResource;
+        this.isEditable = isEditable;
     }
 
     @Override
     public Type getType() {
-        return Type.Tag;
+        return Type.Footer;
     }
 
     @Override

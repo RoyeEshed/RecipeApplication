@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.eshed.fork.Browse.vm.browse.BrowseViewModel;
+import com.eshed.fork.Browse.vm.BrowseViewModel;
 import com.eshed.fork.Recipe.vm.RecipeViewModel;
 import com.eshed.fork.R;
 

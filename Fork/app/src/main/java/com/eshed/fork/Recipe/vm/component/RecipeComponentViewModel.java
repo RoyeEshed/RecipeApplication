@@ -1,14 +1,14 @@
 package com.eshed.fork.Recipe.vm.component;
 
-// TODO: RecipeComponentViewModel
-public interface RecipeInformation {
+public interface RecipeComponentViewModel {
     enum Type {
         Direction,
         Header,
         Ingredient,
         Footer,
-        Tag
+        Tag,
+        Image
     }
 
-    public Type getType();
+    Type getType();
 }
