@@ -2,7 +2,6 @@ package com.eshed.fork.Recipe.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.PorterDuff;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +13,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.eshed.fork.Browse.view.BrowseRecyclerViewAdapter;
+import com.bumptech.glide.Glide;
 import com.eshed.fork.Recipe.vm.RecipeViewModel;
 import com.eshed.fork.Recipe.vm.component.DirectionViewModel;
-import com.eshed.fork.Recipe.vm.component.FooterViewModel;
+import com.eshed.fork.Recipe.vm.component.Footer.FooterViewModel;
+import com.eshed.fork.Recipe.vm.component.Footer.IngredientFooterViewModel;
 import com.eshed.fork.Recipe.vm.component.HeaderViewModel;
 import com.eshed.fork.Recipe.vm.component.ImageViewModel;
 import com.eshed.fork.Recipe.vm.component.IngredientViewModel;
@@ -25,7 +25,12 @@ import com.eshed.fork.Recipe.vm.component.RecipeComponentViewModel;
 import com.eshed.fork.Recipe.vm.component.TagViewModel;
 import com.eshed.fork.R;
 
-public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecyclerViewAdapter.RecipeViewHolder> implements RecipeViewModel.Listener {
+public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecyclerViewAdapter.RecipeViewHolder> implements RecipeViewModel.Listener, FooterCallback {
+
+    public interface RecipeAdapterHandler {
+        void addIngredientComponent(RecipeViewModel vm);
+        void addDirectionComponent(RecipeViewModel vm);
+    }
 
     public static abstract class RecipeViewHolder extends RecyclerView.ViewHolder {
         public RecipeViewHolder(@NonNull View itemView) {
@@ -33,6 +38,34 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
         }
 
         abstract void bind(RecipeComponentViewModel vm);
+    }
+
+    public static class FooterViewHolder extends RecipeViewHolder {
+        public FooterCallback callback;
+        ImageView addButton;
+
+        public FooterViewHolder(@NonNull View itemView) {
+            super(itemView);
+            addButton = itemView.findViewById(R.id.add_button);
+        }
+
+        @Override
+        void bind(RecipeComponentViewModel vm) {
+            IngredientFooterViewModel footerViewModel = (IngredientFooterViewModel) vm;
+            addButton.setImageResource(footerViewModel.imageResource);
+            if (footerViewModel.isEditable()) {
+                addButton.setVisibility(View.VISIBLE);
+            } else {
+                addButton.setVisibility(View.GONE);
+            }
+
+            addButton.setOnClickListener(v -> {
+                if (callback != null) {
+                    callback.addButtonTapped(((IngredientFooterViewModel) vm).getFooterType());
+                    Log.d("FooterViewHolder", "bind: add button tapped");
+                }
+            });
+        }
     }
 
     public static class IngredientViewHolder extends RecipeViewHolder {
@@ -101,7 +134,8 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
 
         @Override public void bind(RecipeComponentViewModel vm) {
             ImageViewModel imageViewModel = (ImageViewModel)vm;
-            imageView.setImageResource(imageViewModel.imageResource);
+            Glide.with(itemView).load(imageViewModel.imageURL).centerCrop().into(imageView);
+            //imageView.setImageResource(imageViewModel.imageResource);
         }
     }
 
@@ -119,41 +153,11 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
         }
     }
 
-    public static class FooterViewHolder extends RecipeViewHolder {
-
-        public interface FooterCallback {
-            void addButtonTapped();
-        }
-
-        public FooterViewHolder.FooterCallback callback;
-        ImageView addButton;
-
-        public FooterViewHolder(@NonNull View itemView) {
-            super(itemView);
-            addButton = itemView.findViewById(R.id.add_button);
-        }
-
-        @Override
-        void bind(RecipeComponentViewModel vm) {
-            FooterViewModel footerViewModel = (FooterViewModel) vm;
-            addButton.setImageResource(footerViewModel.imageResource);
-            if (footerViewModel.isEditable()) {
-                addButton.setVisibility(View.VISIBLE);
-            } else {
-                addButton.setVisibility(View.GONE);
-            }
-
-            addButton.setOnClickListener(v -> {
-                if (callback != null) {
-                    callback.addButtonTapped();
-                    Log.d("FooterViewHolder", "bind: add button tapped");
-                }
-            });
-        }
-    }
 
     private final Context context;
     private RecipeViewModel vm;
+    public RecipeAdapterHandler handler;
+
 
     public RecipeRecyclerViewAdapter(Context context, RecipeViewModel vm) {
         this.context = context;
@@ -164,6 +168,19 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
 
     @Override
     public void onDataChanged() {
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public void addButtonTapped(FooterViewModel.FooterType type) {
+        if (vm == null || handler == null) {
+            Log.d("RecyclerViewAdapter", "addButtonTapped --> vm is null");
+        }
+        if (type == FooterViewModel.FooterType.Ingredient_Footer) {
+            handler.addIngredientComponent(vm);
+        } else {
+            handler.addDirectionComponent(vm);
+        }
         notifyDataSetChanged();
     }
 
@@ -186,7 +203,9 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
                 return new IngredientViewHolder(view);
             case Footer:
                 view = inflater.inflate(R.layout.item_footer, parent, false);
-                return new FooterViewHolder(view);
+                FooterViewHolder viewHolder = new FooterViewHolder(view);
+                viewHolder.callback = this;
+                return viewHolder;
             case Tag:
                 view = inflater.inflate(R.layout.item_tags, parent, false);
                 return new TagsViewHolder(view);

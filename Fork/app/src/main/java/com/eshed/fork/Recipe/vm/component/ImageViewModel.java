@@ -1,10 +1,10 @@
 package com.eshed.fork.Recipe.vm.component;
 
 public class ImageViewModel implements RecipeComponentViewModel {
-    public int imageResource;
+    public String imageURL;
 
-    public ImageViewModel(int imageResource) {
-        this.imageResource = imageResource;
+    public ImageViewModel(String imageURL) {
+        this.imageURL = imageURL;
     }
 
     @Override

@@ -67,10 +67,15 @@ public class NewRecipeActivity extends AppCompatActivity {
         title.setText("Add New Recipe");
         ImageView backButton = toolbar.findViewById(R.id.back_arrow);
         ImageView addButton = toolbar.findViewById(R.id.add_recipe);
+        ImageView saveButton = toolbar.findViewById(R.id.save_recipe);
         addButton.setVisibility(GONE);
+        saveButton.setVisibility(VISIBLE);
 
         backButton.setOnClickListener((View v) -> {
             this.finish();
+        });
+        saveButton.setOnClickListener((View v) -> {
+            Toast.makeText(this, "TODO: save recipe", Toast.LENGTH_SHORT).show();
         });
     }
 

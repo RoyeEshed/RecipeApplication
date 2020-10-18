@@ -5,7 +5,7 @@
     <ImageView
         android:id="@+id/recipe_image"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="225dp"
         android:background="@color/gray"
         android:src="@drawable/ic_baseline_image_24"/>
 </LinearLayout>

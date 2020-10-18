@@ -24,7 +24,7 @@ import com.eshed.fork.Settings.SettingsActivity;
 
 import static androidx.recyclerview.widget.RecyclerView.*;
 
-public class BrowseActivity extends AppCompatActivity implements BrowseRecyclerViewAdapter.RecipeAdapterHandler{
+public class BrowseActivity extends AppCompatActivity implements BrowseRecyclerViewAdapter.BrowseAdapterHandler {
     private BrowseViewModel vm;
     private ConstraintLayout searchBar;
 
@@ -50,8 +50,12 @@ public class BrowseActivity extends AppCompatActivity implements BrowseRecyclerV
         searchBar = findViewById(R.id.search_bar);
         EditText searchInput = searchBar.findViewById(R.id.edit_search);
 
-        backButton.setOnClickListener((View v)-> {
-            Toast.makeText(this, "TODO: back button", Toast.LENGTH_SHORT).show();
+        backButton.setVisibility(GONE);
+        TextView logout = toolbar.findViewById(R.id.log_out);
+        logout.setVisibility(VISIBLE);
+        logout.setOnClickListener((View v)-> {
+            Toast.makeText(this, "TODO: logout", Toast.LENGTH_SHORT).show();
+
         });
         settingsButton.setOnClickListener((View v)-> {
             Intent intent = new Intent(this, SettingsActivity.class);

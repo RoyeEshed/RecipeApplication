@@ -5,16 +5,16 @@ import java.util.List;
 public class Recipe {
     private int recipeID;
     private String name;
-    private int imageResource;
+    private String imageURL;
     private String contributor;
     private List<Direction> directions;
     private List<Ingredient> ingredients;
     private List<String> tags;
 
-    public Recipe(int recipeID, String name, int imageResource, String contributor, List<Ingredient> ingredients, List<Direction> directions, List<String> tags) {
+    public Recipe(int recipeID, String name, String imageURL, String contributor, List<Ingredient> ingredients, List<Direction> directions, List<String> tags) {
         this.recipeID = recipeID;
         this.name = name;
-        this.imageResource = imageResource;
+        this.imageURL = imageURL;
         this.contributor = contributor;
         this.ingredients = ingredients;
         this.directions = directions;
@@ -29,8 +29,8 @@ public class Recipe {
         return name;
     }
 
-    public int getImageResource() {
-        return imageResource;
+    public String getImageURL() {
+        return imageURL;
     }
 
     public List<Direction> getDirections() {

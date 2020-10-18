@@ -17,7 +17,7 @@ public class DebugRecipeRepository implements RecipeRepository {
     }
 
     private static List<Recipe> recipes  = new ArrayList<>(Arrays.asList(
-            new Recipe(1,"Scrambled Eggs", R.drawable.eggs, "Roye",
+            new Recipe(1,"Scrambled Eggs", "https://images.unsplash.com/photo-1525184782196-8e2ded604bf7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2767&q=80", "Roye",
                     new ArrayList<>(Arrays.asList(new Ingredient("2", "Eggs"),
                             new Ingredient("1/4 cup", "Milk"),
                             new Ingredient("To taste","Salt"),
@@ -35,7 +35,7 @@ public class DebugRecipeRepository implements RecipeRepository {
                             new Direction(10,"Continue mixing and moving the egg around with the spatula until the eggs become solid"),
                             new Direction(11,"Pour onto a plate and let rest for a minute or two before eating"))),
                     new ArrayList<>(Arrays.asList("Breakfast, Vegetarian, Eggs"))),
-            new Recipe(2,"Pesto", R.drawable.eggs, "Ashley",
+            new Recipe(2,"Pesto", "https://images.unsplash.com/photo-1592571832175-cbbedad399a6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2700&q=80", "Ashley",
                     new ArrayList<>(Arrays.asList(new Ingredient("1/4 cup", "Basil"),
                             new Ingredient("1/2 cup", "Parmesan cheese"),
                             new Ingredient("2", "Garlic cloves"),

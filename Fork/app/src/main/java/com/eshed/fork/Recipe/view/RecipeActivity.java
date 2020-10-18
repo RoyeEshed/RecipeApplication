@@ -13,14 +13,16 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.eshed.fork.Browse.view.BrowseActivity;
+import com.eshed.fork.Browse.view.BrowseRecyclerViewAdapter;
 import com.eshed.fork.Recipe.vm.component.RecipeComponentViewModel;
 import com.eshed.fork.Recipe.vm.RecipeViewModel;
 import com.eshed.fork.R;
 import com.eshed.fork.Settings.SettingsActivity;
 
+import java.time.Duration;
 import java.util.List;
 
-public class RecipeActivity extends AppCompatActivity {
+public class RecipeActivity extends AppCompatActivity implements RecipeRecyclerViewAdapter.RecipeAdapterHandler {
     private RecipeViewModel vm;
     private Toolbar tabBar;
     private Toolbar toolbar;
@@ -49,15 +51,21 @@ public class RecipeActivity extends AppCompatActivity {
         }
 
         TextView title = toolbar.findViewById(R.id.toolbar_title);
-        title.setText("Add New Recipe");
+        title.setText(vm.getRecipe().getName());
         ImageView backButton = toolbar.findViewById(R.id.back_arrow);
         ImageView addButton = toolbar.findViewById(R.id.add_recipe);
+        ImageView saveButton = toolbar.findViewById(R.id.save_recipe);
 
         addButton.setOnClickListener((View v)-> {
             vm.toggleEditable();
+            addButton.setVisibility(View.GONE);
+            saveButton.setVisibility(View.VISIBLE);
         });
         backButton.setOnClickListener((View v) -> {
             this.finish();
+        });
+        saveButton.setOnClickListener((View v) -> {
+            Toast.makeText(this, "TODO: Save recipe", Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -87,5 +95,19 @@ public class RecipeActivity extends AppCompatActivity {
         adapter = new RecipeRecyclerViewAdapter(this, vm);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
+        ((RecipeRecyclerViewAdapter) adapter).handler = this;
+
+    }
+
+    @Override
+    public void addIngredientComponent(RecipeViewModel vm) {
+        //Toast.makeText(this, "TODO: add components button", Toast.LENGTH_SHORT).show();
+        vm.addIngredientComponent();
+    }
+
+    @Override
+    public void addDirectionComponent(RecipeViewModel vm) {
+       // Toast.makeText(this, "TODO: add components button", Toast.LENGTH_SHORT).show();
+        vm.addDirectionComponent();
     }
 }

@@ -8,10 +8,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.eshed.fork.Recipe.vm.RecipeViewModel;
 import com.eshed.fork.R;
 
-public class RecipeHolder extends RecyclerView.ViewHolder {
+public class RecipeViewHolder extends RecyclerView.ViewHolder {
     public interface RecipeCardCallback {
         void cardTappedOn(RecipeViewModel vm);
     }
@@ -22,9 +23,9 @@ public class RecipeHolder extends RecyclerView.ViewHolder {
     private LinearLayout layout;
     private RecipeViewModel vm;
 
-    public RecipeHolder.RecipeCardCallback callback;
+    public RecipeViewHolder.RecipeCardCallback callback;
 
-    public RecipeHolder(@NonNull View itemView) {
+    public RecipeViewHolder(@NonNull View itemView) {
         super(itemView);
 
         recipeName = itemView.findViewById(R.id.recipe_name);
@@ -42,6 +43,7 @@ public class RecipeHolder extends RecyclerView.ViewHolder {
     public void setViewModel(RecipeViewModel vm) {
         this.vm = vm;
         recipeName.setText(vm.getRecipe().getName());
-        recipeImage.setImageResource(vm.getRecipe().getImageResource());
+        Glide.with(itemView).load(vm.getRecipe().getImageURL()).centerCrop().into(recipeImage);
+       // recipeImage.setImageResource(vm.getRecipe().getImageURL());
     }
 }
