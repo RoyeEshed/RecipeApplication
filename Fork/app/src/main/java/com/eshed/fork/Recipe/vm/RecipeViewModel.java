@@ -36,6 +36,7 @@ public class RecipeViewModel {
 
     public RecipeViewModel() {
         this.recipeID = (int) (Math.random() * 1000);
+        totalNumberDirections = 1;
         recipeComponents = new ArrayList<>();
         recipeComponents.add(new ImageViewModel("https://images.unsplash.com/photo-1517870662726-c1d98ee36250?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2700&q=80"));
         recipeComponents.add(new HeaderViewModel("Ingredients"));
@@ -43,7 +44,7 @@ public class RecipeViewModel {
         recipeComponents.add(new IngredientFooterViewModel(R.drawable.ic_baseline_add_circle_24, isEditable));
         recipeComponents.add(new HeaderViewModel("Directions"));
         recipeComponents.add(new DirectionViewModel(new Direction(1, ""), isEditable));
-        recipeComponents.add(new IngredientFooterViewModel(R.drawable.ic_baseline_add_circle_24, isEditable));
+        recipeComponents.add(new DirectionFooterViewModel(R.drawable.ic_baseline_add_circle_24, isEditable));
         recipeComponents.add(new HeaderViewModel("Tags"));
         recipeComponents.add(new TagViewModel(""));
     }
@@ -75,12 +76,18 @@ public class RecipeViewModel {
     }
 
     public void addIngredientComponent() {
-        int index = 2 + recipe.getIngredients().size();
+        int index;
+        if (recipe == null) {
+            index = 2;
+        } else {
+            index = 2 + recipe.getIngredients().size();
+        }
         recipeComponents.add(index, new IngredientViewModel(new Ingredient("", ""), isEditable));
     }
 
     public void addDirectionComponent() {
         int index = recipeComponents.size() - 3;
+
         totalNumberDirections += 1;
         recipeComponents.add(index, new DirectionViewModel(new Direction(totalNumberDirections, ""), isEditable));
     }

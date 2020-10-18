@@ -153,7 +153,7 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
             });
         }
     }
-    
+
     public static class DirectionFooterViewHolder extends RecipeViewHolder {
         public FooterCallback callback;
         ImageView addButton;

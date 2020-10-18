@@ -33,14 +33,16 @@ import java.util.List;
 
 import static android.widget.LinearLayout.*;
 
-public class NewRecipeActivity extends AppCompatActivity {
+public class NewRecipeActivity extends AppCompatActivity implements RecipeRecyclerViewAdapter.RecipeAdapterHandler {
     private Context context;
     private Toolbar tabBar;
     private Toolbar toolbar;
     private RecyclerView.Adapter adapter;
     private RecipeViewModel vm;
+    public RecipeRecyclerViewAdapter.RecipeAdapterHandler handler;
 
-    @Override
+
+@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this;
@@ -105,5 +107,16 @@ public class NewRecipeActivity extends AppCompatActivity {
         adapter = new RecipeRecyclerViewAdapter(this, vm);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
+        ((RecipeRecyclerViewAdapter) adapter).handler = this;
+    }
+
+    @Override
+    public void addIngredientComponent(RecipeViewModel vm) {
+        vm.addIngredientComponent();
+    }
+
+    @Override
+    public void addDirectionComponent(RecipeViewModel vm) {
+        vm.addDirectionComponent();
     }
 }
