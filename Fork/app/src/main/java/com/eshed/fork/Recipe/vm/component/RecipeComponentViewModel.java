@@ -5,7 +5,8 @@ public interface RecipeComponentViewModel {
         Direction,
         Header,
         Ingredient,
-        Footer,
+        Footer_Ingredient,
+        Footer_Direction,
         Tag,
         Image
     }

@@ -96,18 +96,15 @@ public class RecipeActivity extends AppCompatActivity implements RecipeRecyclerV
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
         ((RecipeRecyclerViewAdapter) adapter).handler = this;
-
     }
 
     @Override
     public void addIngredientComponent(RecipeViewModel vm) {
-        //Toast.makeText(this, "TODO: add components button", Toast.LENGTH_SHORT).show();
         vm.addIngredientComponent();
     }
 
     @Override
     public void addDirectionComponent(RecipeViewModel vm) {
-       // Toast.makeText(this, "TODO: add components button", Toast.LENGTH_SHORT).show();
         vm.addDirectionComponent();
     }
 }

@@ -2,6 +2,7 @@ package com.eshed.fork.Recipe.vm;
 
 import com.eshed.fork.R;
 import com.eshed.fork.Recipe.vm.component.DirectionViewModel;
+import com.eshed.fork.Recipe.vm.component.Footer.DirectionFooterViewModel;
 import com.eshed.fork.Recipe.vm.component.Footer.IngredientFooterViewModel;
 import com.eshed.fork.Recipe.vm.component.HeaderViewModel;
 import com.eshed.fork.Recipe.vm.component.ImageViewModel;
@@ -29,6 +30,7 @@ public class RecipeViewModel {
     private List<RecipeComponentViewModel> recipeComponents;
     private RecipeRepository repository = DebugRecipeRepository.getInstance();
     private Boolean isEditable = false;
+    private int totalNumberDirections;
 
     public Listener listener;
 
@@ -49,76 +51,38 @@ public class RecipeViewModel {
     public RecipeViewModel(int recipeID) {
         this.recipeID = recipeID;
         this.recipe = repository.getRecipeWithID(recipeID);
+        totalNumberDirections = recipe.getDirections().size();
 
         recipeComponents = new ArrayList<>();
         recipeComponents.add(new ImageViewModel(recipe.getImageURL()));
         recipeComponents.add(new HeaderViewModel("Ingredients"));
-        mergeIngredients();
-        recipeComponents.add(new IngredientFooterViewModel(R.drawable.ic_baseline_add_circle_24, isEditable));
-        recipeComponents.add(new HeaderViewModel("Directions"));
-        mergeDirections();
-        recipeComponents.add(new IngredientFooterViewModel(R.drawable.ic_baseline_add_circle_24, isEditable));
-        recipeComponents.add(new HeaderViewModel("Tags"));
-        for (int i = 0; i < recipe.getTags().size(); i++) {
-            String tag = recipe.getTags().get(i);
-            recipeComponents.add(new TagViewModel(tag));
-        }
-    }
-
-    private void mergeIngredients() {
         for (int i = 0; i < recipe.getIngredients().size(); i++) {
             Ingredient ingredient = recipe.getIngredients().get(i);
             recipeComponents.add(new IngredientViewModel(ingredient, isEditable));
         }
-    }
-
-    private void mergeDirections() {
+        recipeComponents.add(new IngredientFooterViewModel(R.drawable.ic_baseline_add_circle_24, isEditable));
+        recipeComponents.add(new HeaderViewModel("Directions"));
         for (int i = 0; i < recipe.getDirections().size(); i++) {
             Direction direction = recipe.getDirections().get(i);
             recipeComponents.add(new DirectionViewModel(direction, isEditable));
         }
+        recipeComponents.add(new DirectionFooterViewModel(R.drawable.ic_baseline_add_circle_24, isEditable));
+        recipeComponents.add(new HeaderViewModel("Tags"));
+        for (int i = 0; i < recipe.getTags().size(); i++) {
+            String tag = recipe.getTags().get(i);
+            recipeComponents.add(new TagViewModel(tag));
+        }
     }
 
     public void addIngredientComponent() {
-        recipeComponents = new ArrayList<>();
-        recipeComponents.add(new ImageViewModel(recipe.getImageURL()));
-        recipeComponents.add(new HeaderViewModel("Ingredients"));
-        mergeIngredients();
-        recipeComponents.add(new IngredientViewModel(new Ingredient("",""), isEditable));
-        recipeComponents.add(new IngredientFooterViewModel(R.drawable.ic_baseline_add_circle_24, isEditable));
-        recipeComponents.add(new HeaderViewModel("Directions"));
-        mergeDirections();
-        recipeComponents.add(new IngredientFooterViewModel(R.drawable.ic_baseline_add_circle_24, isEditable));
-        recipeComponents.add(new HeaderViewModel("Tags"));
-        for (int i = 0; i < recipe.getTags().size(); i++) {
-            String tag = recipe.getTags().get(i);
-            recipeComponents.add(new TagViewModel(tag));
-        }
+        int index = 2 + recipe.getIngredients().size();
+        recipeComponents.add(index, new IngredientViewModel(new Ingredient("", ""), isEditable));
     }
 
     public void addDirectionComponent() {
-        recipeComponents = new ArrayList<>();
-        recipeComponents.add(new ImageViewModel(recipe.getImageURL()));
-        recipeComponents.add(new HeaderViewModel("Ingredients"));
-        mergeIngredients();
-        recipeComponents.add(new IngredientFooterViewModel(R.drawable.ic_baseline_add_circle_24, isEditable));
-        recipeComponents.add(new HeaderViewModel("Directions"));
-        mergeDirections();
-        recipeComponents.add(new DirectionViewModel(new Direction(recipe.getDirections().size() + 1, ""), isEditable));
-        recipeComponents.add(new IngredientFooterViewModel(R.drawable.ic_baseline_add_circle_24, isEditable));
-        recipeComponents.add(new HeaderViewModel("Tags"));
-        for (int i = 0; i < recipe.getTags().size(); i++) {
-            String tag = recipe.getTags().get(i);
-            recipeComponents.add(new TagViewModel(tag));
-        }
-    }
-
-    public Recipe getRecipe() {
-        return recipe;
-    }
-
-    public int getRecipeID() {
-        return recipeID;
+        int index = recipeComponents.size() - 3;
+        totalNumberDirections += 1;
+        recipeComponents.add(index, new DirectionViewModel(new Direction(totalNumberDirections, ""), isEditable));
     }
 
     public List<RecipeComponentViewModel> getComponents() {
@@ -133,8 +97,15 @@ public class RecipeViewModel {
                 editableComponent.setIsEditable(isEditable);
             }
         }
-
         listener.onDataChanged();
+    }
+
+    public Recipe getRecipe() {
+        return recipe;
+    }
+
+    public int getRecipeID() {
+        return recipeID;
     }
 }
 

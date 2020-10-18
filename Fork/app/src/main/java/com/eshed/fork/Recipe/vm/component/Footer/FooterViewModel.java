@@ -1,14 +1,24 @@
 package com.eshed.fork.Recipe.vm.component.Footer;
 
+import com.eshed.fork.Recipe.vm.component.RecipeComponentIsEditable;
 import com.eshed.fork.Recipe.vm.component.RecipeComponentViewModel;
 
-public interface FooterViewModel {
-    enum FooterType {
-        Direction_Footer,
-        Ingredient_Footer,
+public abstract class FooterViewModel implements RecipeComponentIsEditable, RecipeComponentViewModel {
+    public int imageResource;
+    public boolean isEditable;
+    public abstract RecipeComponentViewModel.Type getType();
+
+    public int getImageResource() {
+        return imageResource;
+    };
+
+    @Override
+    public void setIsEditable(Boolean isEditable) {
+        this.isEditable = isEditable;
     }
-     RecipeComponentViewModel.Type getType();
-     FooterType getFooterType();
-     void setIsEditable(Boolean isEditable);
-     Boolean isEditable();
+
+    @Override
+    public Boolean isEditable() {
+        return isEditable;
+    }
 }

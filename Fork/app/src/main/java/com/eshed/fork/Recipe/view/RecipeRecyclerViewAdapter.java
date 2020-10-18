@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.eshed.fork.Recipe.vm.RecipeViewModel;
 import com.eshed.fork.Recipe.vm.component.DirectionViewModel;
-import com.eshed.fork.Recipe.vm.component.Footer.FooterViewModel;
+import com.eshed.fork.Recipe.vm.component.Footer.DirectionFooterViewModel;
 import com.eshed.fork.Recipe.vm.component.Footer.IngredientFooterViewModel;
 import com.eshed.fork.Recipe.vm.component.HeaderViewModel;
 import com.eshed.fork.Recipe.vm.component.ImageViewModel;
@@ -38,34 +38,6 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
         }
 
         abstract void bind(RecipeComponentViewModel vm);
-    }
-
-    public static class FooterViewHolder extends RecipeViewHolder {
-        public FooterCallback callback;
-        ImageView addButton;
-
-        public FooterViewHolder(@NonNull View itemView) {
-            super(itemView);
-            addButton = itemView.findViewById(R.id.add_button);
-        }
-
-        @Override
-        void bind(RecipeComponentViewModel vm) {
-            IngredientFooterViewModel footerViewModel = (IngredientFooterViewModel) vm;
-            addButton.setImageResource(footerViewModel.imageResource);
-            if (footerViewModel.isEditable()) {
-                addButton.setVisibility(View.VISIBLE);
-            } else {
-                addButton.setVisibility(View.GONE);
-            }
-
-            addButton.setOnClickListener(v -> {
-                if (callback != null) {
-                    callback.addButtonTapped(((IngredientFooterViewModel) vm).getFooterType());
-                    Log.d("FooterViewHolder", "bind: add button tapped");
-                }
-            });
-        }
     }
 
     public static class IngredientViewHolder extends RecipeViewHolder {
@@ -153,6 +125,65 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
         }
     }
 
+    public static class IngredientFooterViewHolder extends RecipeViewHolder {
+        public FooterCallback callback;
+        ImageView addButton;
+
+        public IngredientFooterViewHolder(@NonNull View itemView) {
+            super(itemView);
+            addButton = itemView.findViewById(R.id.add_button);
+        }
+
+        @Override
+        void bind(RecipeComponentViewModel vm) {
+            IngredientFooterViewModel footerViewModel = (IngredientFooterViewModel) vm;
+            addButton.setImageResource(footerViewModel.imageResource);
+            if (footerViewModel.isEditable()) {
+                addButton.setVisibility(View.VISIBLE);
+            } else {
+                addButton.setVisibility(View.GONE);
+            }
+
+            addButton.setOnClickListener(v -> {
+                if (callback != null) {
+                    Log.d("TAG", "bind: PRINTING TYPE" + vm.getType().toString());
+                    callback.addButtonTapped(vm.getType());
+                    Log.d("FooterViewHolder", "bind: add button tapped");
+                }
+            });
+        }
+    }
+    
+    public static class DirectionFooterViewHolder extends RecipeViewHolder {
+        public FooterCallback callback;
+        ImageView addButton;
+
+        public DirectionFooterViewHolder(@NonNull View itemView) {
+            super(itemView);
+            addButton = itemView.findViewById(R.id.add_button);
+        }
+
+        @Override
+        void bind(RecipeComponentViewModel vm) {
+            DirectionFooterViewModel footerViewModel = (DirectionFooterViewModel) vm;
+            addButton.setImageResource(footerViewModel.imageResource);
+            if (footerViewModel.isEditable()) {
+                addButton.setVisibility(View.VISIBLE);
+            } else {
+                addButton.setVisibility(View.GONE);
+            }
+
+            addButton.setOnClickListener(v -> {
+                if (callback != null) {
+                    Log.d("TAG", "bind: PRINTING TYPE" + vm.getType().toString());
+                    callback.addButtonTapped(vm.getType());
+                    Log.d("FooterViewHolder", "bind: add button tapped");
+                }
+            });
+        }
+    }
+
+
 
     private final Context context;
     private RecipeViewModel vm;
@@ -172,11 +203,11 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
     }
 
     @Override
-    public void addButtonTapped(FooterViewModel.FooterType type) {
+    public void addButtonTapped(RecipeComponentViewModel.Type type) {
         if (vm == null || handler == null) {
             Log.d("RecyclerViewAdapter", "addButtonTapped --> vm is null");
         }
-        if (type == FooterViewModel.FooterType.Ingredient_Footer) {
+        if (type == RecipeComponentViewModel.Type.Footer_Ingredient) {
             handler.addIngredientComponent(vm);
         } else {
             handler.addDirectionComponent(vm);
@@ -201,11 +232,16 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
             case Ingredient:
                 view = inflater.inflate(R.layout.item_ingredient, parent, false);
                 return new IngredientViewHolder(view);
-            case Footer:
+            case Footer_Ingredient:
                 view = inflater.inflate(R.layout.item_footer, parent, false);
-                FooterViewHolder viewHolder = new FooterViewHolder(view);
-                viewHolder.callback = this;
-                return viewHolder;
+                IngredientFooterViewHolder ingredientFooterViewHolder = new IngredientFooterViewHolder(view);
+                ingredientFooterViewHolder.callback = this;
+                return ingredientFooterViewHolder;
+            case Footer_Direction:
+                view = inflater.inflate(R.layout.item_footer, parent, false);
+                DirectionFooterViewHolder directionFooterViewHolder = new DirectionFooterViewHolder(view);
+                directionFooterViewHolder.callback = this;
+                return directionFooterViewHolder;
             case Tag:
                 view = inflater.inflate(R.layout.item_tags, parent, false);
                 return new TagsViewHolder(view);
