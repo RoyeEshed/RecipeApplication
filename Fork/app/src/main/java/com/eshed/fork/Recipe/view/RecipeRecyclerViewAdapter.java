@@ -1,199 +1,43 @@
 package com.eshed.fork.Recipe.view;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
+import com.eshed.fork.Recipe.view.ViewHolders.CancelFooterViewHolder;
+import com.eshed.fork.Recipe.view.ViewHolders.ContributorViewHolder;
+import com.eshed.fork.Recipe.view.ViewHolders.DirectionFooterViewHolder;
+import com.eshed.fork.Recipe.view.ViewHolders.DirectionViewHolder;
+import com.eshed.fork.Recipe.view.ViewHolders.HeaderViewHolder;
+import com.eshed.fork.Recipe.view.ViewHolders.ImageViewHolder;
+import com.eshed.fork.Recipe.view.ViewHolders.IngredientFooterViewHolder;
+import com.eshed.fork.Recipe.view.ViewHolders.IngredientViewHolder;
+import com.eshed.fork.Recipe.view.ViewHolders.RecipeViewHolder;
+import com.eshed.fork.Recipe.view.ViewHolders.TagsViewHolder;
 import com.eshed.fork.Recipe.vm.RecipeViewModel;
-import com.eshed.fork.Recipe.vm.component.DirectionViewModel;
-import com.eshed.fork.Recipe.vm.component.Footer.DirectionFooterViewModel;
-import com.eshed.fork.Recipe.vm.component.Footer.IngredientFooterViewModel;
-import com.eshed.fork.Recipe.vm.component.HeaderViewModel;
-import com.eshed.fork.Recipe.vm.component.ImageViewModel;
-import com.eshed.fork.Recipe.vm.component.IngredientViewModel;
 import com.eshed.fork.Recipe.vm.component.RecipeComponentViewModel;
-import com.eshed.fork.Recipe.vm.component.TagViewModel;
 import com.eshed.fork.R;
 
-public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecyclerViewAdapter.RecipeViewHolder> implements RecipeViewModel.Listener, FooterCallback {
+public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeViewHolder> implements RecipeViewModel.Listener, FooterCallback {
 
     public interface RecipeAdapterHandler {
         void addIngredientComponent(RecipeViewModel vm);
         void addDirectionComponent(RecipeViewModel vm);
+        void undoChanges(RecipeViewModel vm);
     }
 
-    public static abstract class RecipeViewHolder extends RecyclerView.ViewHolder {
-        public RecipeViewHolder(@NonNull View itemView) {
-            super(itemView);
-        }
-
-        abstract void bind(RecipeComponentViewModel vm);
-    }
-
-    public static class IngredientViewHolder extends RecipeViewHolder {
-        EditText amount;
-        EditText ingredientText;
-
-        public IngredientViewHolder(@NonNull View itemView) {
-            super(itemView);
-            amount = itemView.findViewById(R.id.ingredient_amount);
-            ingredientText = itemView.findViewById(R.id.ingredient_text);
-        }
-
-        @Override public void bind(RecipeComponentViewModel vm) {
-            IngredientViewModel ingredientViewModel = (IngredientViewModel)vm;
-            amount.setText(ingredientViewModel.ingredient.getAmount());
-            ingredientText.setText(ingredientViewModel.ingredient.getIngredientName());
-
-            amount.setEnabled(ingredientViewModel.isEditable());
-            ingredientText.setEnabled(ingredientViewModel.isEditable());
-        }
-    }
-
-    public static class DirectionViewHolder extends RecipeViewHolder {
-        TextView directionNumber;
-        EditText directionText;
-
-        public DirectionViewHolder(@NonNull View itemView) {
-            super(itemView);
-            directionNumber = itemView.findViewById(R.id.direction_number);
-            directionText = itemView.findViewById(R.id.direction_text);
-        }
-
-        @SuppressLint("SetTextI18n")
-        @Override public void bind(RecipeComponentViewModel vm) {
-            DirectionViewModel directionViewModel = (DirectionViewModel)vm;
-            directionNumber.setText("" + directionViewModel.direction.getDirectionNumber());
-            directionText.setText("" + directionViewModel.direction.getDirectionText());
-
-            directionText.setEnabled(directionViewModel.isEditable());
-        }
-    }
-
-    public static class TagsViewHolder extends RecipeViewHolder {
-        EditText tags;
-
-        public TagsViewHolder(@NonNull View itemView) {
-            super(itemView);
-            tags = itemView.findViewById(R.id.tags_text);
-        }
-
-        @Override public void bind(RecipeComponentViewModel vm) {
-            TagViewModel tagViewModel = (TagViewModel)vm;
-            tags.setText(tagViewModel.tag);
-
-            tags.setEnabled(tagViewModel.isEditable());
-        }
-    }
-
-    public static class ImageViewHolder extends RecipeViewHolder {
-        ImageView imageView;
-
-        public ImageViewHolder(@NonNull View itemView) {
-            super(itemView);
-            imageView = itemView.findViewById(R.id.recipe_image);
-        }
-
-        @Override public void bind(RecipeComponentViewModel vm) {
-            ImageViewModel imageViewModel = (ImageViewModel)vm;
-            Glide.with(itemView).load(imageViewModel.imageURL).centerCrop().into(imageView);
-            //imageView.setImageResource(imageViewModel.imageResource);
-        }
-    }
-
-    public static class HeaderViewHolder extends RecipeViewHolder {
-        TextView header;
-
-        public HeaderViewHolder(@NonNull View itemView) {
-            super(itemView);
-            header = itemView.findViewById(R.id.section_header);
-        }
-
-        @Override public void bind(RecipeComponentViewModel vm) {
-            HeaderViewModel headerViewModel = (HeaderViewModel)vm;
-            header.setText(headerViewModel.header);
-        }
-    }
-
-    public static class IngredientFooterViewHolder extends RecipeViewHolder {
-        public FooterCallback callback;
-        ImageView addButton;
-
-        public IngredientFooterViewHolder(@NonNull View itemView) {
-            super(itemView);
-            addButton = itemView.findViewById(R.id.add_button);
-        }
-
-        @Override
-        void bind(RecipeComponentViewModel vm) {
-            IngredientFooterViewModel footerViewModel = (IngredientFooterViewModel) vm;
-            addButton.setImageResource(footerViewModel.imageResource);
-            if (footerViewModel.isEditable()) {
-                addButton.setVisibility(View.VISIBLE);
-            } else {
-                addButton.setVisibility(View.GONE);
-            }
-
-            addButton.setOnClickListener(v -> {
-                if (callback != null) {
-                    Log.d("TAG", "bind: PRINTING TYPE" + vm.getType().toString());
-                    callback.addButtonTapped(vm.getType());
-                    Log.d("FooterViewHolder", "bind: add button tapped");
-                }
-            });
-        }
-    }
-
-    public static class DirectionFooterViewHolder extends RecipeViewHolder {
-        public FooterCallback callback;
-        ImageView addButton;
-
-        public DirectionFooterViewHolder(@NonNull View itemView) {
-            super(itemView);
-            addButton = itemView.findViewById(R.id.add_button);
-        }
-
-        @Override
-        void bind(RecipeComponentViewModel vm) {
-            DirectionFooterViewModel footerViewModel = (DirectionFooterViewModel) vm;
-            addButton.setImageResource(footerViewModel.imageResource);
-            if (footerViewModel.isEditable()) {
-                addButton.setVisibility(View.VISIBLE);
-            } else {
-                addButton.setVisibility(View.GONE);
-            }
-
-            addButton.setOnClickListener(v -> {
-                if (callback != null) {
-                    Log.d("TAG", "bind: PRINTING TYPE" + vm.getType().toString());
-                    callback.addButtonTapped(vm.getType());
-                    Log.d("FooterViewHolder", "bind: add button tapped");
-                }
-            });
-        }
-    }
-
-
-
-    private final Context context;
     private RecipeViewModel vm;
     public RecipeAdapterHandler handler;
 
-
-    public RecipeRecyclerViewAdapter(Context context, RecipeViewModel vm) {
-        this.context = context;
+    public RecipeRecyclerViewAdapter(RecipeViewModel vm) {
         this.vm = vm;
-
         vm.listener = this;
     }
 
@@ -212,6 +56,12 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
         } else {
             handler.addDirectionComponent(vm);
         }
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public void cancelButtonTapped() {
+        handler.undoChanges(vm);
         notifyDataSetChanged();
     }
 
@@ -248,6 +98,14 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
             case Image:
                 view = inflater.inflate(R.layout.item_image, parent, false);
                 return new ImageViewHolder(view);
+            case Contributor:
+                view = inflater.inflate(R.layout.item_contribution, parent, false);
+                return new ContributorViewHolder(view);
+            case Footer_Cancel:
+                view = inflater.inflate(R.layout.item_footer, parent, false);
+                CancelFooterViewHolder cancelFooterViewHolder = new CancelFooterViewHolder(view);
+                cancelFooterViewHolder.callback = this;
+                return cancelFooterViewHolder;
             default:
                 throw new RuntimeException("Invalid viewType: " + viewType);
         }
@@ -267,4 +125,27 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
     public int getItemViewType(int position) {
         return vm.getComponents().get(position).getType().ordinal();
     }
+
+    private class EditTextListener implements TextWatcher {
+        private int position;
+
+        public void updatePosition(int position) {
+            this.position = position;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+            RecipeComponentViewModel component = vm.getComponents().get(position);
+            component.update(charSequence.toString());
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+        }
+    }
+
 }

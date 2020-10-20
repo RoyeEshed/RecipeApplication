@@ -13,7 +13,7 @@ public abstract class FooterViewModel implements RecipeComponentIsEditable, Reci
     };
 
     @Override
-    public void setIsEditable(Boolean isEditable) {
+    public void setIsEditable(boolean isEditable) {
         this.isEditable = isEditable;
     }
 

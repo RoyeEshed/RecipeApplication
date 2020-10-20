@@ -14,7 +14,12 @@ public class TagViewModel implements RecipeComponentViewModel, RecipeComponentIs
     }
 
     @Override
-    public void setIsEditable(Boolean isEditable) {
+    public void update(String update) {
+
+    }
+
+    @Override
+    public void setIsEditable(boolean isEditable) {
         this.isEditable = isEditable;
     }
 

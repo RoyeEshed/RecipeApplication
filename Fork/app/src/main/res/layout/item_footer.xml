@@ -7,6 +7,20 @@
     android:paddingStart="20dp"
     android:paddingEnd="20dp"
     android:paddingTop="3dp">
+
+    <Button
+        android:id="@+id/cancel_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#C43434"
+        android:textSize="20sp"
+        android:text="Cancel"
+        android:background="@drawable/button_background"
+        android:layout_centerHorizontal="true"
+        android:padding="10dp"
+        android:layout_margin="15dp"
+        android:visibility="gone"/>
+
     <ImageView
         android:id="@+id/add_button"
         android:layout_width="35dp"

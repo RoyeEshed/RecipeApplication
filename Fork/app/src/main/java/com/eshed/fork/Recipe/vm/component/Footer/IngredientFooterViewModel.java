@@ -16,4 +16,9 @@ public class IngredientFooterViewModel extends FooterViewModel implements Recipe
     public Type getType() {
         return Type.Footer_Ingredient;
     }
+
+    @Override
+    public void update(String update) {
+
+    }
 }

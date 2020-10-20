@@ -17,7 +17,7 @@ public class DebugRecipeRepository implements RecipeRepository {
     }
 
     private static List<Recipe> recipes  = new ArrayList<>(Arrays.asList(
-            new Recipe(1,"Scrambled Eggs", "https://images.unsplash.com/photo-1525184782196-8e2ded604bf7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2767&q=80", "Roye",
+            new Recipe(1,"Scrambled Eggs", "https://images.unsplash.com/photo-1525184782196-8e2ded604bf7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2767&q=80", "user",
                     new ArrayList<>(Arrays.asList(new Ingredient("2", "Eggs"),
                             new Ingredient("1/4 cup", "Milk"),
                             new Ingredient("To taste","Salt"),
@@ -35,7 +35,7 @@ public class DebugRecipeRepository implements RecipeRepository {
                             new Direction(10,"Continue mixing and moving the egg around with the spatula until the eggs become solid"),
                             new Direction(11,"Pour onto a plate and let rest for a minute or two before eating"))),
                     new ArrayList<>(Arrays.asList("Breakfast, Vegetarian, Eggs"))),
-            new Recipe(2,"Pesto", "https://images.unsplash.com/photo-1592571832175-cbbedad399a6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2700&q=80", "Ashley",
+            new Recipe(2,"Pesto", "https://images.unsplash.com/photo-1592571832175-cbbedad399a6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2700&q=80", "user",
                     new ArrayList<>(Arrays.asList(new Ingredient("1/4 cup", "Basil"),
                             new Ingredient("1/2 cup", "Parmesan cheese"),
                             new Ingredient("2", "Garlic cloves"),
@@ -44,7 +44,16 @@ public class DebugRecipeRepository implements RecipeRepository {
                     new ArrayList<>(Arrays.asList(new Direction(1, "In a food processor combine basil, pine nuts, and garlic"),
                          new Direction(2,"Slowly add in olive oil, processing until smooth"),
                          new Direction(3,"Add parmesan and continue processing just until combined"))),
-                    new ArrayList<>(Arrays.asList("Vegetarian, Dinner, Italian")))
+                    new ArrayList<>(Arrays.asList("Vegetarian, Dinner, Italian"))),
+            new Recipe(3,"Oatmeal", "https://images.unsplash.com/photo-1586420362117-e448a3dd5ef5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2700&q=80", "user",
+                    new ArrayList<>(Arrays.asList(new Ingredient("1 cup", "Rolled Oats"),
+                            new Ingredient("2 cup", "Almond Milk"),
+                            new Ingredient("1/2 tsp", "Vanilla extract"),
+                            new Ingredient("Pinch", "Salt"))),
+                    new ArrayList<>(Arrays.asList(new Direction(1, "Combine all ingredients into a small saucepan and heat at medium-high."),
+                            new Direction(2,"Bring to a boil. Lower heat to medium-low and stir continuously for 3-5 minutes until oatmeal thickens"),
+                            new Direction(3,"Remove from heat, and add any additional toppings."))),
+                    new ArrayList<>(Arrays.asList("Vegetarian, Vegan, Breakfast")))
     ));
 
     public List<Recipe> getRecipes() {

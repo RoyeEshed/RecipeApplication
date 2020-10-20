@@ -1,18 +1,17 @@
 package com.eshed.fork.Recipe.vm.component;
-import com.eshed.fork.data.model.Ingredient;
 
-public class IngredientViewModel implements RecipeComponentViewModel, RecipeComponentIsEditable {
-    public Ingredient ingredient;
+public class ContributorViewModel implements RecipeComponentViewModel, RecipeComponentIsEditable {
+    public String contributor;
     public boolean isEditable;
 
-    public IngredientViewModel(Ingredient ingredient, boolean isEditable) {
-        this.ingredient = ingredient;
+    public ContributorViewModel(String contributor, boolean isEditable) {
+        this.contributor = contributor;
         this.isEditable = isEditable;
     }
 
     @Override
     public Type getType() {
-        return Type.Ingredient;
+        return Type.Contributor;
     }
 
     @Override

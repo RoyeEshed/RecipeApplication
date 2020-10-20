@@ -23,4 +23,8 @@ public class Direction {
     public String getDirectionText() {
         return directionText;
     }
+
+    public void setDirectionText(String directionText) {
+        this.directionText = directionText;
+    }
 }

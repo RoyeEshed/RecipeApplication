@@ -10,8 +10,13 @@ public class Recipe {
     private List<Direction> directions;
     private List<Ingredient> ingredients;
     private List<String> tags;
+    private int parentRecipeID;
 
     public Recipe(int recipeID, String name, String imageURL, String contributor, List<Ingredient> ingredients, List<Direction> directions, List<String> tags) {
+        this(recipeID, name, imageURL, contributor, ingredients, directions, tags, -1);
+    }
+
+    public Recipe(int recipeID, String name, String imageURL, String contributor, List<Ingredient> ingredients, List<Direction> directions, List<String> tags, int parentRecipeID) {
         this.recipeID = recipeID;
         this.name = name;
         this.imageURL = imageURL;
@@ -19,6 +24,7 @@ public class Recipe {
         this.ingredients = ingredients;
         this.directions = directions;
         this.tags = tags;
+        this.parentRecipeID = parentRecipeID;
     }
 
     public int getRecipeID() {
@@ -47,5 +53,13 @@ public class Recipe {
 
     public String getContributor() {
         return contributor;
+    }
+
+    public int getParentRecipeID() {
+        return parentRecipeID;
+    }
+
+    public void setParentRecipeID(int parentRecipeID) {
+        this.parentRecipeID = parentRecipeID;
     }
 }

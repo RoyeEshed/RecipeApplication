@@ -8,8 +8,11 @@ public interface RecipeComponentViewModel {
         Footer_Ingredient,
         Footer_Direction,
         Tag,
-        Image
+        Image,
+        Contributor,
+        Footer_Cancel
     }
 
     Type getType();
+    void update(String update);
 }

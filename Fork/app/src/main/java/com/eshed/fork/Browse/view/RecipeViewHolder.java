@@ -6,6 +6,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -20,7 +21,7 @@ public class RecipeViewHolder extends RecyclerView.ViewHolder {
     private TextView recipeName;
     private TextView modifications;
     private ImageView recipeImage;
-    private LinearLayout layout;
+    private ConstraintLayout layout;
     private RecipeViewModel vm;
 
     public RecipeViewHolder.RecipeCardCallback callback;

@@ -27,6 +27,7 @@ import static androidx.recyclerview.widget.RecyclerView.*;
 public class BrowseActivity extends AppCompatActivity implements BrowseRecyclerViewAdapter.BrowseAdapterHandler {
     private BrowseViewModel vm;
     private ConstraintLayout searchBar;
+    private Adapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,11 +80,17 @@ public class BrowseActivity extends AppCompatActivity implements BrowseRecyclerV
     private void initRecyclerView() {
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        Adapter adapter = new BrowseRecyclerViewAdapter(this, vm);
+        adapter = new BrowseRecyclerViewAdapter(this, vm);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
 
         ((BrowseRecyclerViewAdapter) adapter).handler = this;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
     }
 
     @Override

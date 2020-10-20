@@ -11,4 +11,9 @@ public class ImageViewModel implements RecipeComponentViewModel {
     public Type getType() {
         return Type.Image;
     }
+
+    @Override
+    public void update(String update) {
+
+    }
 }
