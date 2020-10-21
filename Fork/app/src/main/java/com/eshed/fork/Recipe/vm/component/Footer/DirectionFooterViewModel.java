@@ -16,10 +16,4 @@ public class DirectionFooterViewModel extends FooterViewModel implements RecipeC
     public RecipeComponentViewModel.Type getType() {
         return Type.Footer_Direction;
     }
-
-    @Override
-    public void update(String update) {
-
-    }
-
 }

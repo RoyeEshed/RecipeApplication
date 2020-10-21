@@ -32,23 +32,23 @@ public class RecipeViewModel {
     private List<RecipeComponentViewModel> recipeComponents;
     private RecipeRepository repository = DebugRecipeRepository.getInstance();
     private Boolean isEditable = false;
-    private int totalNumberDirections;
+    private int directionsIndex;
 
     public Listener listener;
 
     public RecipeViewModel() {
         this.recipeID = (int) (Math.random() * 1000);
-        initEmptyRecipeViewModel();
+        initEmptyViewModel();
     }
 
     public RecipeViewModel(int recipeID) {
         this.recipeID = recipeID;
         this.recipe = repository.getRecipeWithID(recipeID);
-        initRecipeViewModel();
+        initViewModel();
     }
 
-    private void initRecipeViewModel() {
-        totalNumberDirections = recipe.getDirections().size();
+    private void initViewModel() {
+        directionsIndex = recipe.getDirections().size();
 
         recipeComponents = new ArrayList<>();
         recipeComponents.add(new ImageViewModel(recipe.getImageURL()));
@@ -73,8 +73,8 @@ public class RecipeViewModel {
         recipeComponents.add(new CancelFooterViewModel((isEditable)));
     }
 
-    private void initEmptyRecipeViewModel() {
-        totalNumberDirections = 1;
+    private void initEmptyViewModel() {
+        directionsIndex = 1;
         recipeComponents = new ArrayList<>();
         recipeComponents.add(new ImageViewModel("https://images.unsplash.com/photo-1517870662726-c1d98ee36250?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2700&q=80"));
         recipeComponents.add(new HeaderViewModel("Ingredients"));
@@ -93,20 +93,15 @@ public class RecipeViewModel {
         if (recipe == null) {
             index = 2;
         } else {
-            index = 2 + recipe.getIngredients().size();
+            index = 3 + recipe.getIngredients().size();
         }
         recipeComponents.add(index, new IngredientViewModel(new Ingredient("", ""), isEditable));
     }
 
     public void addDirectionComponent() {
         int index = recipeComponents.size() - 4;
-
-        totalNumberDirections += 1;
-        recipeComponents.add(index, new DirectionViewModel(new Direction(totalNumberDirections, ""), isEditable));
-    }
-
-    public List<RecipeComponentViewModel> getComponents() {
-        return recipeComponents;
+        directionsIndex += 1;
+        recipeComponents.add(index, new DirectionViewModel(new Direction(directionsIndex, ""), isEditable));
     }
 
     public void toggleEditable() {
@@ -120,6 +115,10 @@ public class RecipeViewModel {
         listener.onDataChanged();
     }
 
+    public List<RecipeComponentViewModel> getComponents() {
+        return recipeComponents;
+    }
+
     public Recipe getRecipe() {
         return recipe;
     }
@@ -128,7 +127,7 @@ public class RecipeViewModel {
         return isEditable;
     }
 
-    public void createNewRecipe(String recipeName) {
+    public void saveAsNewRecipe(String recipeName) {
         List<Ingredient> ingredients = new ArrayList<>();
         List<Direction> directions = new ArrayList<>();
         List<String> tags = new ArrayList<>();
@@ -148,14 +147,15 @@ public class RecipeViewModel {
                     break;
                 case Tag:
                     tags.add(((TagViewModel)r).tag);
+                    break;
             }
         }
-        repository.addRecipe(new Recipe(id, recipeName, imageURL, "me", ingredients, directions, tags));
+        repository.addRecipe(new Recipe(id, recipeName, imageURL, "test", ingredients, directions, tags));
     }
 
     public void reset() {
         repository.getRecipeWithID(recipeID);
-        initRecipeViewModel();
+        initViewModel();
     }
 }
 

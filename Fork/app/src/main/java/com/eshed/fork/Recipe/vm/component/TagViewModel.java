@@ -8,14 +8,13 @@ public class TagViewModel implements RecipeComponentViewModel, RecipeComponentIs
         this.tag = tag;
     }
 
-    @Override
-    public Type getType() {
-        return Type.Tag;
+    public void changeTags(String tag) {
+        this.tag = tag;
     }
 
     @Override
-    public void update(String update) {
-
+    public Type getType() {
+        return Type.Tag;
     }
 
     @Override

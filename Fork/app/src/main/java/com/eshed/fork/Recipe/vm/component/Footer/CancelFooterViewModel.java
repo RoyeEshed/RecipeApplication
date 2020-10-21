@@ -11,9 +11,4 @@ public class CancelFooterViewModel extends FooterViewModel {
     public Type getType() {
         return Type.Footer_Cancel;
     }
-
-    @Override
-    public void update(String update) {
-
-    }
 }

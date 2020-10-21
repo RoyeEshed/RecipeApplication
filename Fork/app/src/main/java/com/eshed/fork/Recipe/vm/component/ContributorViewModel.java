@@ -15,11 +15,6 @@ public class ContributorViewModel implements RecipeComponentViewModel, RecipeCom
     }
 
     @Override
-    public void update(String update) {
-
-    }
-
-    @Override
     public void setIsEditable(boolean isEditable) {
         this.isEditable = isEditable;
     }

@@ -12,6 +12,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.eshed.fork.Browse.view.BrowseActivity;
 import com.eshed.fork.R;
+import com.eshed.fork.Util.Util;
 
 public class SettingsActivity extends AppCompatActivity {
     @Override
@@ -26,31 +27,10 @@ public class SettingsActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
 
-        Toolbar tabBar = findViewById(R.id.tab_bar);
-
         TextView title = toolbar.findViewById(R.id.toolbar_title);
         title.setText("Settings");
-
-        ImageView backButton = toolbar.findViewById(R.id.back_arrow);
         ImageView addButton = toolbar.findViewById(R.id.add_recipe);
-        addButton.setVisibility(View.INVISIBLE);
-        ImageView starredRecipesButton = tabBar.findViewById(R.id.star);
-        ImageView homeButton = tabBar.findViewById(R.id.home);
-
-        homeButton.setOnClickListener((View v)-> {
-            Intent intent = new Intent(this, BrowseActivity.class);
-            this.finish();
-            this.startActivity(intent);
-        });
-        backButton.setOnClickListener((View v)-> {
-            this.finish();
-        });
-
-        addButton.setOnClickListener((View v)-> {
-            Toast.makeText(this, "TODO: add button", Toast.LENGTH_SHORT).show();
-        });
-        starredRecipesButton.setOnClickListener((View v)-> {
-            Toast.makeText(this, "TODO: starred recipes button", Toast.LENGTH_SHORT).show();
-        });
+        addButton.setVisibility(View.GONE);
+        Util.setupTabBar(this);
     }
 }

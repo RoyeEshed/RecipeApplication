@@ -14,5 +14,4 @@ public interface RecipeComponentViewModel {
     }
 
     Type getType();
-    void update(String update);
 }

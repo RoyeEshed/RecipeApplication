@@ -24,6 +24,14 @@ public class Ingredient {
         return ingredientName;
     }
 
+    public void setAmount(String amount) {
+        this.amount = amount;
+    }
+
+    public void setIngredientName(String ingredientName) {
+        this.ingredientName = ingredientName;
+    }
+
     public String toString() {
         return amount + " – " + ingredientName;
     }

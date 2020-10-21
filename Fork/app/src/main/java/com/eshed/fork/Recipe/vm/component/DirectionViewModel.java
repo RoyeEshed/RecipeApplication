@@ -11,6 +11,10 @@ public class DirectionViewModel implements RecipeComponentViewModel, RecipeCompo
         this.isEditable = isEditable;
     }
 
+    public void changeDirectionText(String directionText) {
+        this.direction.setDirectionText(directionText);
+    }
+
     @Override
     public Type getType() {
         return Type.Direction;
@@ -24,10 +28,5 @@ public class DirectionViewModel implements RecipeComponentViewModel, RecipeCompo
     @Override
     public Boolean isEditable() {
         return isEditable;
-    }
-
-    @Override
-    public void update(String update) {
-        direction.setDirectionText(update);
     }
 }

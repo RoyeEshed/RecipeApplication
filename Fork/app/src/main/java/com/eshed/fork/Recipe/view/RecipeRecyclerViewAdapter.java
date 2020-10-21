@@ -1,8 +1,5 @@
 package com.eshed.fork.Recipe.view;
 
-import android.content.Context;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +27,7 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeViewHo
     public interface RecipeAdapterHandler {
         void addIngredientComponent(RecipeViewModel vm);
         void addDirectionComponent(RecipeViewModel vm);
-        void undoChanges(RecipeViewModel vm);
+        void cancelChanges(RecipeViewModel vm);
     }
 
     private RecipeViewModel vm;
@@ -39,30 +36,6 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeViewHo
     public RecipeRecyclerViewAdapter(RecipeViewModel vm) {
         this.vm = vm;
         vm.listener = this;
-    }
-
-    @Override
-    public void onDataChanged() {
-        notifyDataSetChanged();
-    }
-
-    @Override
-    public void addButtonTapped(RecipeComponentViewModel.Type type) {
-        if (vm == null || handler == null) {
-            Log.d("RecyclerViewAdapter", "addButtonTapped --> vm is null");
-        }
-        if (type == RecipeComponentViewModel.Type.Footer_Ingredient) {
-            handler.addIngredientComponent(vm);
-        } else {
-            handler.addDirectionComponent(vm);
-        }
-        notifyDataSetChanged();
-    }
-
-    @Override
-    public void cancelButtonTapped() {
-        handler.undoChanges(vm);
-        notifyDataSetChanged();
     }
 
     @NonNull
@@ -126,26 +99,30 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeViewHo
         return vm.getComponents().get(position).getType().ordinal();
     }
 
-    private class EditTextListener implements TextWatcher {
-        private int position;
-
-        public void updatePosition(int position) {
-            this.position = position;
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-        }
-
-        @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-            RecipeComponentViewModel component = vm.getComponents().get(position);
-            component.update(charSequence.toString());
-        }
-
-        @Override
-        public void afterTextChanged(Editable editable) {
-        }
+    // RecipeViewModel.Listener
+    @Override
+    public void onDataChanged() {
+        notifyDataSetChanged();
     }
 
+    // region FooterCallback
+    @Override
+    public void addButtonTapped(RecipeComponentViewModel.Type type) {
+        if (vm == null || handler == null) {
+            Log.d("RecyclerViewAdapter", "addButtonTapped --> vm is null");
+        }
+        if (type == RecipeComponentViewModel.Type.Footer_Ingredient) {
+            handler.addIngredientComponent(vm);
+        } else {
+            handler.addDirectionComponent(vm);
+        }
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public void cancelButtonTapped() {
+        handler.cancelChanges(vm);
+        notifyDataSetChanged();
+    }
+    // endregion
 }

@@ -10,14 +10,17 @@ public class IngredientViewModel implements RecipeComponentViewModel, RecipeComp
         this.isEditable = isEditable;
     }
 
-    @Override
-    public Type getType() {
-        return Type.Ingredient;
+    public void changeIngredientName(String ingredientName) {
+        ingredient.setIngredientName(ingredientName);
+    }
+
+    public void changeAmount(String amount) {
+        ingredient.setAmount(amount);
     }
 
     @Override
-    public void update(String update) {
-
+    public Type getType() {
+        return Type.Ingredient;
     }
 
     @Override

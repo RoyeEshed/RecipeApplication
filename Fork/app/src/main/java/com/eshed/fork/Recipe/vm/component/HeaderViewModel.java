@@ -11,9 +11,4 @@ public class HeaderViewModel implements RecipeComponentViewModel {
     public Type getType() {
         return Type.Header;
     }
-
-    @Override
-    public void update(String update) {
-
-    }
 }

@@ -3,9 +3,7 @@ package com.eshed.fork.Recipe.view;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,13 +15,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.eshed.fork.Browse.view.BrowseActivity;
 import com.eshed.fork.Recipe.view.Dialogs.NewRecipeDialogFragment;
 import com.eshed.fork.Recipe.view.Dialogs.NewRecipeDialogFragment.NewRecipeDialogListener;
 import com.eshed.fork.Recipe.view.RecipeRecyclerViewAdapter.RecipeAdapterHandler;
 import com.eshed.fork.Recipe.vm.RecipeViewModel;
 import com.eshed.fork.R;
-import com.eshed.fork.Settings.SettingsActivity;
+import com.eshed.fork.Util.Util;
 
 import static androidx.recyclerview.widget.RecyclerView.*;
 
@@ -44,10 +41,8 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
         vm = new RecipeViewModel(recipeID);
 
         toolbar = findViewById(R.id.toolbar);
-        tabBar = findViewById(R.id.tab_bar);
         setupToolbar();
-        setupTabBar();
-
+        Util.setupTabBar(this);
         initRecyclerView();
     }
 
@@ -76,28 +71,9 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
             this.finish();
         });
         saveButton.setOnClickListener((View v) -> {
-            vm.createNewRecipe(title.getText().toString());
+            vm.saveAsNewRecipe(title.getText().toString());
             Toast.makeText(this, "TODO: save recipe", Toast.LENGTH_SHORT).show();
             toggleEditing();
-        });
-    }
-
-    private void setupTabBar() {
-        ImageView settingsButton = tabBar.findViewById(R.id.user_settings);
-        ImageView starredRecipesButton = tabBar.findViewById(R.id.star);
-        ImageView homeButton = tabBar.findViewById(R.id.home);
-
-        homeButton.setOnClickListener((View v)-> {
-            Intent intent = new Intent(this, BrowseActivity.class);
-            this.finish();
-            this.startActivity(intent);
-        });
-        settingsButton.setOnClickListener((View v)-> {
-            Intent intent = new Intent(this, SettingsActivity.class);
-            this.startActivity(intent);
-        });
-        starredRecipesButton.setOnClickListener((View v)-> {
-            Toast.makeText(this, "TODO: starred recipes button", Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -157,7 +133,7 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
     }
 
     @Override
-    public void undoChanges(RecipeViewModel vm) {
+    public void cancelChanges(RecipeViewModel vm) {
         vm.reset();
         title.setText(vm.getRecipe().getName());
         toggleEditing();
