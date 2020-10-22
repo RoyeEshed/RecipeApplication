@@ -21,16 +21,20 @@ import com.eshed.fork.Recipe.view.RecipeRecyclerViewAdapter.RecipeAdapterHandler
 import com.eshed.fork.Recipe.vm.RecipeViewModel;
 import com.eshed.fork.R;
 import com.eshed.fork.Util.Util;
+import com.eshed.fork.data.DebugRecipeRepository;
+import com.eshed.fork.data.model.Recipe;
 
 import static androidx.recyclerview.widget.RecyclerView.*;
 
 public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHandler, NewRecipeDialogListener {
+    private RecipeViewModel originalViewModel;
     private RecipeViewModel vm;
     private Toolbar tabBar;
     private Toolbar toolbar;
     private ImageView saveButton;
     private ImageView addButton;
     private TextView title;
+    private RecipeRecyclerViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +42,9 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
         setContentView(R.layout.activity_recipe);
 
         int recipeID = getIntent().getExtras().getInt("recipe");
-        vm = new RecipeViewModel(recipeID);
+        Recipe recipe = DebugRecipeRepository.getInstance().getRecipeWithID(recipeID);
+        vm = new RecipeViewModel(recipe);
+        originalViewModel = vm;
 
         toolbar = findViewById(R.id.toolbar);
         setupToolbar();
@@ -63,16 +69,17 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
                 showNewRecipeDialog();
             }
         });
+
         addButton.setOnClickListener((View v)-> {
             showNewRecipeDialog();
-            toggleEditing();
         });
+
         backButton.setOnClickListener((View v) -> {
             this.finish();
         });
+
         saveButton.setOnClickListener((View v) -> {
-            vm.saveAsNewRecipe(title.getText().toString());
-            Toast.makeText(this, "TODO: save recipe", Toast.LENGTH_SHORT).show();
+            DebugRecipeRepository.getInstance().saveRecipe(vm.getRecipe());
             toggleEditing();
         });
     }
@@ -81,7 +88,7 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
 
-        Adapter adapter = new RecipeRecyclerViewAdapter(vm);
+        adapter = new RecipeRecyclerViewAdapter(vm);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
         ((RecipeRecyclerViewAdapter) adapter).handler = this;
@@ -110,12 +117,12 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
     }
 
     private void toggleEditing() {
-        if (vm.isEditable()) {
-            vm.toggleEditable();
+        vm.toggleEditable();
+
+        if (!vm.isEditable()) {
             addButton.setVisibility(View.VISIBLE);
             saveButton.setVisibility(View.GONE);
         } else {
-            vm.toggleEditable();
             addButton.setVisibility(View.GONE);
             saveButton.setVisibility(View.VISIBLE);
         }
@@ -134,7 +141,8 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
 
     @Override
     public void cancelChanges(RecipeViewModel vm) {
-        vm.reset();
+        vm = originalViewModel;
+        adapter.setViewModel(vm);
         title.setText(vm.getRecipe().getName());
         toggleEditing();
     }
@@ -145,12 +153,18 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
     public void onDialogPositiveClick(DialogFragment dialog, String recipeName) {
         title = toolbar.findViewById(R.id.toolbar_title);
         title.setText(recipeName);
+
+        Recipe recipe = DebugRecipeRepository.getInstance().createNewRecipeFromRecipe(vm.getRecipe(), recipeName);
+        vm = new RecipeViewModel(recipe);
+        adapter.setViewModel(vm);
+        toggleEditing();
     }
 
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
-        toggleEditing();
+        //
     }
+
     // endregion
 }
 

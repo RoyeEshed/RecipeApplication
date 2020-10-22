@@ -12,7 +12,7 @@ import com.eshed.fork.R;
 import com.eshed.fork.Recipe.vm.component.IngredientViewModel;
 import com.eshed.fork.Recipe.vm.component.RecipeComponentViewModel;
 
-public class IngredientViewHolder extends RecipeViewHolder implements TextWatcher {
+public class IngredientViewHolder extends RecipeViewHolder {
     private EditText amount;
     private EditText ingredientText;
     private IngredientViewModel ingredientViewModel;
@@ -22,8 +22,37 @@ public class IngredientViewHolder extends RecipeViewHolder implements TextWatche
         amount = itemView.findViewById(R.id.ingredient_amount);
         ingredientText = itemView.findViewById(R.id.ingredient_text);
 
-        amount.addTextChangedListener(this);
-        ingredientText.addTextChangedListener(this);
+        amount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                Log.d("TAG", "ingredient amount afterTextChanged: CALLED");
+                ingredientViewModel.changeAmount(amount.getText().toString());
+            }
+        });
+
+        ingredientText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                Log.d("TAG", "ingredient text afterTextChanged: CALLED");
+                ingredientViewModel.changeIngredientName(ingredientText.getText().toString());
+            }
+        });
     }
 
     @Override
@@ -34,26 +63,5 @@ public class IngredientViewHolder extends RecipeViewHolder implements TextWatche
 
         amount.setEnabled(ingredientViewModel.isEditable());
         ingredientText.setEnabled(ingredientViewModel.isEditable());
-    }
-
-    @Override
-    public void afterTextChanged(Editable editable) {
-        Log.d("TAG", "ingredient afterTextChanged: CALLED");
-
-        if (editable == amount) {
-            ingredientViewModel.changeAmount(amount.getText().toString());
-        } else if (editable == ingredientText) {
-            ingredientViewModel.changeIngredientName(ingredientText.getText().toString());
-        }
-    }
-
-    @Override
-    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        //
-    }
-
-    @Override
-    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        //
     }
 }

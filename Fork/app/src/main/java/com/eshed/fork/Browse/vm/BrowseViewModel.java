@@ -15,7 +15,7 @@ public class BrowseViewModel {
     public BrowseViewModel() {
         List<Recipe> recipes = recipeRepository.getRecipes();
         for (Recipe recipe: recipes) {
-            recipeList.add(new RecipeViewModel(recipe.getRecipeID()));
+            recipeList.add(new RecipeViewModel(recipe));
         }
     }
 

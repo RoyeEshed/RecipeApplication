@@ -5,11 +5,10 @@ import com.eshed.fork.Recipe.vm.component.RecipeComponentViewModel;
 
 public class DirectionFooterViewModel extends FooterViewModel implements RecipeComponentViewModel, RecipeComponentIsEditable {
     public int imageResource;
-    public boolean isEditable;
 
     public DirectionFooterViewModel(int imageResource, boolean isEditable) {
+        super(isEditable);
         this.imageResource = imageResource;
-        this.isEditable = isEditable;
     }
 
     @Override

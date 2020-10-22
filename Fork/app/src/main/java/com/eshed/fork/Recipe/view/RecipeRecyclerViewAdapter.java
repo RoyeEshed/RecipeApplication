@@ -38,6 +38,12 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeViewHo
         vm.listener = this;
     }
 
+    public void setViewModel(RecipeViewModel vm) {
+        this.vm = vm;
+        vm.listener = this;
+        onDataChanged();
+    }
+
     @NonNull
     @Override
     public RecipeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

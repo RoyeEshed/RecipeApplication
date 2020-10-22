@@ -23,7 +23,7 @@ public class TagViewModel implements RecipeComponentViewModel, RecipeComponentIs
     }
 
     @Override
-    public Boolean isEditable() {
+    public boolean isEditable() {
         return isEditable;
     }
 }

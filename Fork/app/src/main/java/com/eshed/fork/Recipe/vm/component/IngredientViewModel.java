@@ -29,7 +29,7 @@ public class IngredientViewModel implements RecipeComponentViewModel, RecipeComp
     }
 
     @Override
-    public Boolean isEditable() {
+    public boolean isEditable() {
         return isEditable;
     }
 }

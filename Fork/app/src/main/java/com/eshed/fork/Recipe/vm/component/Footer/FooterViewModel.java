@@ -5,8 +5,13 @@ import com.eshed.fork.Recipe.vm.component.RecipeComponentViewModel;
 
 public abstract class FooterViewModel implements RecipeComponentIsEditable, RecipeComponentViewModel {
     public int imageResource;
-    public boolean isEditable;
+    private boolean isEditable;
+
     public abstract RecipeComponentViewModel.Type getType();
+
+    FooterViewModel(boolean isEditable) {
+        this.isEditable = isEditable;
+    }
 
     public int getImageResource() {
         return imageResource;
@@ -18,7 +23,7 @@ public abstract class FooterViewModel implements RecipeComponentIsEditable, Reci
     }
 
     @Override
-    public Boolean isEditable() {
+    public boolean isEditable() {
         return isEditable;
     }
 }

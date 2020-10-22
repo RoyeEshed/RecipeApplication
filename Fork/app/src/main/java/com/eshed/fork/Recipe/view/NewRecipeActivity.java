@@ -31,6 +31,7 @@ import com.eshed.fork.Recipe.vm.RecipeViewModel;
 import com.eshed.fork.Recipe.vm.component.RecipeComponentViewModel;
 import com.eshed.fork.Settings.SettingsActivity;
 import com.eshed.fork.Util.Util;
+import com.eshed.fork.data.DebugRecipeRepository;
 import com.eshed.fork.data.model.Direction;
 import com.eshed.fork.data.model.Ingredient;
 import com.eshed.fork.data.model.Recipe;
@@ -49,7 +50,7 @@ public class NewRecipeActivity extends AppCompatActivity implements RecipeAdapte
     private RecyclerView.Adapter adapter;
     private RecipeViewModel vm;
 
-@Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -59,7 +60,7 @@ public class NewRecipeActivity extends AppCompatActivity implements RecipeAdapte
         setupToolbar();
         Util.setupTabBar(this);
 
-        vm = new RecipeViewModel();
+        vm = new RecipeViewModel(DebugRecipeRepository.getInstance().createNewRecipe());
         initRecyclerView();
         vm.toggleEditable();
         showNewRecipeDialog();

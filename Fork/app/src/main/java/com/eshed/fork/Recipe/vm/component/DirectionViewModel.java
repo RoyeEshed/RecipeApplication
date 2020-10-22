@@ -26,7 +26,7 @@ public class DirectionViewModel implements RecipeComponentViewModel, RecipeCompo
     }
 
     @Override
-    public Boolean isEditable() {
+    public boolean isEditable() {
         return isEditable;
     }
 }

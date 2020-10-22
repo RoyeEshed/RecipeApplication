@@ -20,7 +20,7 @@ public class ContributorViewModel implements RecipeComponentViewModel, RecipeCom
     }
 
     @Override
-    public Boolean isEditable() {
+    public boolean isEditable() {
         return isEditable;
     }
 }
