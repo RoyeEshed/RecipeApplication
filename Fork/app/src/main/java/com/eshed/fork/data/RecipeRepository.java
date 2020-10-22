@@ -6,6 +6,10 @@ import java.util.List;
 
 public interface RecipeRepository {
     List<Recipe> getRecipes();
-    Recipe getRecipeWithName(String recipeName);
     Recipe getRecipeWithID(int recipeID);
+
+    Recipe createNewRecipe();
+    Recipe createNewRecipeFromRecipe(Recipe recipe, String newName);
+
+    void saveRecipe(Recipe recipe);
 }

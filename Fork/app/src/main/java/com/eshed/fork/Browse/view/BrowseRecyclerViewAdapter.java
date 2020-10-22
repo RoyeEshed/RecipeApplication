@@ -10,19 +10,20 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.eshed.fork.Browse.vm.BrowseViewModel;
-import com.eshed.fork.Browse.vm.RecipeViewModel;
+import com.eshed.fork.Recipe.view.RecipeRecyclerViewAdapter;
+import com.eshed.fork.Recipe.vm.RecipeViewModel;
 import com.eshed.fork.R;
 
-public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter implements RecipeViewHolder.RecipeCardCallback{
+public class BrowseRecyclerViewAdapter extends RecyclerView.Adapter implements RecipeViewHolder.RecipeCardCallback {
 
-    public interface RecipeAdapterHandler {
+    public interface BrowseAdapterHandler {
         void selectRecipeCard(RecipeViewModel vm);
     }
     private final Context context;
     private BrowseViewModel vm;
-    public RecipeRecyclerViewAdapter.RecipeAdapterHandler handler;
+    public BrowseAdapterHandler handler;
 
-    public RecipeRecyclerViewAdapter(Context context, BrowseViewModel vm) {
+    public BrowseRecyclerViewAdapter(Context context, BrowseViewModel vm) {
         this.context = context;
         this.vm = vm;
     }

@@ -1,80 +1,170 @@
 package com.eshed.fork.Recipe.view;
 
-import android.content.Intent;
+import android.app.DialogFragment;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.eshed.fork.Browse.view.BrowseActivity;
-import com.eshed.fork.Browse.vm.RecipeViewModel;
+import com.eshed.fork.Recipe.view.Dialogs.NewRecipeDialogFragment;
+import com.eshed.fork.Recipe.view.Dialogs.NewRecipeDialogFragment.NewRecipeDialogListener;
+import com.eshed.fork.Recipe.view.RecipeRecyclerViewAdapter.RecipeAdapterHandler;
+import com.eshed.fork.Recipe.vm.RecipeViewModel;
 import com.eshed.fork.R;
-import com.eshed.fork.Settings.SettingsActivity;
+import com.eshed.fork.Util.Util;
 import com.eshed.fork.data.DebugRecipeRepository;
-import com.eshed.fork.data.RecipeRepository;
+import com.eshed.fork.data.model.Recipe;
 
-public class RecipeActivity extends AppCompatActivity {
-    private RecipeViewModel recipeVm;
-    private RecipeRepository recipeRepository = DebugRecipeRepository.getInstance();
+import static androidx.recyclerview.widget.RecyclerView.*;
+
+public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHandler, NewRecipeDialogListener {
+    private RecipeViewModel originalViewModel;
+    private RecipeViewModel vm;
+    private Toolbar tabBar;
+    private Toolbar toolbar;
+    private ImageView saveButton;
+    private ImageView addButton;
+    private TextView title;
+    private RecipeRecyclerViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_recipe);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        int recipeID = getIntent().getExtras().getInt("recipe");
+        Recipe recipe = DebugRecipeRepository.getInstance().getRecipeWithID(recipeID);
+        vm = new RecipeViewModel(recipe);
+        originalViewModel = vm;
+
+        toolbar = findViewById(R.id.toolbar);
+        setupToolbar();
+        Util.setupTabBar(this);
+        initRecyclerView();
+    }
+
+    private void setupToolbar() {
         setSupportActionBar(toolbar);
         if (this.getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
 
-        Toolbar tabBar = findViewById(R.id.tab_bar);
-
-        TextView title = toolbar.findViewById(R.id.toolbar_title);
-        int recipeID = getIntent().getExtras().getInt("recipe");
-        recipeVm = new RecipeViewModel(recipeID, recipeRepository);
-        title.setText(recipeVm.getRecipe().getName());
-        initRecipeData();
-
+        title = toolbar.findViewById(R.id.toolbar_title);
+        title.setText(vm.getRecipe().getName());
         ImageView backButton = toolbar.findViewById(R.id.back_arrow);
-        ImageView addButton = toolbar.findViewById(R.id.add_recipe);
-        ImageView settingsButton = tabBar.findViewById(R.id.user_settings);
-        ImageView starredRecipesButton = tabBar.findViewById(R.id.star);
-        ImageView homeButton = tabBar.findViewById(R.id.home);
+        addButton = toolbar.findViewById(R.id.add_recipe);
+        saveButton = toolbar.findViewById(R.id.save_recipe);
 
-        homeButton.setOnClickListener((View v)-> {
-            Intent intent = new Intent(this, BrowseActivity.class);
-            this.finish();
-            this.startActivity(intent);
+        title.setOnClickListener((View v)-> {
+            if (vm.isEditable()) {
+                showNewRecipeDialog();
+            }
         });
-        backButton.setOnClickListener((View v)-> {
-            this.finish();
-        });
-        settingsButton.setOnClickListener((View v)-> {
-            Intent intent = new Intent(this, SettingsActivity.class);
-            this.startActivity(intent);
-        });
+
         addButton.setOnClickListener((View v)-> {
-            Intent intent = new Intent(this, ModifyRecipeActivity.class);
-            intent.putExtra("recipe", recipeVm.getRecipe().getRecipeID());
-            this.startActivity(intent);
+            showNewRecipeDialog();
         });
-        starredRecipesButton.setOnClickListener((View v)-> {
-            Toast.makeText(this, "TODO: starred recipes button", Toast.LENGTH_SHORT).show();
+
+        backButton.setOnClickListener((View v) -> {
+            this.finish();
+        });
+
+        saveButton.setOnClickListener((View v) -> {
+            DebugRecipeRepository.getInstance().saveRecipe(vm.getRecipe());
+            toggleEditing();
         });
     }
 
-    private void initRecipeData() {
-        TextView ingredients = findViewById(R.id.ingredients_input);
-        ingredients.setText(recipeVm.getRecipe().getIngredients());
-        TextView directions = findViewById(R.id.directions_input);
-        directions.setText(recipeVm.getRecipe().getDirections());
-        TextView tags = findViewById(R.id.tags_input);
-        tags.setText(recipeVm.getRecipe().getTags());
+    private void initRecyclerView() {
+        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+
+        adapter = new RecipeRecyclerViewAdapter(vm);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
+        ((RecipeRecyclerViewAdapter) adapter).handler = this;
+
+        recyclerView.addOnScrollListener(new OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                View view = recyclerView.getChildAt(0);
+                if (view != null && recyclerView.getChildAdapterPosition(view) == 0) {
+                    ImageView imageView = view.findViewById(R.id.recipe_image);
+                    imageView.setTranslationY(-view.getTop() / 2f);
+                }
+            }
+        });
     }
+
+    private void showNewRecipeDialog() {
+        FragmentManager manager = getFragmentManager();
+        Fragment frag = manager.findFragmentByTag("fragment_new_recipe");
+        if (frag != null) {
+            manager.beginTransaction().remove(frag).commit();
+        }
+        NewRecipeDialogFragment dialog = new NewRecipeDialogFragment();
+        dialog.show(manager, "fragment_new_recipe");
+    }
+
+    private void toggleEditing() {
+        vm.toggleEditable();
+
+        if (!vm.isEditable()) {
+            addButton.setVisibility(View.VISIBLE);
+            saveButton.setVisibility(View.GONE);
+        } else {
+            addButton.setVisibility(View.GONE);
+            saveButton.setVisibility(View.VISIBLE);
+        }
+    }
+
+    // region RecipeAdapterHandler methods
+    @Override
+    public void addIngredientComponent(RecipeViewModel vm) {
+        vm.addIngredientComponent();
+    }
+
+    @Override
+    public void addDirectionComponent(RecipeViewModel vm) {
+        vm.addDirectionComponent();
+    }
+
+    @Override
+    public void cancelChanges(RecipeViewModel vm) {
+        vm = originalViewModel;
+        adapter.setViewModel(vm);
+        title.setText(vm.getRecipe().getName());
+        toggleEditing();
+    }
+    // endregion
+
+    // region NewRecipeDialogFragment listener methods
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog, String recipeName) {
+        title = toolbar.findViewById(R.id.toolbar_title);
+        title.setText(recipeName);
+
+        Recipe recipe = DebugRecipeRepository.getInstance().createNewRecipeFromRecipe(vm.getRecipe(), recipeName);
+        vm = new RecipeViewModel(recipe);
+        adapter.setViewModel(vm);
+        toggleEditing();
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+        //
+    }
+
+    // endregion
 }
+

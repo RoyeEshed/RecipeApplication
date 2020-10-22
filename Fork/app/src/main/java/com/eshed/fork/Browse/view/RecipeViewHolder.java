@@ -6,9 +6,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.eshed.fork.Browse.vm.RecipeViewModel;
+import com.bumptech.glide.Glide;
+import com.eshed.fork.Recipe.vm.RecipeViewModel;
 import com.eshed.fork.R;
 
 public class RecipeViewHolder extends RecyclerView.ViewHolder {
@@ -19,7 +21,7 @@ public class RecipeViewHolder extends RecyclerView.ViewHolder {
     private TextView recipeName;
     private TextView modifications;
     private ImageView recipeImage;
-    private LinearLayout layout;
+    private ConstraintLayout layout;
     private RecipeViewModel vm;
 
     public RecipeViewHolder.RecipeCardCallback callback;
@@ -42,6 +44,7 @@ public class RecipeViewHolder extends RecyclerView.ViewHolder {
     public void setViewModel(RecipeViewModel vm) {
         this.vm = vm;
         recipeName.setText(vm.getRecipe().getName());
-        recipeImage.setImageResource(vm.getRecipe().getImageResource());
+        Glide.with(itemView).load(vm.getRecipe().getImageURL()).centerCrop().into(recipeImage);
+       // recipeImage.setImageResource(vm.getRecipe().getImageURL());
     }
 }
