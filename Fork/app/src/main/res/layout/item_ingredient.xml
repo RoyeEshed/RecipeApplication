@@ -10,7 +10,7 @@
         android:id="@+id/ingredient_amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:minWidth="85dp"
         android:textAlignment="viewStart"
         android:textColor="@color/colorPrimaryDark"
@@ -20,7 +20,7 @@
         android:id="@+id/ingredient_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textColor="@color/black"
         android:layout_weight="1"
         android:text="All-purpose flour"/>

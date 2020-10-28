@@ -44,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Calories per Serving: "
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/black"
                 android:textSize="16sp"/>
             <TextView
                 android:id="@+id/calories_serving"
@@ -65,7 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Servings: "
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/black"
             android:textSize="16sp"/>
         <TextView
             android:id="@+id/servings"
@@ -104,7 +104,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Saturated Fat: "
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/black"
             android:textSize="16sp"/>
         <TextView
             android:id="@+id/saturated_fat"
@@ -124,7 +124,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Trans Fat: "
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/black"
             android:textSize="16sp"/>
         <TextView
             android:id="@+id/trans_fat"
@@ -205,7 +205,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Fiber: "
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/black"
             android:textSize="16sp"/>
         <TextView
             android:id="@+id/fiber"
@@ -225,7 +225,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Sugars: "
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/black"
             android:textSize="16sp"/>
         <TextView
             android:id="@+id/sugar"

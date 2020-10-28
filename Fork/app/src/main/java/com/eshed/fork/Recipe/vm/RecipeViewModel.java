@@ -140,7 +140,7 @@ public class RecipeViewModel {
         recipeComponents.add(new HeaderViewModel("Tags"));
         for (int i = 0; i < recipe.getTags().size(); i++) {
             String tag = recipe.getTags().get(i);
-            recipeComponents.add(new TagViewModel(tag));
+            recipeComponents.add(new TagViewModel(tag, isEditable));
         }
         recipeComponents.add(new CancelFooterViewModel((isEditable)));
         if (nutrients != null) {
