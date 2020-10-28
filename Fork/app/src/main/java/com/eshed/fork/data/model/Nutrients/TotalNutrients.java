@@ -44,6 +44,14 @@ public class TotalNutrients {
         return fAT;
     }
 
+    public TransFat getFATRN() {
+        return fATRN;
+    }
+
+    public SaturatedFat getFASAT() {
+        return fASAT;
+    }
+
     public Carbohydrates getCHOCDF() {
         return cHOCDF;
     }

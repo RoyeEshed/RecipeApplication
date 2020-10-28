@@ -42,6 +42,8 @@ public class RecipeViewModel {
     private List<RecipeComponentViewModel> recipeComponents;
     private Boolean isEditable = false;
     private TotalNutrients nutrients;
+    private Double servings;
+    private int calories;
     private Disposable disposable;
 
     public Listener listener;
@@ -63,7 +65,9 @@ public class RecipeViewModel {
                             .enqueue(new Callback<NutritionalAnalysisResponse>() {
                                 @Override
                                 public void onResponse(Call<NutritionalAnalysisResponse> call, Response<NutritionalAnalysisResponse> response) {
+                                    calories = response.body().getCalories();
                                     nutrients = response.body().getTotalNutrients();
+                                    servings = response.body().getYield();
                                     regenerateComponents();
 
                                     if (listener != null) {
@@ -141,7 +145,7 @@ public class RecipeViewModel {
         recipeComponents.add(new CancelFooterViewModel((isEditable)));
         if (nutrients != null) {
             recipeComponents.add(new HeaderViewModel("Nutrition Information"));
-            recipeComponents.add(new NutritionViewModel(200, nutrients));
+            recipeComponents.add(new NutritionViewModel(calories, nutrients, servings));
         }
     }
 }
