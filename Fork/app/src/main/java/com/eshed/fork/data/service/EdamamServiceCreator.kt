@@ -35,25 +35,4 @@ object EdamamServiceCreator {
 
         return retrofit.create(EdamamService::class.java)
     }
-
-//    init {
-//        val moshi = Moshi.Builder()
-//            .add(KotlinJsonAdapterFactory())
-//            .build()
-//        val jsonAdapter =
-//            moshi.adapter(Recipe::class.java)
-//        val json = jsonAdapter.toJson(recipe)
-//        Log.d("TAG", "NutritionViewModel: \n$json")
-//    }
-
-//    private var retrofit: Retrofit? = null
-//    fun getClient(baseUrl: String?): Retrofit? {
-//        if (retrofit == null) {
-//            retrofit = Retrofit.Builder()
-//                .baseUrl(baseUrl)
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build()
-//        }
-//        return retrofit
-//    }
 }
