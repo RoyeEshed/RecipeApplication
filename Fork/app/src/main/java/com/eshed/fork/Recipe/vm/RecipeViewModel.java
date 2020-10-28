@@ -1,6 +1,11 @@
 package com.eshed.fork.Recipe.vm;
 
 import com.eshed.fork.R;
+import com.eshed.fork.Recipe.vm.component.NutritionViewModel;
+import com.eshed.fork.data.RecipeRepository;
+import com.eshed.fork.data.model.Nutrients.TotalNutrients;
+import com.eshed.fork.data.model.NutritionalAnalysisResponse;
+import com.eshed.fork.data.model.NutritionalAnalysisRequest;
 import com.eshed.fork.Recipe.vm.component.ContributorViewModel;
 import com.eshed.fork.Recipe.vm.component.DirectionViewModel;
 import com.eshed.fork.Recipe.vm.component.Footer.CancelFooterViewModel;
@@ -9,17 +14,20 @@ import com.eshed.fork.Recipe.vm.component.Footer.IngredientFooterViewModel;
 import com.eshed.fork.Recipe.vm.component.HeaderViewModel;
 import com.eshed.fork.Recipe.vm.component.ImageViewModel;
 import com.eshed.fork.Recipe.vm.component.IngredientViewModel;
-import com.eshed.fork.Recipe.vm.component.RecipeComponentIsEditable;
 import com.eshed.fork.Recipe.vm.component.RecipeComponentViewModel;
 import com.eshed.fork.Recipe.vm.component.TagViewModel;
-import com.eshed.fork.data.DebugRecipeRepository;
-import com.eshed.fork.data.RecipeRepository;
 import com.eshed.fork.data.model.Direction;
 import com.eshed.fork.data.model.Ingredient;
 import com.eshed.fork.data.model.Recipe;
+import com.eshed.fork.data.service.EdamamService;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.rxjava3.disposables.Disposable;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RecipeViewModel {
 
@@ -30,8 +38,49 @@ public class RecipeViewModel {
     private Recipe recipe;
     private List<RecipeComponentViewModel> recipeComponents;
     private Boolean isEditable = false;
+    private TotalNutrients nutrients;
+    private Double servings;
+    private int calories;
+    private Disposable disposable;
 
     public Listener listener;
+
+    public RecipeViewModel(
+            RecipeRepository recipeRepository,
+            EdamamService edamamService,
+            int recipeID
+    ) {
+        disposable = recipeRepository
+                .getRecipeWithID(recipeID)
+                .subscribe(recipe -> {
+                    // TODO: handle async.
+                    this.recipe = recipe;
+
+                    NutritionalAnalysisRequest request = NutritionalAnalysisRequest.fromRecipe(recipe);
+                    edamamService
+                            .getNutritionAnalysis(request)
+                            .enqueue(new Callback<NutritionalAnalysisResponse>() {
+                                @Override
+                                public void onResponse(Call<NutritionalAnalysisResponse> call, Response<NutritionalAnalysisResponse> response) {
+                                    calories = response.body().getCalories();
+                                    nutrients = response.body().getTotalNutrients();
+                                    servings = response.body().getYield();
+                                    regenerateComponents();
+
+                                    if (listener != null) {
+                                        listener.onDataChanged();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<NutritionalAnalysisResponse> call, Throwable t) {
+
+                                }
+                            });
+                });
+
+        regenerateComponents();
+    }
 
     public RecipeViewModel(Recipe recipe) {
         this.recipe = recipe;
@@ -88,9 +137,13 @@ public class RecipeViewModel {
         recipeComponents.add(new HeaderViewModel("Tags"));
         for (int i = 0; i < recipe.getTags().size(); i++) {
             String tag = recipe.getTags().get(i);
-            recipeComponents.add(new TagViewModel(tag));
+            recipeComponents.add(new TagViewModel(tag, isEditable));
         }
         recipeComponents.add(new CancelFooterViewModel((isEditable)));
+        if (nutrients != null) {
+            recipeComponents.add(new HeaderViewModel("Nutrition Information"));
+            recipeComponents.add(new NutritionViewModel(calories, nutrients, servings));
+        }
     }
 }
 

@@ -4,8 +4,9 @@ public class TagViewModel implements RecipeComponentViewModel, RecipeComponentIs
     public String tag;
     public boolean isEditable;
 
-    public TagViewModel(String tag) {
+    public TagViewModel(String tag, boolean isEditable) {
         this.tag = tag;
+        this.isEditable = isEditable;
     }
 
     public void changeTags(String tag) {

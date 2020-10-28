@@ -3,19 +3,27 @@ package com.eshed.fork.data
 import com.eshed.fork.data.model.Direction
 import com.eshed.fork.data.model.Ingredient
 import com.eshed.fork.data.model.Recipe
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.subjects.BehaviorSubject
 
 class DebugRecipeRepository : RecipeRepository {
-    override fun getRecipes(): List<Recipe> {
-        return Companion.recipes
+
+    private val recipeRelay: BehaviorSubject<List<Recipe>>
+            = BehaviorSubject.createDefault(listOf())
+
+    override fun getRecipes(): Observable<List<Recipe>> {
+        recipeRelay.onNext(Companion.recipes)
+        return recipeRelay
     }
 
-    override fun getRecipeWithID(recipeID: Int): Recipe? {
-        for (recipe in recipes) {
+    override fun getRecipeWithID(recipeID: Int): Single<Recipe?> {
+        for (recipe in Companion.recipes) {
             if (recipe.recipeID == recipeID) {
-                return recipe.copy()
+                return Single.just(recipe.copy())
             }
         }
-        return null
+        return Single.just(null)
     }
 
     override fun createNewRecipeFromRecipe(recipe: Recipe, newName: String): Recipe {
@@ -34,13 +42,15 @@ class DebugRecipeRepository : RecipeRepository {
     }
 
     override fun saveRecipe(recipe: Recipe) {
-        Companion.recipes.add(recipe);
+        Companion.recipes.add(recipe)
+        recipeRelay.onNext(Companion.recipes)
     }
 
     companion object {
         @JvmStatic
         val instance = DebugRecipeRepository()
 
+        @JvmStatic
         private val recipes: MutableList<Recipe> = mutableListOf(
             Recipe(
                 1,

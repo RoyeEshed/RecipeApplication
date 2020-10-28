@@ -33,7 +33,6 @@ public class IngredientViewHolder extends RecipeViewHolder {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                Log.d("TAG", "ingredient amount afterTextChanged: CALLED");
                 ingredientViewModel.changeAmount(amount.getText().toString());
             }
         });
@@ -49,7 +48,6 @@ public class IngredientViewHolder extends RecipeViewHolder {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                Log.d("TAG", "ingredient text afterTextChanged: CALLED");
                 ingredientViewModel.changeIngredientName(ingredientText.getText().toString());
             }
         });

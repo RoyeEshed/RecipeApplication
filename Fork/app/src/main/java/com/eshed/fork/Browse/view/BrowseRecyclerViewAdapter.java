@@ -1,6 +1,5 @@
 package com.eshed.fork.Browse.view;
 
-import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,26 +9,32 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.eshed.fork.Browse.vm.BrowseViewModel;
-import com.eshed.fork.Recipe.view.RecipeRecyclerViewAdapter;
-import com.eshed.fork.Recipe.vm.RecipeViewModel;
+import com.eshed.fork.Browse.vm.RecipeCardViewModel;
 import com.eshed.fork.R;
+
+import java.util.List;
+
+import io.reactivex.rxjava3.disposables.Disposable;
 
 public class BrowseRecyclerViewAdapter extends RecyclerView.Adapter implements RecipeViewHolder.RecipeCardCallback {
 
     public interface BrowseAdapterHandler {
-        void selectRecipeCard(RecipeViewModel vm);
+        void selectRecipeCard(RecipeCardViewModel vm);
     }
-    private final Context context;
-    private BrowseViewModel vm;
-    public BrowseAdapterHandler handler;
 
-    public BrowseRecyclerViewAdapter(Context context, BrowseViewModel vm) {
-        this.context = context;
-        this.vm = vm;
+    public BrowseAdapterHandler handler;
+    private List<RecipeCardViewModel> recipeCardVms;
+    private Disposable disposable;
+
+    public BrowseRecyclerViewAdapter(BrowseViewModel vm) {
+        disposable = vm.getRecipeList().subscribe(recipeCardViewModels -> {
+            this.recipeCardVms = recipeCardViewModels;
+            this.notifyDataSetChanged();
+        });
     }
 
     @Override
-    public void cardTappedOn(RecipeViewModel vm) {
+    public void cardTappedOn(RecipeCardViewModel vm) {
         if (vm == null) {
             Log.d("RecyclerViewAdapter", "cardTappedOn --> vm is null");
         }
@@ -47,11 +52,11 @@ public class BrowseRecyclerViewAdapter extends RecyclerView.Adapter implements R
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        ((RecipeViewHolder) holder).setViewModel(vm.getRecipeList().get(position));
+        ((RecipeViewHolder) holder).setViewModel(recipeCardVms.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return vm.getRecipeList().size();
+        return recipeCardVms.size();
     }
 }
