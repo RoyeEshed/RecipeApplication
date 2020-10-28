@@ -1,6 +1,5 @@
 package com.eshed.fork.Browse.vm;
 
-import com.eshed.fork.Recipe.vm.RecipeViewModel;
 import com.eshed.fork.data.DebugRecipeRepository;
 import com.eshed.fork.data.model.Recipe;
 import com.eshed.fork.data.RecipeRepository;
@@ -8,18 +7,19 @@ import com.eshed.fork.data.RecipeRepository;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Observable;
+
 public class BrowseViewModel {
-    private List<RecipeViewModel> recipeList = new ArrayList<>();
+    private List<RecipeCardViewModel> recipeList = new ArrayList<>();
     private RecipeRepository recipeRepository = DebugRecipeRepository.getInstance();
 
-    public BrowseViewModel() {
-        List<Recipe> recipes = recipeRepository.getRecipes();
-        for (Recipe recipe: recipes) {
-            recipeList.add(new RecipeViewModel(recipe));
-        }
-    }
-
-    public List<RecipeViewModel> getRecipeList() {
-        return recipeList;
+    public Observable<List<RecipeCardViewModel>> getRecipeList() {
+        return recipeRepository.getRecipes().map(recipes -> {
+            List<RecipeCardViewModel> recipesList = new ArrayList<>();
+            for (Recipe r: recipes) {
+                recipesList.add(new RecipeCardViewModel(r));
+            }
+            return recipesList;
+        });
     }
 }

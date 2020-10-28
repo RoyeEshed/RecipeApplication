@@ -36,7 +36,6 @@ public class DirectionViewHolder extends RecipeViewHolder {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                Log.d("TAG", "ingredient text afterTextChanged: CALLED");
                 directionViewModel.changeDirectionText(directionText.getText().toString());
             }
         });

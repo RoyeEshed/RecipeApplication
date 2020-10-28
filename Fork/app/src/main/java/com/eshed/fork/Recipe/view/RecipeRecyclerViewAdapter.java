@@ -16,6 +16,7 @@ import com.eshed.fork.Recipe.view.ViewHolders.HeaderViewHolder;
 import com.eshed.fork.Recipe.view.ViewHolders.ImageViewHolder;
 import com.eshed.fork.Recipe.view.ViewHolders.IngredientFooterViewHolder;
 import com.eshed.fork.Recipe.view.ViewHolders.IngredientViewHolder;
+import com.eshed.fork.Recipe.view.ViewHolders.NutritionViewHolder;
 import com.eshed.fork.Recipe.view.ViewHolders.RecipeViewHolder;
 import com.eshed.fork.Recipe.view.ViewHolders.TagsViewHolder;
 import com.eshed.fork.Recipe.vm.RecipeViewModel;
@@ -85,6 +86,9 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeViewHo
                 CancelFooterViewHolder cancelFooterViewHolder = new CancelFooterViewHolder(view);
                 cancelFooterViewHolder.callback = this;
                 return cancelFooterViewHolder;
+            case Nutrition:
+                view = inflater.inflate(R.layout.item_nutrition, parent, false);
+                return new NutritionViewHolder(view);
             default:
                 throw new RuntimeException("Invalid viewType: " + viewType);
         }

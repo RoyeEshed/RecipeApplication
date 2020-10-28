@@ -3,16 +3,10 @@ package com.eshed.fork.Recipe.view;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,17 +22,8 @@ import com.eshed.fork.Recipe.view.Dialogs.NewRecipeDialogFragment;
 import com.eshed.fork.Recipe.view.Dialogs.NewRecipeDialogFragment.NewRecipeDialogListener;
 import com.eshed.fork.Recipe.view.RecipeRecyclerViewAdapter.RecipeAdapterHandler;
 import com.eshed.fork.Recipe.vm.RecipeViewModel;
-import com.eshed.fork.Recipe.vm.component.RecipeComponentViewModel;
-import com.eshed.fork.Settings.SettingsActivity;
 import com.eshed.fork.Util.Util;
 import com.eshed.fork.data.DebugRecipeRepository;
-import com.eshed.fork.data.model.Direction;
-import com.eshed.fork.data.model.Ingredient;
-import com.eshed.fork.data.model.Recipe;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import static android.widget.LinearLayout.*;
 

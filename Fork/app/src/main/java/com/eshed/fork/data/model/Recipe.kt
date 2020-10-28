@@ -1,5 +1,8 @@
 package com.eshed.fork.data.model
 
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
 data class Recipe @JvmOverloads constructor(
     val recipeID: Int = -1,
     val name: String = "",

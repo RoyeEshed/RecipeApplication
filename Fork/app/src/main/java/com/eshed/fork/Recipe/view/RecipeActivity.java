@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +14,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.eshed.fork.Fork;
 import com.eshed.fork.Recipe.view.Dialogs.NewRecipeDialogFragment;
 import com.eshed.fork.Recipe.view.Dialogs.NewRecipeDialogFragment.NewRecipeDialogListener;
 import com.eshed.fork.Recipe.view.RecipeRecyclerViewAdapter.RecipeAdapterHandler;
@@ -29,7 +29,6 @@ import static androidx.recyclerview.widget.RecyclerView.*;
 public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHandler, NewRecipeDialogListener {
     private RecipeViewModel originalViewModel;
     private RecipeViewModel vm;
-    private Toolbar tabBar;
     private Toolbar toolbar;
     private ImageView saveButton;
     private ImageView addButton;
@@ -40,12 +39,17 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe);
+        Fork app = (Fork) getApplication();
 
         int recipeID = getIntent().getExtras().getInt("recipe");
-        Recipe recipe = DebugRecipeRepository.getInstance().getRecipeWithID(recipeID);
-        vm = new RecipeViewModel(recipe);
-        originalViewModel = vm;
 
+        vm = new RecipeViewModel(
+                app.getRepository(),
+                app.getEdamamService(),
+                recipeID
+        );
+
+        originalViewModel = vm;
         toolbar = findViewById(R.id.toolbar);
         setupToolbar();
         Util.setupTabBar(this);
@@ -64,13 +68,13 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
         addButton = toolbar.findViewById(R.id.add_recipe);
         saveButton = toolbar.findViewById(R.id.save_recipe);
 
-        title.setOnClickListener((View v)-> {
+        title.setOnClickListener((View v) -> {
             if (vm.isEditable()) {
                 showNewRecipeDialog();
             }
         });
 
-        addButton.setOnClickListener((View v)-> {
+        addButton.setOnClickListener((View v) -> {
             showNewRecipeDialog();
         });
 

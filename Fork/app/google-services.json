@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "566719821141",
+    "firebase_url": "https://recipes-766f7.firebaseio.com",
+    "project_id": "recipes-766f7",
+    "storage_bucket": "recipes-766f7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:566719821141:android:b6a5bcb4bf62023c956bdc",
+        "android_client_info": {
+          "package_name": "com.eshed.fork"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "566719821141-f6t1i0prg1vgie2nes9lpj60gudf4hjf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqO0PoA9x-8RhFt97t4ksl5elfiWv1K2c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "566719821141-f6t1i0prg1vgie2nes9lpj60gudf4hjf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
