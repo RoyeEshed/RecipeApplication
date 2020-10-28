@@ -20,19 +20,19 @@ public class NutritionViewModel implements RecipeComponentViewModel{
         this.servings = servings;
         this.totalCalories = (calories) + " kcal";
         this.caloriesPerServing = ((int) (calories / servings)) + " kcal";
-        this.carbohydrates = nutrients.getCHOCDF().getQuantity().intValue() + nutrients.getCHOCDF().getUnit();
-        this.protein = nutrients.getPROCNT().getQuantity().intValue() + nutrients.getPROCNT().getUnit();
-        this.cholesterol = nutrients.getCHOLE().getQuantity().intValue() + nutrients.getCHOLE().getUnit();
-        this.fat = nutrients.getFAT().getQuantity().intValue() + nutrients.getFAT().getUnit();
-        if (nutrients.getFATRN() != null) {
-            this.transFat = nutrients.getFATRN().getQuantity().intValue() + nutrients.getFATRN().getUnit();
+        this.carbohydrates = nutrients.getCarbohydrates().getQuantity().intValue() + nutrients.getCarbohydrates().getUnit();
+        this.protein = nutrients.getProtein().getQuantity().intValue() + nutrients.getProtein().getUnit();
+        this.cholesterol = nutrients.getCholesterol().getQuantity().intValue() + nutrients.getCholesterol().getUnit();
+        this.fat = nutrients.getFat().getQuantity().intValue() + nutrients.getFat().getUnit();
+        if (nutrients.getTransFat() != null) {
+            this.transFat = nutrients.getTransFat().getQuantity().intValue() + nutrients.getTransFat().getUnit();
         } else {
             this.transFat = "--";
         }
-        this.saturatedFat = nutrients.getFASAT().getQuantity().intValue() + nutrients.getFASAT().getUnit();
-        this.sugar = nutrients.getSUGAR().getQuantity().intValue() + nutrients.getSUGAR().getUnit();
-        this.fiber = nutrients.getFIBTG().getQuantity().intValue() + nutrients.getFIBTG().getUnit();
-        this.sodium = nutrients.getNA().getQuantity().intValue() + nutrients.getNA().getUnit();
+        this.saturatedFat = nutrients.getSaturatedFat().getQuantity().intValue() + nutrients.getSaturatedFat().getUnit();
+        this.sugar = nutrients.getSugar().getQuantity().intValue() + nutrients.getSugar().getUnit();
+        this.fiber = nutrients.getFiber().getQuantity().intValue() + nutrients.getFiber().getUnit();
+        this.sodium = nutrients.getSodium().getQuantity().intValue() + nutrients.getSodium().getUnit();
     }
 
     public String getTotalCalories() {

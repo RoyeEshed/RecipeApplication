@@ -1,14 +1,10 @@
 package com.eshed.fork.data.service
 
-import android.util.Log
-import com.eshed.fork.data.model.NutritionalAnalysisRequest
-import com.eshed.fork.data.model.Recipe
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.*
 import java.util.concurrent.TimeUnit
 
 object EdamamServiceCreator {

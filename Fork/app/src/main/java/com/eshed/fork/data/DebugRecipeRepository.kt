@@ -1,19 +1,11 @@
 package com.eshed.fork.data
 
-import android.util.Log
-import com.eshed.fork.data.service.EdamamService
-import com.eshed.fork.data.service.EdamamServiceCreator
-import com.eshed.fork.data.model.NutritionalAnalysisResponse
-import com.eshed.fork.data.model.NutritionalAnalysisRequest
 import com.eshed.fork.data.model.Direction
 import com.eshed.fork.data.model.Ingredient
 import com.eshed.fork.data.model.Recipe
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.subjects.BehaviorSubject
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class DebugRecipeRepository : RecipeRepository {
 
@@ -49,33 +41,10 @@ class DebugRecipeRepository : RecipeRepository {
         )
     }
 
-    private fun sendPost(req: NutritionalAnalysisRequest, api: EdamamService) {
-        api.getNutritionAnalysis(req).enqueue(object : Callback<NutritionalAnalysisResponse> {
-            override fun onResponse(
-                call: Call<NutritionalAnalysisResponse>,
-                response: Response<NutritionalAnalysisResponse>
-            ) {
-                if (response.isSuccessful) {
-                    //showResponse(response.body().toString());
-                    Log.d("TAG", "post submitted to API.")
-                }
-            }
-
-            override fun onFailure(
-                call: Call<NutritionalAnalysisResponse>,
-                t: Throwable
-            ) {
-                Log.d("TAG", "Unable to submit post to API.")
-            }
-        })
-    }
-
     override fun saveRecipe(recipe: Recipe) {
         Companion.recipes.add(recipe)
         recipeRelay.onNext(Companion.recipes)
     }
-
-
 
     companion object {
         @JvmStatic

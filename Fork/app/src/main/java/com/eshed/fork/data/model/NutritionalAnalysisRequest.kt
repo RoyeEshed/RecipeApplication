@@ -10,7 +10,8 @@ data class NutritionalAnalysisRequest(
 ) {
     companion object {
         @JvmStatic
-        fun fromRecipe(recipe: Recipe) = NutritionalAnalysisRequest(
+        fun fromRecipe(recipe: Recipe) =
+            NutritionalAnalysisRequest(
                 title = recipe.name,
                 ingredients = recipe.ingredients.map {
                     "${it.amount} ${it.ingredientName}"
@@ -18,6 +19,6 @@ data class NutritionalAnalysisRequest(
                 directions = recipe.directions.joinToString(" ") {
                     it.directionText
                 }
-        )
+            )
     }
 }

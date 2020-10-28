@@ -1,10 +1,7 @@
 package com.eshed.fork.Recipe.vm;
 
-import android.util.Log;
-
 import com.eshed.fork.R;
 import com.eshed.fork.Recipe.vm.component.NutritionViewModel;
-import com.eshed.fork.data.DebugRecipeRepository;
 import com.eshed.fork.data.RecipeRepository;
 import com.eshed.fork.data.model.Nutrients.TotalNutrients;
 import com.eshed.fork.data.model.NutritionalAnalysisResponse;

@@ -23,8 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Total Calories: "
-            android:textStyle="bold"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/black"
             android:textSize="16sp"/>
         <TextView
             android:id="@+id/calories_total"
@@ -38,8 +37,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginStart="12dp">
+            android:orientation="horizontal">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -58,9 +56,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginStart="12dp"
-        android:layout_marginBottom="8dp">
+        android:orientation="horizontal">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -84,8 +80,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Fat: "
-            android:textStyle="bold"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/black"
             android:textSize="16sp"/>
         <TextView
             android:id="@+id/fat"
@@ -98,8 +93,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginStart="12dp">
+        android:orientation="horizontal">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -117,9 +111,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginStart="12dp"
-        android:layout_marginBottom="8dp">
+        android:orientation="horizontal">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -138,14 +130,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="8dp">
+        android:orientation="horizontal">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cholesterol: "
-            android:textStyle="bold"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/black"
             android:textSize="16sp"/>
         <TextView
             android:id="@+id/cholesterol"
@@ -159,14 +149,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="8dp">
+        android:orientation="horizontal">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Sodium: "
-            android:textStyle="bold"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/black"
             android:textSize="16sp"/>
         <TextView
             android:id="@+id/sodium"
@@ -185,8 +173,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Carbohydrates: "
-            android:textStyle="bold"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/black"
             android:textSize="16sp"/>
         <TextView
             android:id="@+id/carbs"
@@ -199,8 +186,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginStart="12dp">
+        android:orientation="horizontal">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -218,9 +204,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginStart="12dp"
-        android:layout_marginBottom="8dp">
+        android:orientation="horizontal">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -243,16 +227,33 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Protein: "
-            android:textStyle="bold"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/black"
             android:textSize="16sp"/>
         <TextView
-            android:id="@+id/protein"
+            android:id="@+id/vitamins"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="100"
             android:textColor="@color/black"
             android:textSize="16sp"/>
     </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vitamins: "
+                android:textColor="@color/black"
+                android:textSize="16sp"/>
+            <TextView
+                android:id="@+id/protein"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" "
+                android:textColor="@color/black"
+                android:textSize="16sp"/>
+        </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

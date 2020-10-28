@@ -1,7 +1,6 @@
 package com.eshed.fork.data;
 
 import com.eshed.fork.data.model.Recipe;
-import com.eshed.fork.data.model.NutritionalAnalysisRequest;
 
 import java.util.List;
 

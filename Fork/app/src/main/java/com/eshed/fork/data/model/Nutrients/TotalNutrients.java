@@ -7,72 +7,72 @@ public class TotalNutrients {
 
     @SerializedName("ENERC_KCAL")
     @Expose
-    private Energy eNERCKCAL;
+    private Energy energy;
     @SerializedName("FAT")
     @Expose
-    private Fat fAT;
+    private Fat fat;
     @SerializedName("FASAT")
     @Expose
-    private SaturatedFat fASAT;
+    private SaturatedFat saturatedFat;
     @SerializedName("FATRN")
     @Expose
-    private TransFat fATRN;
+    private TransFat transFat;
     @SerializedName("CHOCDF")
     @Expose
-    private Carbohydrates cHOCDF;
+    private Carbohydrates carbohydrates;
     @SerializedName("FIBTG")
     @Expose
-    private Fiber fIBTG;
+    private Fiber fiber;
     @SerializedName("SUGAR")
     @Expose
-    private Sugar sUGAR;
+    private Sugar sugar;
     @SerializedName("PROCNT")
     @Expose
-    private Protein pROCNT;
+    private Protein protein;
     @SerializedName("CHOLE")
     @Expose
-    private Cholesterol cHOLE;
+    private Cholesterol cholesterol;
     @SerializedName("NA")
     @Expose
-    private Sodium nA;
+    private Sodium sodium;
 
-    public Energy getENERCKCAL() {
-        return eNERCKCAL;
+    public Energy getEnergy() {
+        return energy;
     }
 
-    public Fat getFAT() {
-        return fAT;
+    public Fat getFat() {
+        return fat;
     }
 
-    public TransFat getFATRN() {
-        return fATRN;
+    public TransFat getTransFat() {
+        return transFat;
     }
 
-    public SaturatedFat getFASAT() {
-        return fASAT;
+    public SaturatedFat getSaturatedFat() {
+        return saturatedFat;
     }
 
-    public Carbohydrates getCHOCDF() {
-        return cHOCDF;
+    public Carbohydrates getCarbohydrates() {
+        return carbohydrates;
     }
 
-    public Fiber getFIBTG() {
-        return fIBTG;
+    public Fiber getFiber() {
+        return fiber;
     }
 
-    public Sugar getSUGAR() {
-        return sUGAR;
+    public Sugar getSugar() {
+        return sugar;
     }
 
-    public Protein getPROCNT() {
-        return pROCNT;
+    public Protein getProtein() {
+        return protein;
     }
 
-    public Cholesterol getCHOLE() {
-        return cHOLE;
+    public Cholesterol getCholesterol() {
+        return cholesterol;
     }
 
-    public Sodium getNA() {
-        return nA;
+    public Sodium getSodium() {
+        return sodium;
     }
 }
