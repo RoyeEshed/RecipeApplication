@@ -35,11 +35,11 @@ public class NutritionViewModel implements RecipeComponentViewModel{
         this.sodium = nutrients.getNA().getQuantity().intValue() + nutrients.getNA().getUnit();
     }
 
-    public int getTotalCalories() {
+    public String getTotalCalories() {
         return totalCalories;
     }
 
-    public int getCaloriesPerServing() {
+    public String getCaloriesPerServing() {
         return caloriesPerServing;
     }
 
