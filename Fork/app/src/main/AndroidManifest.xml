@@ -10,7 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppThemeNoActionBar">
-        <activity android:name=".Browse.view.BrowseActivity">
+        <activity android:name=".Browse.view.BrowseActivity"
+            android:icon="@drawable/ic_log_out">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,7 +20,7 @@
         </activity>
         <activity android:name=".Recipe.view.RecipeActivity"/>
         <activity android:name=".Recipe.view.NewRecipeActivity"/>
-        <activity android:name=".Settings.SettingsActivity"/>
+        <activity android:name=".Settings.view.SettingsActivity"/>
 
         <meta-data
             android:name="preloaded_fonts"

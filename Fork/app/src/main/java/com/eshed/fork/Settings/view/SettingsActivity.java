@@ -1,4 +1,4 @@
-package com.eshed.fork.Settings;
+package com.eshed.fork.Settings.view;
 
 import android.content.Intent;
 import android.os.Bundle;

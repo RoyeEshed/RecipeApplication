@@ -74,7 +74,8 @@ public class NewRecipeActivity extends AppCompatActivity implements RecipeAdapte
             this.finish();
         });
         saveButton.setOnClickListener((View v) -> {
-            Toast.makeText(this, "TODO: save recipe", Toast.LENGTH_SHORT).show();
+            DebugRecipeRepository.getInstance().saveRecipe(vm.getRecipe());
+            this.finish();
         });
     }
 

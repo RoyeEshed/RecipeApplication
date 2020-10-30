@@ -12,7 +12,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.eshed.fork.Browse.view.BrowseActivity;
 import com.eshed.fork.R;
 import com.eshed.fork.Recipe.view.NewRecipeActivity;
-import com.eshed.fork.Settings.SettingsActivity;
+import com.eshed.fork.Settings.view.SettingsActivity;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -53,14 +53,14 @@ public class Util {
 
         ImageView backButton = toolbar.findViewById(R.id.back_arrow);
         ImageView addButton = toolbar.findViewById(R.id.add_recipe);
-        TextView logout = toolbar.findViewById(R.id.log_out);
+        //TextView logout = toolbar.findViewById(R.id.log_out);
 
         backButton.setVisibility(GONE);
-        logout.setVisibility(VISIBLE);
-        logout.setOnClickListener((View v)-> {
-            Toast.makeText(activity, "TODO: logout", Toast.LENGTH_SHORT).show();
-
-        });
+//        logout.setVisibility(VISIBLE);
+//        logout.setOnClickListener((View v)-> {
+//            Toast.makeText(activity, "TODO: logout", Toast.LENGTH_SHORT).show();
+//
+//        });
         addButton.setOnClickListener((View v)-> {
             Intent intent = new Intent(activity, NewRecipeActivity.class);
             activity.startActivity(intent);
