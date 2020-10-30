@@ -7,7 +7,7 @@
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/search_toolbar"
+        layout="@layout/toolbar_search"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -18,7 +18,6 @@
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="10dp"
         app:layout_constraintBottom_toTopOf="@+id/tab_bar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

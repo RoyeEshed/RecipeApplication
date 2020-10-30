@@ -1,9 +1,9 @@
-package com.eshed.fork.data.model.Nutrients;
+package com.eshed.fork.Data.model.Nutrients;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Carbohydrates {
+public class Protein {
 
     @SerializedName("label")
     @Expose
@@ -15,9 +15,7 @@ public class Carbohydrates {
     @Expose
     private String unit;
 
-    public String getLabel() {
-        return label;
-    }
+    public String getLabel() { return label; }
 
     public Double getQuantity() {
         return quantity;

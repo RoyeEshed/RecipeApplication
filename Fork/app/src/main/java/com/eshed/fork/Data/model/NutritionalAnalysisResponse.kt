@@ -1,6 +1,6 @@
-package com.eshed.fork.data.model
+package com.eshed.fork.Data.model
 
-import com.eshed.fork.data.model.Nutrients.TotalNutrients
+import com.eshed.fork.Data.model.Nutrients.TotalNutrients
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 

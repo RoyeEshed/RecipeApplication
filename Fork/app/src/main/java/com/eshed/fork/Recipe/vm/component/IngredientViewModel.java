@@ -1,5 +1,5 @@
 package com.eshed.fork.Recipe.vm.component;
-import com.eshed.fork.data.model.Ingredient;
+import com.eshed.fork.Data.model.Ingredient;
 
 public class IngredientViewModel implements RecipeComponentViewModel, RecipeComponentIsEditable {
     public Ingredient ingredient;

@@ -1,7 +1,7 @@
-package com.eshed.fork.data.service
+package com.eshed.fork.Data.service
 
-import com.eshed.fork.data.model.NutritionalAnalysisRequest
-import com.eshed.fork.data.model.NutritionalAnalysisResponse
+import com.eshed.fork.Data.model.NutritionalAnalysisRequest
+import com.eshed.fork.Data.model.NutritionalAnalysisResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.Headers

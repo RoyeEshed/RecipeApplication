@@ -1,4 +1,4 @@
-package com.eshed.fork.data.service
+package com.eshed.fork.Data.service
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

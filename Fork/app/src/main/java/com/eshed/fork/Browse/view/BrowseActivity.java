@@ -86,14 +86,12 @@ public class BrowseActivity extends AppCompatActivity implements BrowseRecyclerV
 
     private void setupToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
-
         setSupportActionBar(toolbar);
         if (this.getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_log_out);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
-
         TextView title = toolbar.findViewById(R.id.toolbar_title);
         title.setText("Browse");
     }

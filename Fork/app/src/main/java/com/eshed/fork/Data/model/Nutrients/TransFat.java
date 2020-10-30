@@ -1,9 +1,9 @@
-package com.eshed.fork.data.model.Nutrients;
+package com.eshed.fork.Data.model.Nutrients;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Cholesterol {
+public class TransFat {
 
     @SerializedName("label")
     @Expose
@@ -19,11 +19,24 @@ public class Cholesterol {
         return label;
     }
 
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
     public Double getQuantity() {
         return quantity;
+    }
+
+    public void setQuantity(Double quantity) {
+        this.quantity = quantity;
     }
 
     public String getUnit() {
         return unit;
     }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
 }

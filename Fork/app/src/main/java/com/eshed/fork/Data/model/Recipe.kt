@@ -1,4 +1,4 @@
-package com.eshed.fork.data.model
+package com.eshed.fork.Data.model
 
 import com.squareup.moshi.JsonClass
 

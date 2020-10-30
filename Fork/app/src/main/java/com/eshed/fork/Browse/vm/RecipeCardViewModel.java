@@ -1,7 +1,7 @@
 package com.eshed.fork.Browse.vm;
 
-import com.eshed.fork.data.model.Ingredient;
-import com.eshed.fork.data.model.Recipe;
+import com.eshed.fork.Data.model.Ingredient;
+import com.eshed.fork.Data.model.Recipe;
 
 import java.util.ArrayList;
 import java.util.List;

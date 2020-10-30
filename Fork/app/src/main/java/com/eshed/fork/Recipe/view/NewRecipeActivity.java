@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,7 +23,7 @@ import com.eshed.fork.Recipe.view.Dialogs.NewRecipeDialogFragment.NewRecipeDialo
 import com.eshed.fork.Recipe.view.RecipeRecyclerViewAdapter.RecipeAdapterHandler;
 import com.eshed.fork.Recipe.vm.RecipeViewModel;
 import com.eshed.fork.Util.Util;
-import com.eshed.fork.data.DebugRecipeRepository;
+import com.eshed.fork.Data.DebugRecipeRepository;
 
 import static android.widget.LinearLayout.GONE;
 import static android.widget.LinearLayout.VISIBLE;
@@ -51,15 +52,27 @@ public class NewRecipeActivity extends AppCompatActivity implements RecipeAdapte
         showNewRecipeDialog();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     private void setupToolbar() {
         setSupportActionBar(toolbar);
         if (this.getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
 
         title = toolbar.findViewById(R.id.toolbar_title);
         title.setText("Add New Recipe");
-        ImageView backButton = toolbar.findViewById(R.id.back_arrow);
         addButton = toolbar.findViewById(R.id.add_recipe);
         saveButton = toolbar.findViewById(R.id.save_recipe);
         addButton.setVisibility(GONE);
@@ -69,9 +82,6 @@ public class NewRecipeActivity extends AppCompatActivity implements RecipeAdapte
             if (vm.isEditable()) {
                 showNewRecipeDialog();
             }
-        });
-        backButton.setOnClickListener((View v) -> {
-            this.finish();
         });
         saveButton.setOnClickListener((View v) -> {
             DebugRecipeRepository.getInstance().saveRecipe(vm.getRecipe());
