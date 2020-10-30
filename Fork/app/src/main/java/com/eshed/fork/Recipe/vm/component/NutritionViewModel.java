@@ -1,6 +1,6 @@
 package com.eshed.fork.Recipe.vm.component;
 
-import com.eshed.fork.data.model.Nutrients.TotalNutrients;
+import com.eshed.fork.Data.model.Nutrients.TotalNutrients;
 
 public class NutritionViewModel implements RecipeComponentViewModel{
     private double servings;

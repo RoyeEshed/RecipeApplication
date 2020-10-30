@@ -1,6 +1,6 @@
-package com.eshed.fork.data;
+package com.eshed.fork.Data;
 
-import com.eshed.fork.data.model.Recipe;
+import com.eshed.fork.Data.model.Recipe;
 
 import java.util.List;
 

@@ -1,10 +1,10 @@
 package com.eshed.fork
 
 import android.app.Application
-import com.eshed.fork.data.DebugRecipeRepository.Companion.instance
-import com.eshed.fork.data.RecipeRepository
-import com.eshed.fork.data.service.EdamamService
-import com.eshed.fork.data.service.EdamamServiceCreator
+import com.eshed.fork.Data.DebugRecipeRepository.Companion.instance
+import com.eshed.fork.Data.RecipeRepository
+import com.eshed.fork.Data.service.EdamamService
+import com.eshed.fork.Data.service.EdamamServiceCreator
 
 class Fork : Application() {
     val repository: RecipeRepository = instance

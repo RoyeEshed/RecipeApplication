@@ -1,9 +1,9 @@
-package com.eshed.fork.data.model.Nutrients;
+package com.eshed.fork.Data.model.Nutrients;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Energy {
+public class Fiber {
 
     @SerializedName("label")
     @Expose

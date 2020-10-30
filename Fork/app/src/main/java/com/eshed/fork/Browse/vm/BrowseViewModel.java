@@ -1,8 +1,8 @@
 package com.eshed.fork.Browse.vm;
 
-import com.eshed.fork.data.DebugRecipeRepository;
-import com.eshed.fork.data.RecipeRepository;
-import com.eshed.fork.data.model.Recipe;
+import com.eshed.fork.Data.DebugRecipeRepository;
+import com.eshed.fork.Data.RecipeRepository;
+import com.eshed.fork.Data.model.Recipe;
 
 import java.util.ArrayList;
 import java.util.List;

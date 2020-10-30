@@ -1,8 +1,8 @@
-package com.eshed.fork.data
+package com.eshed.fork.Data
 
-import com.eshed.fork.data.model.Direction
-import com.eshed.fork.data.model.Ingredient
-import com.eshed.fork.data.model.Recipe
+import com.eshed.fork.Data.model.Direction
+import com.eshed.fork.Data.model.Ingredient
+import com.eshed.fork.Data.model.Recipe
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.subjects.BehaviorSubject

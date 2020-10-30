@@ -29,7 +29,7 @@ public class NewRecipeDialogFragment extends DialogFragment {
         activity = getActivity();
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         LayoutInflater inflater = activity.getLayoutInflater();
-        View view = inflater.inflate(R.layout.new_recipe_dialog, null);
+        View view = inflater.inflate(R.layout.dialog_new_recipe, null);
 
         recipeName = (EditText)view.findViewById(R.id.edit_recipe_name);
 

@@ -1,6 +1,6 @@
 package com.eshed.fork.Recipe.vm.component;
 
-import com.eshed.fork.data.model.Direction;
+import com.eshed.fork.Data.model.Direction;
 
 public class DirectionViewModel implements RecipeComponentViewModel, RecipeComponentIsEditable {
     public Direction direction;

@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "566719821141",
-    "firebase_url": "https://recipes-766f7.firebaseio.com",
-    "project_id": "recipes-766f7",
-    "storage_bucket": "recipes-766f7.appspot.com"
+    "project_number": "873637265903",
+    "firebase_url": "https://fork-15014.firebaseio.com",
+    "project_id": "fork-15014",
+    "storage_bucket": "fork-15014.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:566719821141:android:b6a5bcb4bf62023c956bdc",
+        "mobilesdk_app_id": "1:873637265903:android:6ff89c12e6432b1130b61a",
         "android_client_info": {
           "package_name": "com.eshed.fork"
         }
       },
       "oauth_client": [
         {
-          "client_id": "566719821141-f6t1i0prg1vgie2nes9lpj60gudf4hjf.apps.googleusercontent.com",
+          "client_id": "873637265903-n62gaqvm044fje4q8h0lsoevrb2lli0s.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAqO0PoA9x-8RhFt97t4ksl5elfiWv1K2c"
+          "current_key": "AIzaSyC86dUrhyeE8U_r9cXOaS6mMWx3VXzUeSY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "566719821141-f6t1i0prg1vgie2nes9lpj60gudf4hjf.apps.googleusercontent.com",
+              "client_id": "873637265903-n62gaqvm044fje4q8h0lsoevrb2lli0s.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
