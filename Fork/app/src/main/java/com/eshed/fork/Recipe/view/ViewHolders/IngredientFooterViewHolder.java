@@ -1,6 +1,5 @@
 package com.eshed.fork.Recipe.view.ViewHolders;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 

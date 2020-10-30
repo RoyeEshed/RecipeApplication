@@ -1,11 +1,6 @@
 package com.eshed.fork.Recipe.vm;
 
 import com.eshed.fork.R;
-import com.eshed.fork.Recipe.vm.component.NutritionViewModel;
-import com.eshed.fork.data.RecipeRepository;
-import com.eshed.fork.data.model.Nutrients.TotalNutrients;
-import com.eshed.fork.data.model.NutritionalAnalysisResponse;
-import com.eshed.fork.data.model.NutritionalAnalysisRequest;
 import com.eshed.fork.Recipe.vm.component.ContributorViewModel;
 import com.eshed.fork.Recipe.vm.component.DirectionViewModel;
 import com.eshed.fork.Recipe.vm.component.Footer.CancelFooterViewModel;
@@ -14,10 +9,15 @@ import com.eshed.fork.Recipe.vm.component.Footer.IngredientFooterViewModel;
 import com.eshed.fork.Recipe.vm.component.HeaderViewModel;
 import com.eshed.fork.Recipe.vm.component.ImageViewModel;
 import com.eshed.fork.Recipe.vm.component.IngredientViewModel;
+import com.eshed.fork.Recipe.vm.component.NutritionViewModel;
 import com.eshed.fork.Recipe.vm.component.RecipeComponentViewModel;
 import com.eshed.fork.Recipe.vm.component.TagViewModel;
+import com.eshed.fork.data.RecipeRepository;
 import com.eshed.fork.data.model.Direction;
 import com.eshed.fork.data.model.Ingredient;
+import com.eshed.fork.data.model.Nutrients.TotalNutrients;
+import com.eshed.fork.data.model.NutritionalAnalysisRequest;
+import com.eshed.fork.data.model.NutritionalAnalysisResponse;
 import com.eshed.fork.data.model.Recipe;
 import com.eshed.fork.data.service.EdamamService;
 

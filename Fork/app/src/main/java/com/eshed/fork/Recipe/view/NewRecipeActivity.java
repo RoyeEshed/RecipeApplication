@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,7 +24,8 @@ import com.eshed.fork.Recipe.vm.RecipeViewModel;
 import com.eshed.fork.Util.Util;
 import com.eshed.fork.data.DebugRecipeRepository;
 
-import static android.widget.LinearLayout.*;
+import static android.widget.LinearLayout.GONE;
+import static android.widget.LinearLayout.VISIBLE;
 
 public class NewRecipeActivity extends AppCompatActivity implements RecipeAdapterHandler, NewRecipeDialogListener {
     private Toolbar toolbar;
@@ -74,7 +74,8 @@ public class NewRecipeActivity extends AppCompatActivity implements RecipeAdapte
             this.finish();
         });
         saveButton.setOnClickListener((View v) -> {
-            Toast.makeText(this, "TODO: save recipe", Toast.LENGTH_SHORT).show();
+            DebugRecipeRepository.getInstance().saveRecipe(vm.getRecipe());
+            this.finish();
         });
     }
 

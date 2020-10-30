@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.eshed.fork.R;
 import com.eshed.fork.Recipe.view.ViewHolders.CancelFooterViewHolder;
 import com.eshed.fork.Recipe.view.ViewHolders.ContributorViewHolder;
 import com.eshed.fork.Recipe.view.ViewHolders.DirectionFooterViewHolder;
@@ -21,7 +22,6 @@ import com.eshed.fork.Recipe.view.ViewHolders.RecipeViewHolder;
 import com.eshed.fork.Recipe.view.ViewHolders.TagsViewHolder;
 import com.eshed.fork.Recipe.vm.RecipeViewModel;
 import com.eshed.fork.Recipe.vm.component.RecipeComponentViewModel;
-import com.eshed.fork.R;
 
 public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeViewHolder> implements RecipeViewModel.Listener, FooterCallback {
 
