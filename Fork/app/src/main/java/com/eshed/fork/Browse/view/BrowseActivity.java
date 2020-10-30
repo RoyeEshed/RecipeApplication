@@ -11,10 +11,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.SearchView;
 
 import com.eshed.fork.Browse.vm.BrowseViewModel;
 import com.eshed.fork.Browse.vm.RecipeCardViewModel;
@@ -101,6 +101,7 @@ public class BrowseActivity extends AppCompatActivity implements BrowseRecyclerV
     @Override
     protected void onResume() {
         super.onResume();
+        Log.d("TAG", "onResume: CALLED");
         adapter.notifyDataSetChanged();
     }
 

@@ -3,7 +3,9 @@ package com.eshed.fork.data.service
 import com.eshed.fork.data.model.NutritionalAnalysisRequest
 import com.eshed.fork.data.model.NutritionalAnalysisResponse
 import retrofit2.Call
-import retrofit2.http.*
+import retrofit2.http.Body
+import retrofit2.http.Headers
+import retrofit2.http.POST
 
 interface EdamamService {
     companion object {

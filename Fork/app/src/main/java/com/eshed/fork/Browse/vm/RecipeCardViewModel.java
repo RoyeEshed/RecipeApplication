@@ -20,12 +20,12 @@ public class RecipeCardViewModel {
     public List<String> getSearchTerms() {
         List<String> searchTerms = new ArrayList<>();
 
-        searchTerms.add(recipe.getName().toLowerCase());
+        searchTerms.add(recipe.getName().toLowerCase().trim());
         for (Ingredient i: recipe.getIngredients()) {
-            searchTerms.add(i.getIngredientName().toLowerCase());
+            searchTerms.add(i.getIngredientName().toLowerCase().trim());
         }
         for (String s: recipe.getTags()) {
-            searchTerms.add(s.toLowerCase());
+            searchTerms.add(s.toLowerCase().trim());
         }
 
         return searchTerms;

@@ -37,7 +37,6 @@ public class RecipeViewHolder extends RecyclerView.ViewHolder {
                 callback.cardTappedOn(vm);
             }
         });
-
     }
 
     public void setViewModel(RecipeCardViewModel vm) {

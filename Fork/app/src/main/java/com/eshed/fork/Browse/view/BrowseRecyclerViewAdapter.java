@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.eshed.fork.Browse.vm.BrowseViewModel;
 import com.eshed.fork.Browse.vm.RecipeCardViewModel;
 import com.eshed.fork.R;
-import com.eshed.fork.data.model.Ingredient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,13 +74,15 @@ public class BrowseRecyclerViewAdapter extends RecyclerView.Adapter implements R
         protected FilterResults performFiltering(CharSequence constraint) {
             List<RecipeCardViewModel> filteredList = new ArrayList<>();
             if (constraint == null || constraint.length() == 0 || constraint == " ") {
-                filteredList.addAll(recipeCardVms);
+                filteredList.addAll(recipeCardVmsFull);
             } else {
                 // TODO: Fix this
-                String filterPattern = constraint.toString().toLowerCase().trim();
+                String searchTerm = constraint.toString().toLowerCase().trim();
                 for (RecipeCardViewModel recipeCardVm : recipeCardVmsFull) {
-                    if (recipeCardVm.getSearchTerms().contains(filterPattern)) {
-                        filteredList.add(recipeCardVm);
+                    for (String s: recipeCardVm.getSearchTerms()) {
+                        if (s.contains(searchTerm) && !filteredList.contains(recipeCardVm)) {
+                            filteredList.add(recipeCardVm);
+                        }
                     }
                 }
             }
@@ -89,6 +90,7 @@ public class BrowseRecyclerViewAdapter extends RecyclerView.Adapter implements R
             results.values = filteredList;
             return results;
         }
+
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             recipeCardVms.clear();

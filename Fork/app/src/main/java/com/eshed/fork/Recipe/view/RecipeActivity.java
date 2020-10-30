@@ -15,16 +15,16 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.eshed.fork.Fork;
+import com.eshed.fork.R;
 import com.eshed.fork.Recipe.view.Dialogs.NewRecipeDialogFragment;
 import com.eshed.fork.Recipe.view.Dialogs.NewRecipeDialogFragment.NewRecipeDialogListener;
 import com.eshed.fork.Recipe.view.RecipeRecyclerViewAdapter.RecipeAdapterHandler;
 import com.eshed.fork.Recipe.vm.RecipeViewModel;
-import com.eshed.fork.R;
 import com.eshed.fork.Util.Util;
 import com.eshed.fork.data.DebugRecipeRepository;
 import com.eshed.fork.data.model.Recipe;
 
-import static androidx.recyclerview.widget.RecyclerView.*;
+import static androidx.recyclerview.widget.RecyclerView.OnScrollListener;
 
 public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHandler, NewRecipeDialogListener {
     private RecipeViewModel originalViewModel;

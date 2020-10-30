@@ -3,7 +3,6 @@ package com.eshed.fork.Recipe.view.ViewHolders;
 import android.annotation.SuppressLint;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
