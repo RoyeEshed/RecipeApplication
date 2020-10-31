@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
+import com.eshed.fork.view.MainActivity;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +23,7 @@ import com.eshed.fork.R;
 import com.eshed.fork.Recipe.view.NewRecipeActivity;
 import com.eshed.fork.Recipe.view.RecipeActivity;
 import com.eshed.fork.Util.Util;
+import com.eshed.fork.view.MainActivity;
 
 public class BrowseActivity extends AppCompatActivity implements BrowseRecyclerViewAdapter.BrowseAdapterHandler {
     private BrowseViewModel vm;
@@ -67,7 +69,8 @@ public class BrowseActivity extends AppCompatActivity implements BrowseRecyclerV
                 this.startActivity(intent);
                 return true;
             case android.R.id.home:
-                Toast.makeText(this, "TODO: logout", Toast.LENGTH_SHORT).show();
+                Intent intent2 = new Intent(this, MainActivity.class);
+                this.startActivity(intent2);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

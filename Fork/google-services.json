@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "873637265903",
+    "firebase_url": "https://fork-15014.firebaseio.com",
+    "project_id": "fork-15014",
+    "storage_bucket": "fork-15014.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:873637265903:android:6ff89c12e6432b1130b61a",
+        "android_client_info": {
+          "package_name": "com.eshed.fork"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "873637265903-n62gaqvm044fje4q8h0lsoevrb2lli0s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC86dUrhyeE8U_r9cXOaS6mMWx3VXzUeSY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "873637265903-n62gaqvm044fje4q8h0lsoevrb2lli0s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

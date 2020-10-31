@@ -123,16 +123,16 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
 //        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, options) {
 //            @Override
 //            public View getView(int position, View convertView, ViewGroup parent) {
-//                View view = super.getView(position, convertView, parent);
-//                view.setVisibility(View.GONE);
+//                View com.eshed.fork.view = super.getView(position, convertView, parent);
+//                com.eshed.fork.view.setVisibility(View.GONE);
 //
-//                return view;
+//                return com.eshed.fork.view;
 //            }
 //        };
 //        spinner.setAdapter(adapter);
 //        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 //            @Override
-//            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+//            public void onItemSelected(AdapterView<?> adapterView, View com.eshed.fork.view, int position, long l) {
 //                if (position == 1) {
 //                    showNewRecipeDialog();
 //                } else if (position == 2) {
