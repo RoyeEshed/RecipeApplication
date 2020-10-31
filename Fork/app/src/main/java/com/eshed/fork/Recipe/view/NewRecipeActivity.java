@@ -3,9 +3,16 @@ package com.eshed.fork.Recipe.view;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,41 +22,48 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.eshed.fork.Browse.view.BrowseActivity;
+import com.eshed.fork.R;
 import com.eshed.fork.Recipe.view.Dialogs.NewRecipeDialogFragment;
 import com.eshed.fork.Recipe.view.Dialogs.NewRecipeDialogFragment.NewRecipeDialogListener;
 import com.eshed.fork.Recipe.view.RecipeRecyclerViewAdapter.RecipeAdapterHandler;
 import com.eshed.fork.Recipe.vm.RecipeViewModel;
-import com.eshed.fork.R;
+import com.eshed.fork.Recipe.vm.component.RecipeComponentViewModel;
+import com.eshed.fork.Settings.SettingsActivity;
 import com.eshed.fork.Util.Util;
 import com.eshed.fork.data.DebugRecipeRepository;
+import com.eshed.fork.data.model.Direction;
+import com.eshed.fork.data.model.Ingredient;
 import com.eshed.fork.data.model.Recipe;
 
-import static androidx.recyclerview.widget.RecyclerView.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHandler, NewRecipeDialogListener {
-    private RecipeViewModel originalViewModel;
-    private RecipeViewModel vm;
-    private Toolbar tabBar;
+import static android.widget.LinearLayout.*;
+
+public class NewRecipeActivity extends AppCompatActivity implements RecipeAdapterHandler, NewRecipeDialogListener {
     private Toolbar toolbar;
-    private ImageView saveButton;
     private ImageView addButton;
+    private ImageView saveButton;
     private TextView title;
-    private RecipeRecyclerViewAdapter adapter;
+    private RecyclerView.Adapter adapter;
+    private RecipeViewModel vm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recipe);
 
-        int recipeID = getIntent().getExtras().getInt("recipe");
-        Recipe recipe = DebugRecipeRepository.getInstance().getRecipeWithID(recipeID);
-        vm = new RecipeViewModel(recipe);
-        originalViewModel = vm;
+        setContentView(R.layout.activity_new_recipe);
 
         toolbar = findViewById(R.id.toolbar);
         setupToolbar();
         Util.setupTabBar(this);
+
+        vm = new RecipeViewModel(DebugRecipeRepository.getInstance().createNewRecipe());
         initRecyclerView();
+        vm.toggleEditable();
+        showNewRecipeDialog();
     }
 
     private void setupToolbar() {
@@ -59,28 +73,23 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
         }
 
         title = toolbar.findViewById(R.id.toolbar_title);
-        title.setText(vm.getRecipe().getName());
+        title.setText("Add New Recipe");
         ImageView backButton = toolbar.findViewById(R.id.back_arrow);
         addButton = toolbar.findViewById(R.id.add_recipe);
         saveButton = toolbar.findViewById(R.id.save_recipe);
+        addButton.setVisibility(GONE);
+        saveButton.setVisibility(VISIBLE);
 
         title.setOnClickListener((View v)-> {
             if (vm.isEditable()) {
                 showNewRecipeDialog();
             }
         });
-
-        addButton.setOnClickListener((View v)-> {
-            showNewRecipeDialog();
-        });
-
         backButton.setOnClickListener((View v) -> {
             this.finish();
         });
-
         saveButton.setOnClickListener((View v) -> {
-            DebugRecipeRepository.getInstance().saveRecipe(vm.getRecipe());
-            toggleEditing();
+            Toast.makeText(this, "TODO: save recipe", Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -93,7 +102,7 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
         recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
         ((RecipeRecyclerViewAdapter) adapter).handler = this;
 
-        recyclerView.addOnScrollListener(new OnScrollListener() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -106,7 +115,7 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
         });
     }
 
-    private void showNewRecipeDialog() {
+    public void showNewRecipeDialog() {
         FragmentManager manager = getFragmentManager();
         Fragment frag = manager.findFragmentByTag("fragment_new_recipe");
         if (frag != null) {
@@ -114,18 +123,6 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
         }
         NewRecipeDialogFragment dialog = new NewRecipeDialogFragment();
         dialog.show(manager, "fragment_new_recipe");
-    }
-
-    private void toggleEditing() {
-        vm.toggleEditable();
-
-        if (!vm.isEditable()) {
-            addButton.setVisibility(View.VISIBLE);
-            saveButton.setVisibility(View.GONE);
-        } else {
-            addButton.setVisibility(View.GONE);
-            saveButton.setVisibility(View.VISIBLE);
-        }
     }
 
     // region RecipeAdapterHandler methods
@@ -141,13 +138,10 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
 
     @Override
     public void cancelChanges(RecipeViewModel vm) {
-        vm = originalViewModel;
-        adapter.setViewModel(vm);
-        title.setText(vm.getRecipe().getName());
-        toggleEditing();
+        Intent intent = new Intent(this, BrowseActivity.class);
+        this.finish();
+        this.startActivity(intent);
     }
-    @Override
-    public void addCommentComponent(RecipeViewModel vm) { vm.addCommentComponent(); }
     // endregion
 
     // region NewRecipeDialogFragment listener methods
@@ -156,17 +150,11 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
         title = toolbar.findViewById(R.id.toolbar_title);
         title.setText(recipeName);
 
-        Recipe recipe = DebugRecipeRepository.getInstance().createNewRecipeFromRecipe(vm.getRecipe(), recipeName);
-        vm = new RecipeViewModel(recipe);
-        adapter.setViewModel(vm);
-        toggleEditing();
+        addButton.setVisibility(View.GONE);
+        saveButton.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void onDialogNegativeClick(DialogFragment dialog) {
-        //
-    }
-
+    public void onDialogNegativeClick(DialogFragment dialog) {}
     // endregion
 }
-
