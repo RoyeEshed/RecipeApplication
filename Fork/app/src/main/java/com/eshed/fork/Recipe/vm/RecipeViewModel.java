@@ -1,5 +1,9 @@
 package com.eshed.fork.Recipe.vm;
 
+import android.util.Log;
+
+import com.eshed.fork.Data.service.NutritionalAnalysisRequest;
+import com.eshed.fork.Data.service.NutritionalAnalysisResponse;
 import com.eshed.fork.R;
 import com.eshed.fork.Recipe.vm.component.ContributorViewModel;
 import com.eshed.fork.Recipe.vm.component.DirectionViewModel;
@@ -23,6 +27,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.rxjava3.disposables.Disposable;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RecipeViewModel {
 
@@ -50,28 +57,27 @@ public class RecipeViewModel {
                 .subscribe(recipe -> {
                     // TODO: handle async.
                     this.recipe = recipe;
+                    NutritionalAnalysisRequest request = NutritionalAnalysisRequest.fromRecipe(recipe);
+                    edamamService
+                            .getNutritionAnalysis(request)
+                            .enqueue(new Callback<NutritionalAnalysisResponse>() {
+                                @Override
+                                public void onResponse(Call<NutritionalAnalysisResponse> call, Response<NutritionalAnalysisResponse> response) {
+                                    calories = response.body().getCalories();
+                                    nutrients = response.body().getTotalNutrients();
+                                    servings = response.body().getYield();
+                                    regenerateComponents();
 
-//                    NutritionalAnalysisRequest request = NutritionalAnalysisRequest.fromRecipe(recipe);
-//                    edamamService
-//                            .getNutritionAnalysis(request)
-//                            .enqueue(new Callback<NutritionalAnalysisResponse>() {
-//                                @Override
-//                                public void onResponse(Call<NutritionalAnalysisResponse> call, Response<NutritionalAnalysisResponse> response) {
-//                                    calories = response.body().getCalories();
-//                                    nutrients = response.body().getTotalNutrients();
-//                                    servings = response.body().getYield();
-//                                    regenerateComponents();
-//
-//                                    if (listener != null) {
-//                                        listener.onDataChanged();
-//                                    }
-//                                }
-//
-//                                @Override
-//                                public void onFailure(Call<NutritionalAnalysisResponse> call, Throwable t) {
-//
-//                                }
-//                            });
+                                    if (listener != null) {
+                                        listener.onDataChanged();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<NutritionalAnalysisResponse> call, Throwable t) {
+
+                                }
+                            });
                 });
 
         regenerateComponents();
@@ -115,7 +121,7 @@ public class RecipeViewModel {
 
     private void regenerateComponents() {
         recipeComponents = new ArrayList<>();
-        recipeComponents.add(new ImageViewModel(recipe.getImageURL()));
+        recipeComponents.add(new ImageViewModel(recipe.getImageURL(), isEditable));
         recipeComponents.add(new ContributorViewModel(recipe.getContributor(), isEditable));
         recipeComponents.add(new HeaderViewModel("Ingredients"));
         for (int i = 0; i < recipe.getIngredients().size(); i++) {
@@ -130,13 +136,8 @@ public class RecipeViewModel {
         }
         recipeComponents.add(new DirectionFooterViewModel(R.drawable.ic_baseline_add_circle_24, isEditable));
         recipeComponents.add(new HeaderViewModel("Tags"));
-        for (int i = 0; i < recipe.getTags().size(); i++) {
-            String tag = recipe.getTags().get(i);
-            recipeComponents.add(new TagViewModel(tag, isEditable));
-        }
-        if (recipe.getTags().size() == 0) {
-            recipeComponents.add(new TagViewModel(" ", isEditable));
-        }
+        recipeComponents.add(new TagViewModel(recipe.getTags(), isEditable));
+        Log.d("TAG", "regenerateComponents: tags: " + recipe.getTags().size());
         recipeComponents.add(new CancelFooterViewModel((isEditable)));
         if (nutrients != null) {
             recipeComponents.add(new HeaderViewModel("Nutrition Information"));

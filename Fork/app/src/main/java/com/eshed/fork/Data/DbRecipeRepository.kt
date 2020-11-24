@@ -27,40 +27,6 @@ class DbRecipeRepository() : RecipeRepository {
 
     fun load() {
         val database = FirebaseDatabase.getInstance()
-        database.getReference("/ingredients").addValueEventListener(
-            object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    Log.w("Fork", "load $dataSnapshot")
-                    ingredients.clear()
-                    for (data in dataSnapshot.children) {
-                        val ingredient = data.getValue(Ingredient::class.java)
-                        ingredients.add(ingredient!!)
-
-                    }
-                    addIngredientsToMap(ingredients);
-                }
-                override fun onCancelled(error: DatabaseError) {
-                    Log.w("Fork", "load ingredients:onCancelled", error.toException())
-                }
-            })
-
-        database.getReference("/directions").addValueEventListener(
-            object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    Log.w("Fork", "load $dataSnapshot")
-                    directions.clear()
-                    for (data in dataSnapshot.children) {
-                        val direction = data.getValue(Direction::class.java)
-//                        keys[item] = data.key
-                        directions.add(direction!!)
-                    }
-                    addDirectionsToMap(directions)
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    Log.w("Fork", "load directions:onCancelled", error.toException())
-                }
-            })
 
         database.getReference("/recipes").addValueEventListener(
             object : ValueEventListener {
@@ -69,9 +35,6 @@ class DbRecipeRepository() : RecipeRepository {
                     dataSnapshot.children
                         .map { it.getValue(Recipe::class.java)!! }
                         .let { recipeRelay.onNext(it) }
-
-                    addDirectionsToRecipes()
-                    addIngredientsToRecipes()
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -97,10 +60,10 @@ class DbRecipeRepository() : RecipeRepository {
     override fun createNewRecipe(): Recipe? {
         return Recipe(
             recipeID = (Math.random() * 1000).toInt(),
-            imageURL = "https://images.unsplash.com/photo-1517870662726-c1d98ee36250?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2700&q=80",
+            imageURL = "gs://fork-15014.appspot.com/images/e4c84136-75af-4bda-a9dc-62de473d79b6",
             ingredients = mutableListOf(),
             directions = mutableListOf(),
-            tags = mutableListOf(" ")
+            tags = mutableListOf()
         )
     }
 
@@ -122,9 +85,6 @@ class DbRecipeRepository() : RecipeRepository {
     }
 
     override fun saveRecipe(recipe: Recipe) {
-        saveIngredients(recipe)
-        saveDirections(recipe)
-
         val ref = FirebaseDatabase.getInstance().getReference("/recipes/" + recipe.recipeID)
         ref.setValue(recipe.toMap()).addOnSuccessListener {
                 Log.d("Save Recipe", "Saved recipe to database")

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingStart="20dp"
     android:paddingEnd="20dp"
@@ -14,4 +14,25 @@
         android:text="Vegetarian, Vegan, Breakfast"
         android:textColor="@color/black"
         android:textSize="18dp" />
+
+<!--    <com.nex3z.flowlayout.FlowLayout-->
+<!--        android:id="@+id/flow_layout"-->
+<!--        xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:flFlow="true"-->
+<!--        app:flChildSpacing="50dp"-->
+<!--        app:flChildSpacingForLastRow="align"-->
+<!--        app:flRowSpacing="8dp">-->
+<!--        -->
+<!--        <EditText-->
+<!--            android:id="@+id/tags_text"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:background="@drawable/rounded_corner_main_activity"-->
+<!--            android:padding="5dp"-->
+<!--            android:text="TAG"/>-->
+<!--        -->
+<!--    </com.nex3z.flowlayout.FlowLayout>-->
 </LinearLayout>

@@ -1,5 +1,6 @@
 package com.eshed.fork.Recipe.view.ViewHolders;
 
+import android.graphics.PorterDuff;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -57,6 +58,14 @@ public class IngredientViewHolder extends RecipeViewHolder {
         ingredientViewModel = (IngredientViewModel) vm;
         amount.setText(ingredientViewModel.ingredient.getAmount());
         ingredientText.setText(ingredientViewModel.ingredient.getIngredientName());
+
+        if (!ingredientViewModel.isEditable()) {
+            amount.setBackgroundTintMode(PorterDuff.Mode.CLEAR);
+            ingredientText.setBackgroundTintMode(PorterDuff.Mode.CLEAR);
+        } else {
+            amount.setBackgroundTintMode(PorterDuff.Mode.MULTIPLY);
+            ingredientText.setBackgroundTintMode(PorterDuff.Mode.MULTIPLY);
+        }
 
         amount.setEnabled(ingredientViewModel.isEditable());
         ingredientText.setEnabled(ingredientViewModel.isEditable());

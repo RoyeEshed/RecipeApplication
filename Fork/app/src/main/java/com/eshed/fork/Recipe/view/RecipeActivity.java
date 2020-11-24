@@ -1,9 +1,20 @@
 package com.eshed.fork.Recipe.view;
 
+import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.ImageDecoder;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -28,6 +40,14 @@ import com.eshed.fork.Recipe.view.RecipeRecyclerViewAdapter.RecipeAdapterHandler
 import com.eshed.fork.Recipe.vm.RecipeViewModel;
 import com.eshed.fork.Util.Util;
 import com.eshed.fork.Data.model.Recipe;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.UUID;
 
 import static androidx.recyclerview.widget.RecyclerView.OnScrollListener;
 
@@ -211,6 +231,45 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
         title.setText(vm.getRecipe().getName());
         toggleEditing();
     }
+
+    @Override
+    public void changeRecipeImage(String imageURL) {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent, 0);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
+            Uri selectedPhotoUri = data.getData();
+            try {
+                @SuppressWarnings("deprecation") Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedPhotoUri);
+                @SuppressWarnings("deprecation") Drawable drawable = new BitmapDrawable(bitmap);
+                // TODO: update image on screen
+                uploadImageToStorage(selectedPhotoUri);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void uploadImageToStorage(Uri uri) {
+        String filename = "/images/" + UUID.randomUUID().toString();
+        StorageReference ref = FirebaseStorage.getInstance().getReference(filename);
+        ref.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                ref.getDownloadUrl().addOnSuccessListener(uri1 -> {
+                    vm.getRecipe().setImageURL(uri1.toString());
+                    Log.d("TAG", "onSuccess: image url" + uri1.toString());
+                });
+            }
+        });
+    }
+
     // endregion
 
     // region NewRecipeDialogFragment listener methods

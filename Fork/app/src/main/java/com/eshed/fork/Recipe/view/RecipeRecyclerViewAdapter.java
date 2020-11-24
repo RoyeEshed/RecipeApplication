@@ -23,12 +23,15 @@ import com.eshed.fork.Recipe.view.ViewHolders.TagsViewHolder;
 import com.eshed.fork.Recipe.vm.RecipeViewModel;
 import com.eshed.fork.Recipe.vm.component.RecipeComponentViewModel;
 
-public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeViewHolder> implements RecipeViewModel.Listener, FooterCallback {
+import java.util.List;
+
+public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeViewHolder> implements RecipeViewModel.Listener, FooterCallback, RecipeImageCallback {
 
     public interface RecipeAdapterHandler {
         void addIngredientComponent(RecipeViewModel vm);
         void addDirectionComponent(RecipeViewModel vm);
         void cancelChanges(RecipeViewModel vm);
+        void changeRecipeImage(String imageURL);
     }
 
     private RecipeViewModel vm;
@@ -77,7 +80,9 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeViewHo
                 return new TagsViewHolder(view);
             case Image:
                 view = inflater.inflate(R.layout.item_image, parent, false);
-                return new ImageViewHolder(view);
+                ImageViewHolder imageViewHolder = new ImageViewHolder(view);
+                imageViewHolder.callback = this;
+                return imageViewHolder;
             case Contributor:
                 view = inflater.inflate(R.layout.item_contribution, parent, false);
                 return new ContributorViewHolder(view);
@@ -115,7 +120,7 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeViewHo
         notifyDataSetChanged();
     }
 
-    // region FooterCallback
+    // region Recipe Component Callbacks
     @Override
     public void addButtonTapped(RecipeComponentViewModel.Type type) {
         if (vm == null || handler == null) {
@@ -134,5 +139,12 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeViewHo
         handler.cancelChanges(vm);
         notifyDataSetChanged();
     }
+
+    @Override
+    public void recipeImageTapped() {
+        handler.changeRecipeImage("");
+        notifyDataSetChanged();
+    }
+
     // endregion
 }

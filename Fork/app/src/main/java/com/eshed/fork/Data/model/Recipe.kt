@@ -2,7 +2,6 @@ package com.eshed.fork.Data.model
 
 import com.google.firebase.database.Exclude
 import com.squareup.moshi.JsonClass
-import java.util.*
 
 @JsonClass(generateAdapter = true)
 data class Recipe
@@ -13,7 +12,7 @@ data class Recipe
     var contributor: String = "",
     var ingredients: MutableList<Ingredient> = mutableListOf(),
     var directions: MutableList<Direction> = mutableListOf(),
-    var tags: MutableList<String> = mutableListOf(),
+    var tags: MutableList<String> = mutableListOf<String>(),
     var parentRecipeID: Int = -1
 ) {
     fun deepCopy(
@@ -26,7 +25,7 @@ data class Recipe
             parentRecipeID = parentRecipeID,
             ingredients = ingredients.map { it.copy() }.toMutableList(),
             directions = directions.map { it.copy() }.toMutableList(),
-            tags = tags.map { String(it.toCharArray()) }.toMutableList()
+            tags = tags.map {  it.capitalize() }.toMutableList()
         )
 
     @Exclude
@@ -36,6 +35,8 @@ data class Recipe
             "name" to name,
             "imageURL" to imageURL,
             "contributor" to contributor,
+            "ingredients" to ingredients,
+            "directions" to directions,
             "tags" to tags,
             "parentRecipeID" to parentRecipeID
 
