@@ -3,7 +3,6 @@ package com.eshed.fork.Browse.vm;
 import android.util.Log;
 
 import com.eshed.fork.Data.DbRecipeRepository;
-import com.eshed.fork.Data.DebugRecipeRepository;
 import com.eshed.fork.Data.RecipeRepository;
 import com.eshed.fork.Data.model.Recipe;
 
@@ -13,7 +12,11 @@ import java.util.List;
 import io.reactivex.rxjava3.core.Observable;
 
 public class BrowseViewModel  {
-    private RecipeRepository recipeRepository = DbRecipeRepository.getInstance();
+    private RecipeRepository recipeRepository;
+
+    public BrowseViewModel() {
+        recipeRepository = DbRecipeRepository.getInstance();
+    }
 
     public Observable<List<RecipeCardViewModel>> getRecipeList() {
         return recipeRepository.retrieveRecipes().map(recipes -> {
@@ -21,8 +24,7 @@ public class BrowseViewModel  {
             for (Recipe r: recipes) {
                 recipesList.add(new RecipeCardViewModel(r));
             }
-            Log.d("BROWSER VIEW MODEL", "getRecipeList: LIST OF SIZE: " + recipesList.size());
-
+            Log.d("TAG", "getRecipeList: ***************************************************************");
             return recipesList;
         });
     }

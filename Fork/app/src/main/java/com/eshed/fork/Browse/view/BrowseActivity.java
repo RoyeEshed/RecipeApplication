@@ -10,6 +10,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
 import com.eshed.fork.Data.DbRecipeRepository;
+import com.eshed.fork.Data.RecipeRepository;
 import com.eshed.fork.Login.view.LoginActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,8 +29,6 @@ import com.eshed.fork.Util.Util;
 public class BrowseActivity extends AppCompatActivity implements BrowseRecyclerViewAdapter.BrowseAdapterHandler {
     private BrowseViewModel vm;
     private BrowseRecyclerViewAdapter adapter;
-    private DbRecipeRepository dbRecipeRepository = DbRecipeRepository.getInstance();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +36,8 @@ public class BrowseActivity extends AppCompatActivity implements BrowseRecyclerV
         setContentView(R.layout.activity_browse);
         Util.setupTabBar(this);
         setupToolbar();
+        DbRecipeRepository dbRepository = DbRecipeRepository.getInstance();
+        dbRepository.load();
         vm = new BrowseViewModel();
         initRecyclerView();
     }

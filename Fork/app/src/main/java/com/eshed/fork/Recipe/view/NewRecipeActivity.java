@@ -24,7 +24,6 @@ import com.eshed.fork.Recipe.view.Dialogs.NewRecipeDialogFragment.NewRecipeDialo
 import com.eshed.fork.Recipe.view.RecipeRecyclerViewAdapter.RecipeAdapterHandler;
 import com.eshed.fork.Recipe.vm.RecipeViewModel;
 import com.eshed.fork.Util.Util;
-import com.eshed.fork.Data.DebugRecipeRepository;
 
 import static android.widget.LinearLayout.GONE;
 import static android.widget.LinearLayout.VISIBLE;

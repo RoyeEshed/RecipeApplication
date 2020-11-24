@@ -36,7 +36,9 @@ data class Recipe
             "name" to name,
             "imageURL" to imageURL,
             "contributor" to contributor,
+            "tags" to tags,
             "parentRecipeID" to parentRecipeID
+
         )
     }
 }

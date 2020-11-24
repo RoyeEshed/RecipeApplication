@@ -3,17 +3,11 @@ package com.eshed.fork.Recipe.view;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -21,7 +15,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,11 +27,7 @@ import com.eshed.fork.Recipe.view.Dialogs.NewRecipeDialogFragment.NewRecipeDialo
 import com.eshed.fork.Recipe.view.RecipeRecyclerViewAdapter.RecipeAdapterHandler;
 import com.eshed.fork.Recipe.vm.RecipeViewModel;
 import com.eshed.fork.Util.Util;
-import com.eshed.fork.Data.DebugRecipeRepository;
 import com.eshed.fork.Data.model.Recipe;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static androidx.recyclerview.widget.RecyclerView.OnScrollListener;
 
@@ -121,7 +110,6 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
             showNewRecipeDialog();
         });
         saveButton.setOnClickListener((View v) -> {
-//            DebugRecipeRepository.getInstance().saveRecipe(vm.getRecipe());
             DbRecipeRepository.getInstance().saveRecipe(vm.getRecipe());
             toggleEditing();
         });
