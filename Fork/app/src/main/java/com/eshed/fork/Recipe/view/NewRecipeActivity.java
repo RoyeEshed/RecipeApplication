@@ -90,8 +90,6 @@ public class NewRecipeActivity extends AppCompatActivity implements RecipeAdapte
             }
         });
         saveButton.setOnClickListener((View v) -> {
-            //vm.getRecipe().s
-//            DebugRecipeRepository.getInstance().saveRecipe(vm.getRecipe());
             DbRecipeRepository.getInstance().saveRecipe(vm.getRecipe());
             this.finish();
         });
@@ -159,6 +157,8 @@ public class NewRecipeActivity extends AppCompatActivity implements RecipeAdapte
     }
 
     @Override
-    public void onDialogNegativeClick(DialogFragment dialog) {}
+    public void onDialogNegativeClick(DialogFragment dialog) {
+        this.finish();
+    }
     // endregion
 }

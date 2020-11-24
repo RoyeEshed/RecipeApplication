@@ -106,7 +106,8 @@ class DbRecipeRepository() : RecipeRepository {
     override fun createNewRecipe(): Recipe? {
         return Recipe(
             recipeID = (Math.random() * 1000).toInt(),
-            imageURL = "https://images.unsplash.com/photo-1517870662726-c1d98ee36250?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2700&q=80"
+            imageURL = "https://images.unsplash.com/photo-1517870662726-c1d98ee36250?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2700&q=80",
+            tags = mutableListOf("Add tags")
         )
     }
 
