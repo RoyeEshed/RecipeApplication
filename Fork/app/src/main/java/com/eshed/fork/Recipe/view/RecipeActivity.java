@@ -26,6 +26,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.eshed.fork.Data.DbRecipeRepository;
 import com.eshed.fork.Fork;
 import com.eshed.fork.R;
 import com.eshed.fork.Recipe.view.Dialogs.NewRecipeDialogFragment;
@@ -47,6 +48,7 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
     private Toolbar toolbar;
     private ImageView saveButton;
     private ImageView addButton;
+    private ImageView forkButton;
     private TextView title;
     private RecipeRecyclerViewAdapter adapter;
     private Spinner spinner;
@@ -54,13 +56,14 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_recipe);
         Fork app = (Fork) getApplication();
 
         int recipeID = getIntent().getExtras().getInt("recipe");
 
         vm = new RecipeViewModel(
-                app.getRepository(),
+                DbRecipeRepository.getInstance(),
                 app.getEdamamService(),
                 recipeID
         );
@@ -73,10 +76,20 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_recipe, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 this.finish();
+                return true;
+            case R.id.more_options:
+                Toast.makeText(this, "TODO: Drop-down", Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -94,6 +107,8 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
         title = toolbar.findViewById(R.id.toolbar_title);
         title.setText(vm.getRecipe().getName());
         addButton = toolbar.findViewById(R.id.add_recipe);
+        addButton.setVisibility(View.GONE);
+        forkButton = toolbar.findViewById(R.id.fork_recipe);
         saveButton = toolbar.findViewById(R.id.save_recipe);
 
 
@@ -102,11 +117,12 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
                 showNewRecipeDialog();
             }
         });
-        addButton.setOnClickListener((View v) -> {
+        forkButton.setOnClickListener((View v) -> {
             showNewRecipeDialog();
         });
         saveButton.setOnClickListener((View v) -> {
-            DebugRecipeRepository.getInstance().saveRecipe(vm.getRecipe());
+//            DebugRecipeRepository.getInstance().saveRecipe(vm.getRecipe());
+            DbRecipeRepository.getInstance().saveRecipe(vm.getRecipe());
             toggleEditing();
         });
         //initSpinner();
@@ -123,16 +139,16 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
 //        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, options) {
 //            @Override
 //            public View getView(int position, View convertView, ViewGroup parent) {
-//                View com.eshed.fork.view = super.getView(position, convertView, parent);
-//                com.eshed.fork.view.setVisibility(View.GONE);
+//                View com.eshed.fork.Login.view = super.getView(position, convertView, parent);
+//                com.eshed.fork.Login.view.setVisibility(View.GONE);
 //
-//                return com.eshed.fork.view;
+//                return com.eshed.fork.Login.view;
 //            }
 //        };
 //        spinner.setAdapter(adapter);
 //        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 //            @Override
-//            public void onItemSelected(AdapterView<?> adapterView, View com.eshed.fork.view, int position, long l) {
+//            public void onItemSelected(AdapterView<?> adapterView, View com.eshed.fork.Login.view, int position, long l) {
 //                if (position == 1) {
 //                    showNewRecipeDialog();
 //                } else if (position == 2) {
@@ -181,10 +197,10 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
     private void toggleEditing() {
         vm.toggleEditable();
         if (!vm.isEditable()) {
-            addButton.setVisibility(View.VISIBLE);
+            forkButton.setVisibility(View.VISIBLE);
             saveButton.setVisibility(View.GONE);
         } else {
-            addButton.setVisibility(View.GONE);
+            forkButton.setVisibility(View.GONE);
             saveButton.setVisibility(View.VISIBLE);
         }
     }
@@ -215,7 +231,8 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
         title = toolbar.findViewById(R.id.toolbar_title);
         title.setText(recipeName);
 
-        Recipe recipe = DebugRecipeRepository.getInstance().createNewRecipeFromRecipe(vm.getRecipe(), recipeName);
+//        Recipe recipe = DebugRecipeRepository.getInstance().createNewRecipeFromRecipe(vm.getRecipe(), recipeName);
+        Recipe recipe = DbRecipeRepository.getInstance().createNewRecipeFromRecipe(vm.getRecipe(), recipeName);
         vm = new RecipeViewModel(recipe);
         adapter.setViewModel(vm);
         toggleEditing();

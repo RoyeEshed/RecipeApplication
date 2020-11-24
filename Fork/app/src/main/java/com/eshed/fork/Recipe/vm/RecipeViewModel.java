@@ -16,8 +16,6 @@ import com.eshed.fork.Data.RecipeRepository;
 import com.eshed.fork.Data.model.Direction;
 import com.eshed.fork.Data.model.Ingredient;
 import com.eshed.fork.Data.model.Nutrients.TotalNutrients;
-import com.eshed.fork.Data.model.NutritionalAnalysisRequest;
-import com.eshed.fork.Data.model.NutritionalAnalysisResponse;
 import com.eshed.fork.Data.model.Recipe;
 import com.eshed.fork.Data.service.EdamamService;
 
@@ -25,9 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.rxjava3.disposables.Disposable;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class RecipeViewModel {
 
@@ -56,27 +51,27 @@ public class RecipeViewModel {
                     // TODO: handle async.
                     this.recipe = recipe;
 
-                    NutritionalAnalysisRequest request = NutritionalAnalysisRequest.fromRecipe(recipe);
-                    edamamService
-                            .getNutritionAnalysis(request)
-                            .enqueue(new Callback<NutritionalAnalysisResponse>() {
-                                @Override
-                                public void onResponse(Call<NutritionalAnalysisResponse> call, Response<NutritionalAnalysisResponse> response) {
-                                    calories = response.body().getCalories();
-                                    nutrients = response.body().getTotalNutrients();
-                                    servings = response.body().getYield();
-                                    regenerateComponents();
-
-                                    if (listener != null) {
-                                        listener.onDataChanged();
-                                    }
-                                }
-
-                                @Override
-                                public void onFailure(Call<NutritionalAnalysisResponse> call, Throwable t) {
-
-                                }
-                            });
+//                    NutritionalAnalysisRequest request = NutritionalAnalysisRequest.fromRecipe(recipe);
+//                    edamamService
+//                            .getNutritionAnalysis(request)
+//                            .enqueue(new Callback<NutritionalAnalysisResponse>() {
+//                                @Override
+//                                public void onResponse(Call<NutritionalAnalysisResponse> call, Response<NutritionalAnalysisResponse> response) {
+//                                    calories = response.body().getCalories();
+//                                    nutrients = response.body().getTotalNutrients();
+//                                    servings = response.body().getYield();
+//                                    regenerateComponents();
+//
+//                                    if (listener != null) {
+//                                        listener.onDataChanged();
+//                                    }
+//                                }
+//
+//                                @Override
+//                                public void onFailure(Call<NutritionalAnalysisResponse> call, Throwable t) {
+//
+//                                }
+//                            });
                 });
 
         regenerateComponents();
@@ -88,14 +83,14 @@ public class RecipeViewModel {
     }
 
     public void addIngredientComponent() {
-        recipe.getIngredients().add(new Ingredient("", ""));
+        recipe.getIngredients().add(new Ingredient("", "", recipe.getRecipeID()));
         regenerateComponents();
         listener.onDataChanged();
     }
 
     public void addDirectionComponent() {
         int directionOrdinal = recipe.getDirections().size() + 1;
-        recipe.getDirections().add(new Direction(directionOrdinal, ""));
+        recipe.getDirections().add(new Direction(directionOrdinal, "", recipe.getRecipeID()));
         regenerateComponents();
         listener.onDataChanged();
     }

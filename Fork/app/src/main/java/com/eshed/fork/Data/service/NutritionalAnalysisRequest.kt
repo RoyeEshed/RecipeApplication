@@ -1,5 +1,6 @@
-package com.eshed.fork.Data.model
+package com.eshed.fork.Data.service
 
+import com.eshed.fork.Data.model.Recipe
 import com.google.gson.annotations.SerializedName
 
 data class NutritionalAnalysisRequest(

@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.eshed.fork.Browse.view.BrowseActivity;
+import com.eshed.fork.Data.DbRecipeRepository;
 import com.eshed.fork.R;
 import com.eshed.fork.Recipe.view.Dialogs.NewRecipeDialogFragment;
 import com.eshed.fork.Recipe.view.Dialogs.NewRecipeDialogFragment.NewRecipeDialogListener;
@@ -32,6 +33,7 @@ public class NewRecipeActivity extends AppCompatActivity implements RecipeAdapte
     private Toolbar toolbar;
     private ImageView addButton;
     private ImageView saveButton;
+    private ImageView forkButton;
     private TextView title;
     private RecyclerView.Adapter adapter;
     private RecipeViewModel vm;
@@ -46,7 +48,9 @@ public class NewRecipeActivity extends AppCompatActivity implements RecipeAdapte
         setupToolbar();
         Util.setupTabBar(this);
 
-        vm = new RecipeViewModel(DebugRecipeRepository.getInstance().createNewRecipe());
+//        vm = new RecipeViewModel(DebugRecipeRepository.getInstance().createNewRecipe());
+        vm = new RecipeViewModel(DbRecipeRepository.getInstance().createNewRecipe());
+
         initRecyclerView();
         vm.toggleEditable();
         showNewRecipeDialog();
@@ -74,7 +78,9 @@ public class NewRecipeActivity extends AppCompatActivity implements RecipeAdapte
         title = toolbar.findViewById(R.id.toolbar_title);
         title.setText("Add New Recipe");
         addButton = toolbar.findViewById(R.id.add_recipe);
+        forkButton = toolbar.findViewById(R.id.fork_recipe);
         saveButton = toolbar.findViewById(R.id.save_recipe);
+        forkButton.setVisibility(GONE);
         addButton.setVisibility(GONE);
         saveButton.setVisibility(VISIBLE);
 
@@ -84,7 +90,9 @@ public class NewRecipeActivity extends AppCompatActivity implements RecipeAdapte
             }
         });
         saveButton.setOnClickListener((View v) -> {
-            DebugRecipeRepository.getInstance().saveRecipe(vm.getRecipe());
+            //vm.getRecipe().s
+//            DebugRecipeRepository.getInstance().saveRecipe(vm.getRecipe());
+            DbRecipeRepository.getInstance().saveRecipe(vm.getRecipe());
             this.finish();
         });
     }

@@ -1,4 +1,4 @@
-package com.eshed.fork.view
+package com.eshed.fork.Login.view
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -8,12 +8,12 @@ import android.widget.Toast
 import com.eshed.fork.Browse.view.BrowseActivity
 import com.eshed.fork.R
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_login.*
 
-class MainActivity : AppCompatActivity()  {
+class LoginActivity : AppCompatActivity()  {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_login)
 
 
 
