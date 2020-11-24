@@ -19,7 +19,6 @@ class DbRecipeRepository() : RecipeRepository {
         @JvmStatic val instance = DbRecipeRepository()
     }
 
-    private var recipes: MutableList<Recipe> = mutableListOf()
     private var ingredientsMap: MutableMap<Int, MutableList<Ingredient>> = HashMap()
     private var directionsMap: MutableMap<Int, MutableList<Direction>> = HashMap()
     private var ingredients: MutableList<Ingredient> = mutableListOf()
@@ -67,11 +66,10 @@ class DbRecipeRepository() : RecipeRepository {
             object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     Log.w("Fork", "load $dataSnapshot")
-                    recipes.clear()
-                    for (data in dataSnapshot.children) {
-                        val recipe = data.getValue(Recipe::class.java)
-                        recipes.add(recipe!!)
-                    }
+                    dataSnapshot.children
+                        .map { it.getValue(Recipe::class.java)!! }
+                        .let { recipeRelay.onNext(it) }
+
                     addDirectionsToRecipes()
                     addIngredientsToRecipes()
                 }
@@ -83,13 +81,12 @@ class DbRecipeRepository() : RecipeRepository {
     }
 
     override fun retrieveRecipes(): Observable<List<Recipe>> {
-        recipeRelay.onNext(recipes)
         return recipeRelay
     }
 
 
     override fun getRecipeWithID(recipeID: Int): Single<Recipe>? {
-        for (r in recipes) {
+        for (r in recipeRelay.value) {
             if (r.recipeID == recipeID) {
                 return Single.just(r)
             }
@@ -199,7 +196,7 @@ class DbRecipeRepository() : RecipeRepository {
     }
 
     fun addDirectionsToRecipes() {
-        for (r in recipes) {
+        for (r in recipeRelay.value) {
             if (directionsMap[r.recipeID] != null) {
                 r.directions = directionsMap[r.recipeID]!!
             }
@@ -207,7 +204,7 @@ class DbRecipeRepository() : RecipeRepository {
     }
 
     fun addIngredientsToRecipes() {
-        for (r in recipes) {
+        for (r in recipeRelay.value) {
             if (ingredientsMap[r.recipeID] != null) {
                 r.ingredients = ingredientsMap[r.recipeID]!!
             }

@@ -37,8 +37,8 @@ public class BrowseActivity extends AppCompatActivity implements BrowseRecyclerV
         Util.setupTabBar(this);
         setupToolbar();
         DbRecipeRepository dbRepository = DbRecipeRepository.getInstance();
-        dbRepository.load();
         vm = new BrowseViewModel();
+        dbRepository.load();
         initRecyclerView();
     }
 
