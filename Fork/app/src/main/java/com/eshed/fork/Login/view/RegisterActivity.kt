@@ -1,4 +1,4 @@
-package com.eshed.fork.view
+package com.eshed.fork.Login.view
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,8 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.eshed.fork.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main.passwordEditText
 import kotlinx.android.synthetic.main.activity_register.*
 
 class RegisterActivity: AppCompatActivity() {
@@ -42,15 +40,13 @@ class RegisterActivity: AppCompatActivity() {
                 Toast.makeText(this, "Created User Successfully", Toast.LENGTH_SHORT).show()
 
                 saveUserToFirebaseDatabase()
-                val intent = Intent(this, MainActivity::class.java)
+                val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
             }
             .addOnFailureListener {
                 Log.d("Main", "Badly formatted email, failed to create user")
-                Toast.makeText(this, "Failed to create user. ${it.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Failed to create user. ${it.message}", Toast.LENGTH_LONG).show()
             }
-
-
     }
 
     private fun saveUserToFirebaseDatabase() {

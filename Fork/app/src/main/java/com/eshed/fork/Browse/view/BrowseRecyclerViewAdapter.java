@@ -27,13 +27,13 @@ public class BrowseRecyclerViewAdapter extends RecyclerView.Adapter implements R
 
     public BrowseAdapterHandler handler;
     private List<RecipeCardViewModel> recipeCardVms;
-    private List<RecipeCardViewModel> recipeCardVmsFull;
+    private List<RecipeCardViewModel> recipeCardVmsAll;
     private Disposable disposable;
 
     public BrowseRecyclerViewAdapter(BrowseViewModel vm) {
         disposable = vm.getRecipeList().subscribe(recipeCardViewModels -> {
             this.recipeCardVms = recipeCardViewModels;
-            this.recipeCardVmsFull = new ArrayList<>(recipeCardVms);
+            this.recipeCardVmsAll = new ArrayList<>(recipeCardVms);
             this.notifyDataSetChanged();
         });
     }
@@ -69,16 +69,17 @@ public class BrowseRecyclerViewAdapter extends RecyclerView.Adapter implements R
     public Filter getFilter() {
         return browseFilter;
     }
+
     private Filter browseFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             List<RecipeCardViewModel> filteredList = new ArrayList<>();
             if (constraint == null || constraint.length() == 0 || constraint == " ") {
-                filteredList.addAll(recipeCardVmsFull);
+                filteredList.addAll(recipeCardVmsAll);
             } else {
                 // TODO: Fix this
                 String searchTerm = constraint.toString().toLowerCase().trim();
-                for (RecipeCardViewModel recipeCardVm : recipeCardVmsFull) {
+                for (RecipeCardViewModel recipeCardVm : recipeCardVmsAll) {
                     for (String s: recipeCardVm.getSearchTerms()) {
                         if (s.contains(searchTerm) && !filteredList.contains(recipeCardVm)) {
                             filteredList.add(recipeCardVm);

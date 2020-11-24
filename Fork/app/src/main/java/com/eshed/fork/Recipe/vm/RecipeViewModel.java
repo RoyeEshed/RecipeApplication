@@ -1,5 +1,9 @@
 package com.eshed.fork.Recipe.vm;
 
+import android.util.Log;
+
+import com.eshed.fork.Data.service.NutritionalAnalysisRequest;
+import com.eshed.fork.Data.service.NutritionalAnalysisResponse;
 import com.eshed.fork.R;
 import com.eshed.fork.Recipe.vm.component.ContributorViewModel;
 import com.eshed.fork.Recipe.vm.component.DirectionViewModel;
@@ -16,8 +20,6 @@ import com.eshed.fork.Data.RecipeRepository;
 import com.eshed.fork.Data.model.Direction;
 import com.eshed.fork.Data.model.Ingredient;
 import com.eshed.fork.Data.model.Nutrients.TotalNutrients;
-import com.eshed.fork.Data.model.NutritionalAnalysisRequest;
-import com.eshed.fork.Data.model.NutritionalAnalysisResponse;
 import com.eshed.fork.Data.model.Recipe;
 import com.eshed.fork.Data.service.EdamamService;
 
@@ -55,7 +57,6 @@ public class RecipeViewModel {
                 .subscribe(recipe -> {
                     // TODO: handle async.
                     this.recipe = recipe;
-
                     NutritionalAnalysisRequest request = NutritionalAnalysisRequest.fromRecipe(recipe);
                     edamamService
                             .getNutritionAnalysis(request)
@@ -88,14 +89,14 @@ public class RecipeViewModel {
     }
 
     public void addIngredientComponent() {
-        recipe.getIngredients().add(new Ingredient("", ""));
+        recipe.getIngredients().add(new Ingredient("", "", recipe.getRecipeID()));
         regenerateComponents();
         listener.onDataChanged();
     }
 
     public void addDirectionComponent() {
         int directionOrdinal = recipe.getDirections().size() + 1;
-        recipe.getDirections().add(new Direction(directionOrdinal, ""));
+        recipe.getDirections().add(new Direction(directionOrdinal, "", recipe.getRecipeID()));
         regenerateComponents();
         listener.onDataChanged();
     }
@@ -120,7 +121,7 @@ public class RecipeViewModel {
 
     private void regenerateComponents() {
         recipeComponents = new ArrayList<>();
-        recipeComponents.add(new ImageViewModel(recipe.getImageURL()));
+        recipeComponents.add(new ImageViewModel(recipe.getImageURL(), isEditable));
         recipeComponents.add(new ContributorViewModel(recipe.getContributor(), isEditable));
         recipeComponents.add(new HeaderViewModel("Ingredients"));
         for (int i = 0; i < recipe.getIngredients().size(); i++) {
@@ -135,10 +136,8 @@ public class RecipeViewModel {
         }
         recipeComponents.add(new DirectionFooterViewModel(R.drawable.ic_baseline_add_circle_24, isEditable));
         recipeComponents.add(new HeaderViewModel("Tags"));
-        for (int i = 0; i < recipe.getTags().size(); i++) {
-            String tag = recipe.getTags().get(i);
-            recipeComponents.add(new TagViewModel(tag, isEditable));
-        }
+        recipeComponents.add(new TagViewModel(recipe.getTags(), isEditable));
+        Log.d("TAG", "regenerateComponents: tags: " + recipe.getTags().size());
         recipeComponents.add(new CancelFooterViewModel((isEditable)));
         if (nutrients != null) {
             recipeComponents.add(new HeaderViewModel("Nutrition Information"));

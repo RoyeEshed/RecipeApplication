@@ -1,4 +1,4 @@
-package com.eshed.fork.Data.model
+package com.eshed.fork.Data.service
 
 import com.eshed.fork.Data.model.Nutrients.TotalNutrients
 import com.google.gson.annotations.Expose

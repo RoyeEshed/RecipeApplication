@@ -1,6 +1,7 @@
 package com.eshed.fork.Recipe.view.ViewHolders;
 
 import android.annotation.SuppressLint;
+import android.graphics.PorterDuff;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -46,6 +47,11 @@ public class DirectionViewHolder extends RecipeViewHolder {
         directionViewModel = (DirectionViewModel) vm;
         directionNumber.setText("" + directionViewModel.direction.getDirectionNumber());
         directionText.setText("" + directionViewModel.direction.getDirectionText());
+        if (!directionViewModel.isEditable()) {
+            directionText.setBackgroundTintMode(PorterDuff.Mode.CLEAR);
+        } else {
+            directionText.setBackgroundTintMode(PorterDuff.Mode.MULTIPLY);
+        }
         directionText.setEnabled(directionViewModel.isEditable());
     }
 }

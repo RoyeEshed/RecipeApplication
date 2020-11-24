@@ -1,7 +1,9 @@
 package com.eshed.fork.Recipe.view.ViewHolders;
 
+import android.graphics.PorterDuff;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -12,14 +14,14 @@ import com.eshed.fork.Recipe.vm.component.RecipeComponentViewModel;
 import com.eshed.fork.Recipe.vm.component.TagViewModel;
 
 public class TagsViewHolder extends RecipeViewHolder {
-    private EditText tags;
+    private EditText tagsText;
     private TagViewModel tagViewModel;
 
     public TagsViewHolder(@NonNull View itemView) {
         super(itemView);
-        tags = itemView.findViewById(R.id.tags_text);
+        tagsText = itemView.findViewById(R.id.tags_text);
 
-        tags.addTextChangedListener(new TextWatcher() {
+        tagsText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
@@ -30,7 +32,7 @@ public class TagsViewHolder extends RecipeViewHolder {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                tagViewModel.changeTags(tags.getText().toString());
+                tagViewModel.changeTags(tagsText.getText().toString());
             }
         });
     }
@@ -38,7 +40,20 @@ public class TagsViewHolder extends RecipeViewHolder {
     @Override
     public void bind(RecipeComponentViewModel vm) {
         tagViewModel = (TagViewModel) vm;
-        tags.setText(tagViewModel.tag);
-        tags.setEnabled(tagViewModel.isEditable());
+        String temp = "";
+        for (String s: ((TagViewModel) vm).tags) {
+            temp += s;
+            temp += ", ";
+        }
+        Log.d("TAG", "bind: tags = " + ((TagViewModel) vm).tags.size());
+
+        if (!tagViewModel.isEditable()) {
+            tagsText.setBackgroundTintMode(PorterDuff.Mode.CLEAR);
+        } else {
+            tagsText.setBackgroundTintMode(PorterDuff.Mode.MULTIPLY);
+        }
+
+        tagsText.setText(temp);
+        tagsText.setEnabled(tagViewModel.isEditable());
     }
 }

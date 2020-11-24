@@ -15,11 +15,13 @@ public class CancelFooterViewHolder extends RecipeViewHolder {
     public FooterCallback callback;
     TextView cancelButton;
     ImageView addButton;
+    TextView addHintTextView;
 
     public CancelFooterViewHolder(@NonNull View itemView) {
         super(itemView);
         cancelButton = itemView.findViewById(R.id.cancel_button);
         addButton = itemView.findViewById(R.id.add_button);
+        addHintTextView = itemView.findViewById(R.id.add_hint);
     }
 
     @Override
@@ -29,8 +31,10 @@ public class CancelFooterViewHolder extends RecipeViewHolder {
 
         if (footerViewModel.isEditable()) {
             cancelButton.setVisibility(View.VISIBLE);
+            addHintTextView.setVisibility(View.GONE);
         } else {
             cancelButton.setVisibility(View.GONE);
+            addButton.setVisibility(View.GONE);
         }
 
         cancelButton.setOnClickListener(v -> {

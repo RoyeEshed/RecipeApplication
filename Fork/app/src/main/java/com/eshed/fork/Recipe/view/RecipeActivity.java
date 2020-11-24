@@ -1,31 +1,37 @@
 package com.eshed.fork.Recipe.view;
 
+import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.ImageDecoder;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.eshed.fork.Data.DbRecipeRepository;
 import com.eshed.fork.Fork;
 import com.eshed.fork.R;
 import com.eshed.fork.Recipe.view.Dialogs.NewRecipeDialogFragment;
@@ -33,11 +39,15 @@ import com.eshed.fork.Recipe.view.Dialogs.NewRecipeDialogFragment.NewRecipeDialo
 import com.eshed.fork.Recipe.view.RecipeRecyclerViewAdapter.RecipeAdapterHandler;
 import com.eshed.fork.Recipe.vm.RecipeViewModel;
 import com.eshed.fork.Util.Util;
-import com.eshed.fork.Data.DebugRecipeRepository;
 import com.eshed.fork.Data.model.Recipe;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 import static androidx.recyclerview.widget.RecyclerView.OnScrollListener;
 
@@ -47,6 +57,7 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
     private Toolbar toolbar;
     private ImageView saveButton;
     private ImageView addButton;
+    private ImageView forkButton;
     private TextView title;
     private RecipeRecyclerViewAdapter adapter;
     private Spinner spinner;
@@ -54,13 +65,14 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_recipe);
         Fork app = (Fork) getApplication();
 
         int recipeID = getIntent().getExtras().getInt("recipe");
 
         vm = new RecipeViewModel(
-                app.getRepository(),
+                DbRecipeRepository.getInstance(),
                 app.getEdamamService(),
                 recipeID
         );
@@ -73,10 +85,20 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_recipe, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 this.finish();
+                return true;
+            case R.id.more_options:
+                Toast.makeText(this, "TODO: Drop-down", Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -94,6 +116,8 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
         title = toolbar.findViewById(R.id.toolbar_title);
         title.setText(vm.getRecipe().getName());
         addButton = toolbar.findViewById(R.id.add_recipe);
+        addButton.setVisibility(View.GONE);
+        forkButton = toolbar.findViewById(R.id.fork_recipe);
         saveButton = toolbar.findViewById(R.id.save_recipe);
 
 
@@ -102,11 +126,11 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
                 showNewRecipeDialog();
             }
         });
-        addButton.setOnClickListener((View v) -> {
+        forkButton.setOnClickListener((View v) -> {
             showNewRecipeDialog();
         });
         saveButton.setOnClickListener((View v) -> {
-            DebugRecipeRepository.getInstance().saveRecipe(vm.getRecipe());
+            DbRecipeRepository.getInstance().saveRecipe(vm.getRecipe());
             toggleEditing();
         });
         //initSpinner();
@@ -123,16 +147,16 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
 //        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, options) {
 //            @Override
 //            public View getView(int position, View convertView, ViewGroup parent) {
-//                View com.eshed.fork.view = super.getView(position, convertView, parent);
-//                com.eshed.fork.view.setVisibility(View.GONE);
+//                View com.eshed.fork.Login.view = super.getView(position, convertView, parent);
+//                com.eshed.fork.Login.view.setVisibility(View.GONE);
 //
-//                return com.eshed.fork.view;
+//                return com.eshed.fork.Login.view;
 //            }
 //        };
 //        spinner.setAdapter(adapter);
 //        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 //            @Override
-//            public void onItemSelected(AdapterView<?> adapterView, View com.eshed.fork.view, int position, long l) {
+//            public void onItemSelected(AdapterView<?> adapterView, View com.eshed.fork.Login.view, int position, long l) {
 //                if (position == 1) {
 //                    showNewRecipeDialog();
 //                } else if (position == 2) {
@@ -181,10 +205,10 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
     private void toggleEditing() {
         vm.toggleEditable();
         if (!vm.isEditable()) {
-            addButton.setVisibility(View.VISIBLE);
+            forkButton.setVisibility(View.VISIBLE);
             saveButton.setVisibility(View.GONE);
         } else {
-            addButton.setVisibility(View.GONE);
+            forkButton.setVisibility(View.GONE);
             saveButton.setVisibility(View.VISIBLE);
         }
     }
@@ -207,6 +231,45 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
         title.setText(vm.getRecipe().getName());
         toggleEditing();
     }
+
+    @Override
+    public void changeRecipeImage(String imageURL) {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent, 0);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
+            Uri selectedPhotoUri = data.getData();
+            try {
+                @SuppressWarnings("deprecation") Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedPhotoUri);
+                @SuppressWarnings("deprecation") Drawable drawable = new BitmapDrawable(bitmap);
+                // TODO: update image on screen
+                uploadImageToStorage(selectedPhotoUri);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void uploadImageToStorage(Uri uri) {
+        String filename = "/images/" + UUID.randomUUID().toString();
+        StorageReference ref = FirebaseStorage.getInstance().getReference(filename);
+        ref.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                ref.getDownloadUrl().addOnSuccessListener(uri1 -> {
+                    vm.getRecipe().setImageURL(uri1.toString());
+                    Log.d("TAG", "onSuccess: image url" + uri1.toString());
+                });
+            }
+        });
+    }
+
     // endregion
 
     // region NewRecipeDialogFragment listener methods
@@ -215,7 +278,8 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
         title = toolbar.findViewById(R.id.toolbar_title);
         title.setText(recipeName);
 
-        Recipe recipe = DebugRecipeRepository.getInstance().createNewRecipeFromRecipe(vm.getRecipe(), recipeName);
+//        Recipe recipe = DebugRecipeRepository.getInstance().createNewRecipeFromRecipe(vm.getRecipe(), recipeName);
+        Recipe recipe = DbRecipeRepository.getInstance().createNewRecipeFromRecipe(vm.getRecipe(), recipeName);
         vm = new RecipeViewModel(recipe);
         adapter.setViewModel(vm);
         toggleEditing();

@@ -8,8 +8,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
-import com.eshed.fork.view.MainActivity;
-import android.widget.Toast;
+
+import com.eshed.fork.Data.DbRecipeRepository;
+import com.eshed.fork.Data.RecipeRepository;
+import com.eshed.fork.Login.view.LoginActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -23,7 +25,6 @@ import com.eshed.fork.R;
 import com.eshed.fork.Recipe.view.NewRecipeActivity;
 import com.eshed.fork.Recipe.view.RecipeActivity;
 import com.eshed.fork.Util.Util;
-import com.eshed.fork.view.MainActivity;
 
 public class BrowseActivity extends AppCompatActivity implements BrowseRecyclerViewAdapter.BrowseAdapterHandler {
     private BrowseViewModel vm;
@@ -35,14 +36,16 @@ public class BrowseActivity extends AppCompatActivity implements BrowseRecyclerV
         setContentView(R.layout.activity_browse);
         Util.setupTabBar(this);
         setupToolbar();
+        DbRecipeRepository dbRepository = DbRecipeRepository.getInstance();
         vm = new BrowseViewModel();
+        dbRepository.load();
         initRecyclerView();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.search, menu);
+        inflater.inflate(R.menu.menu_search, menu);
         MenuItem searchItem = menu.findItem(R.id.search);
         SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
@@ -69,7 +72,7 @@ public class BrowseActivity extends AppCompatActivity implements BrowseRecyclerV
                 this.startActivity(intent);
                 return true;
             case android.R.id.home:
-                Intent intent2 = new Intent(this, MainActivity.class);
+                Intent intent2 = new Intent(this, LoginActivity.class);
                 this.startActivity(intent2);
                 return true;
             default:
@@ -83,7 +86,6 @@ public class BrowseActivity extends AppCompatActivity implements BrowseRecyclerV
         adapter = new BrowseRecyclerViewAdapter(vm);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
-
         ((BrowseRecyclerViewAdapter) adapter).handler = this;
     }
 

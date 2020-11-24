@@ -8,7 +8,7 @@ import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
 
 public interface RecipeRepository {
-    Observable<List<Recipe>> getRecipes();
+    Observable<List<Recipe>> retrieveRecipes();
     Single<Recipe> getRecipeWithID(int recipeID);
 
     Recipe createNewRecipe();

@@ -11,6 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.eshed.fork.Browse.vm.RecipeCardViewModel;
 import com.eshed.fork.R;
+import com.eshed.fork.Util.GlideApp;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class RecipeViewHolder extends RecyclerView.ViewHolder {
     public interface RecipeCardCallback {
@@ -42,7 +45,8 @@ public class RecipeViewHolder extends RecyclerView.ViewHolder {
     public void setViewModel(RecipeCardViewModel vm) {
         this.vm = vm;
         recipeName.setText(vm.getRecipe().getName());
-        Glide.with(itemView).load(vm.getRecipe().getImageURL()).centerCrop().into(recipeImage);
-       // recipeImage.setImageResource(vm.getRecipe().getImageURL());
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference gsReference = storage.getReferenceFromUrl(vm.getRecipe().getImageURL());
+        GlideApp.with(itemView).load(gsReference).centerCrop().into(recipeImage);
     }
 }

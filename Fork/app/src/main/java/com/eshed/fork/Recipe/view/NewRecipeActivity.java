@@ -1,29 +1,45 @@
 package com.eshed.fork.Recipe.view;
 
+import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.eshed.fork.Browse.view.BrowseActivity;
+import com.eshed.fork.Data.DbRecipeRepository;
+import com.eshed.fork.Data.model.Recipe;
 import com.eshed.fork.R;
 import com.eshed.fork.Recipe.view.Dialogs.NewRecipeDialogFragment;
 import com.eshed.fork.Recipe.view.Dialogs.NewRecipeDialogFragment.NewRecipeDialogListener;
 import com.eshed.fork.Recipe.view.RecipeRecyclerViewAdapter.RecipeAdapterHandler;
 import com.eshed.fork.Recipe.vm.RecipeViewModel;
 import com.eshed.fork.Util.Util;
-import com.eshed.fork.Data.DebugRecipeRepository;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.IOException;
+import java.util.UUID;
 
 import static android.widget.LinearLayout.GONE;
 import static android.widget.LinearLayout.VISIBLE;
@@ -32,8 +48,9 @@ public class NewRecipeActivity extends AppCompatActivity implements RecipeAdapte
     private Toolbar toolbar;
     private ImageView addButton;
     private ImageView saveButton;
+    private ImageView forkButton;
     private TextView title;
-    private RecyclerView.Adapter adapter;
+    private RecipeRecyclerViewAdapter adapter;
     private RecipeViewModel vm;
 
     @Override
@@ -46,7 +63,9 @@ public class NewRecipeActivity extends AppCompatActivity implements RecipeAdapte
         setupToolbar();
         Util.setupTabBar(this);
 
-        vm = new RecipeViewModel(DebugRecipeRepository.getInstance().createNewRecipe());
+//        vm = new RecipeViewModel(DebugRecipeRepository.getInstance().createNewRecipe());
+        vm = new RecipeViewModel(DbRecipeRepository.getInstance().createNewRecipe());
+
         initRecyclerView();
         vm.toggleEditable();
         showNewRecipeDialog();
@@ -74,7 +93,9 @@ public class NewRecipeActivity extends AppCompatActivity implements RecipeAdapte
         title = toolbar.findViewById(R.id.toolbar_title);
         title.setText("Add New Recipe");
         addButton = toolbar.findViewById(R.id.add_recipe);
+        forkButton = toolbar.findViewById(R.id.fork_recipe);
         saveButton = toolbar.findViewById(R.id.save_recipe);
+        forkButton.setVisibility(GONE);
         addButton.setVisibility(GONE);
         saveButton.setVisibility(VISIBLE);
 
@@ -84,7 +105,8 @@ public class NewRecipeActivity extends AppCompatActivity implements RecipeAdapte
             }
         });
         saveButton.setOnClickListener((View v) -> {
-            DebugRecipeRepository.getInstance().saveRecipe(vm.getRecipe());
+            vm.getRecipe().setName(title.getText().toString());
+            DbRecipeRepository.getInstance().saveRecipe(vm.getRecipe());
             this.finish();
         });
     }
@@ -138,6 +160,45 @@ public class NewRecipeActivity extends AppCompatActivity implements RecipeAdapte
         this.finish();
         this.startActivity(intent);
     }
+
+    @Override
+    public void changeRecipeImage(String imageURL) {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent, 0);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
+
+            Uri selectedPhotoUri = data.getData();
+            try {
+                @SuppressWarnings("deprecation") Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedPhotoUri);
+                @SuppressWarnings("deprecation") Drawable drawable = new BitmapDrawable(bitmap);
+                // TODO: update image on screen
+                uploadImageToStorage(selectedPhotoUri);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void uploadImageToStorage(Uri uri) {
+        String filename = "/images/" + UUID.randomUUID().toString();
+        StorageReference ref = FirebaseStorage.getInstance().getReference(filename);
+        ref.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                ref.getDownloadUrl().addOnSuccessListener(uri1 -> {
+                    vm.getRecipe().setImageURL(uri1.toString());
+                    Log.d("TAG", "onSuccess: image url" + uri1.toString());
+                });
+            }
+        });
+    }
     // endregion
 
     // region NewRecipeDialogFragment listener methods
@@ -151,6 +212,8 @@ public class NewRecipeActivity extends AppCompatActivity implements RecipeAdapte
     }
 
     @Override
-    public void onDialogNegativeClick(DialogFragment dialog) {}
+    public void onDialogNegativeClick(DialogFragment dialog) {
+        this.finish();
+    }
     // endregion
 }

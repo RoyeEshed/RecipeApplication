@@ -4,29 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User {
-    private String username;
     private String email;
-    private List<String> dietaryRestrictions;
+    private String uid;
 
-    public User(String username, String email) {
-        this.username = username;
+    public User(String email, String uid) {
         this.email = email;
-        this.dietaryRestrictions = new ArrayList<>();
-    }
-
-    public void setDietaryRestrictions(List<String> dietaryRestrictions) {
-        this.dietaryRestrictions = dietaryRestrictions;
-    }
-
-    public String getUsername() {
-        return username;
+        this.uid = uid;
     }
 
     public String getEmail() {
         return email;
-    }
-
-    public List<String> getDietaryRestrictions() {
-        return dietaryRestrictions;
     }
 }

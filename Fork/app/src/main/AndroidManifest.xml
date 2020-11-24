@@ -10,7 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppThemeNoActionBar">
-        <activity android:name="com.eshed.fork.view.MainActivity"
+        <activity android:name="com.eshed.fork.Login.view.LoginActivity"
             android:icon="@drawable/ic_log_out">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Recipe.view.RecipeActivity"/>
-        <activity android:name="com.eshed.fork.view.RegisterActivity"/>
+        <activity android:name="com.eshed.fork.Login.view.RegisterActivity"/>
         <activity android:name="com.eshed.fork.Browse.view.BrowseActivity"/>
         <activity android:name=".Recipe.view.NewRecipeActivity"/>
         <activity android:name=".Settings.view.SettingsActivity"/>
