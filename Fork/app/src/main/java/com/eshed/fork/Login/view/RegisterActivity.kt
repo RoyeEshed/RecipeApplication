@@ -53,13 +53,11 @@ class RegisterActivity: AppCompatActivity() {
         val uid = FirebaseAuth.getInstance().uid ?: ""
         val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
         val user:User
-        var taskList = ArrayList<String>();
-        taskList.add("Example Task Here")
 
         if (usernameEditText.text.toString().isEmpty()) {
-            user = User(uid, usernameEditText.text.toString(), "0", taskList)
+            user = User(uid, usernameEditText.text.toString(), "0")
         } else {
-            user = User(uid, usernameEditText.text.toString(), "0", taskList)
+            user = User(uid, usernameEditText.text.toString(), "0")
         }
 
         ref.setValue(user)
@@ -68,4 +66,4 @@ class RegisterActivity: AppCompatActivity() {
             }
     }
 }
-class User(val uid: String, val username: String, val userInfo: String, var tasks: ArrayList<String>)
+class User(val uid: String, val username: String, val userInfo: String)

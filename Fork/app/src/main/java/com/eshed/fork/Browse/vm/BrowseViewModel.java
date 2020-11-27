@@ -2,7 +2,7 @@ package com.eshed.fork.Browse.vm;
 
 import android.util.Log;
 
-import com.eshed.fork.Data.DbRecipeRepository;
+import com.eshed.fork.Data.DbRepository;
 import com.eshed.fork.Data.RecipeRepository;
 import com.eshed.fork.Data.model.Recipe;
 
@@ -15,7 +15,7 @@ public class BrowseViewModel  {
     private RecipeRepository recipeRepository;
 
     public BrowseViewModel() {
-        recipeRepository = DbRecipeRepository.getInstance();
+        recipeRepository = DbRepository.getInstance();
     }
 
     public Observable<List<RecipeCardViewModel>> getRecipeList() {

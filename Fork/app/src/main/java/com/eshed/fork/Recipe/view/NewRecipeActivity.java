@@ -25,8 +25,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.eshed.fork.Browse.view.BrowseActivity;
-import com.eshed.fork.Data.DbRecipeRepository;
-import com.eshed.fork.Data.model.Recipe;
+import com.eshed.fork.Data.DbRepository;
 import com.eshed.fork.R;
 import com.eshed.fork.Recipe.view.Dialogs.NewRecipeDialogFragment;
 import com.eshed.fork.Recipe.view.Dialogs.NewRecipeDialogFragment.NewRecipeDialogListener;
@@ -64,7 +63,7 @@ public class NewRecipeActivity extends AppCompatActivity implements RecipeAdapte
         Util.setupTabBar(this);
 
 //        vm = new RecipeViewModel(DebugRecipeRepository.getInstance().createNewRecipe());
-        vm = new RecipeViewModel(DbRecipeRepository.getInstance().createNewRecipe());
+        vm = new RecipeViewModel(DbRepository.getInstance().createNewRecipe());
 
         initRecyclerView();
         vm.toggleEditable();
@@ -106,7 +105,7 @@ public class NewRecipeActivity extends AppCompatActivity implements RecipeAdapte
         });
         saveButton.setOnClickListener((View v) -> {
             vm.getRecipe().setName(title.getText().toString());
-            DbRecipeRepository.getInstance().saveRecipe(vm.getRecipe());
+            DbRepository.getInstance().saveRecipe(vm.getRecipe());
             this.finish();
         });
     }
@@ -178,6 +177,8 @@ public class NewRecipeActivity extends AppCompatActivity implements RecipeAdapte
                 @SuppressWarnings("deprecation") Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedPhotoUri);
                 @SuppressWarnings("deprecation") Drawable drawable = new BitmapDrawable(bitmap);
                 // TODO: update image on screen
+                ImageView recipeImage = findViewById(R.id.recipe_image);
+                recipeImage.setImageDrawable(drawable);
                 uploadImageToStorage(selectedPhotoUri);
 
             } catch (IOException e) {

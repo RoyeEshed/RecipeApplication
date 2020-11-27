@@ -1,21 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:paddingStart="15dp">
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:text="Added by: "
-        android:textColor="@color/black"/>
-    <EditText
-        android:id="@+id/contributor_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:text="user"/>
-</LinearLayout>
+        android:orientation="horizontal"
+        android:layout_alignParentStart="true"
+        android:layout_centerHorizontal="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="Added by: "
+            android:textColor="@color/black"/>
+        <EditText
+            android:id="@+id/contributor_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:text="user"/>
+
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/no_star"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="15dp"
+        android:src="@drawable/ic_baseline_star_border_24_yellow"
+        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"/>
+    <ImageView
+        android:id="@+id/star"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="15dp"
+        android:src="@drawable/ic_baseline_star_24"
+        android:visibility="gone"
+        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>

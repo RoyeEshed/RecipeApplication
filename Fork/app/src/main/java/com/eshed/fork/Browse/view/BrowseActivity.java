@@ -9,8 +9,9 @@ import android.view.MenuItem;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
-import com.eshed.fork.Data.DbRecipeRepository;
-import com.eshed.fork.Data.RecipeRepository;
+import com.eshed.fork.Data.DbRepository;
+import com.eshed.fork.Data.model.UserAccount;
+import com.eshed.fork.Fork;
 import com.eshed.fork.Login.view.LoginActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +26,7 @@ import com.eshed.fork.R;
 import com.eshed.fork.Recipe.view.NewRecipeActivity;
 import com.eshed.fork.Recipe.view.RecipeActivity;
 import com.eshed.fork.Util.Util;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class BrowseActivity extends AppCompatActivity implements BrowseRecyclerViewAdapter.BrowseAdapterHandler {
     private BrowseViewModel vm;
@@ -36,10 +38,19 @@ public class BrowseActivity extends AppCompatActivity implements BrowseRecyclerV
         setContentView(R.layout.activity_browse);
         Util.setupTabBar(this);
         setupToolbar();
-        DbRecipeRepository dbRepository = DbRecipeRepository.getInstance();
+        DbRepository dbRepository = DbRepository.getInstance();
+        Fork app = (Fork) getApplication();
         vm = new BrowseViewModel();
         dbRepository.load();
         initRecyclerView();
+
+        FirebaseAuth ref = FirebaseAuth.getInstance();
+        String uid = ref.getCurrentUser().getUid();
+        if (uid != null) {
+            Log.d("TAG", "onCreate: USER UID = " + uid);
+        }
+        String email = ref.getCurrentUser().getEmail();
+        String username = ref.getCurrentUser().getDisplayName();
     }
 
     @Override

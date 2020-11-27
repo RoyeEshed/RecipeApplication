@@ -55,7 +55,7 @@ class DebugRecipeRepository : RecipeRepository {
     override fun saveRecipe(recipe: Recipe) {
         Companion.recipes.add(recipe)
         recipeRelay.onNext(Companion.recipes)
-        val db: DbRecipeRepository = DbRecipeRepository()
+        val db: DbRepository = DbRepository()
         val ref = FirebaseDatabase.getInstance().getReference("/recipes/" + recipe.recipeID)
         ref.setValue(recipe).addOnSuccessListener {
             Log.d("TAG", "saveRecipe: to firebase?")

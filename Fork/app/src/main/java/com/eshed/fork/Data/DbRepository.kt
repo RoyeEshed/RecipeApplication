@@ -1,9 +1,9 @@
 package com.eshed.fork.Data
 
 import android.util.Log
-import com.eshed.fork.Data.model.Direction
-import com.eshed.fork.Data.model.Ingredient
 import com.eshed.fork.Data.model.Recipe
+import com.eshed.fork.Data.model.UserAccount
+import com.eshed.fork.Login.view.User
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -11,23 +11,18 @@ import com.google.firebase.database.ValueEventListener
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.subjects.BehaviorSubject
-import java.util.*
 
 
-class DbRecipeRepository() : RecipeRepository {
+class DbRepository() : RecipeRepository {
     companion object {
-        @JvmStatic val instance = DbRecipeRepository()
+        @JvmStatic val instance = DbRepository()
     }
 
-    private var ingredientsMap: MutableMap<Int, MutableList<Ingredient>> = HashMap()
-    private var directionsMap: MutableMap<Int, MutableList<Direction>> = HashMap()
-    private var ingredients: MutableList<Ingredient> = mutableListOf()
-    private var directions: MutableList<Direction> = mutableListOf()
     private var recipeRelay: BehaviorSubject<List<Recipe>> = BehaviorSubject.createDefault(listOf())
+    private var userRelay: BehaviorSubject<List<UserAccount>> = BehaviorSubject.createDefault(listOf())
 
     fun load() {
         val database = FirebaseDatabase.getInstance()
-
         database.getReference("/recipes").addValueEventListener(
             object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -41,6 +36,7 @@ class DbRecipeRepository() : RecipeRepository {
                     Log.w("Fork", "load directions:onCancelled", error.toException())
                 }
             })
+        loadUsers()
     }
 
     override fun retrieveRecipes(): Observable<List<Recipe>> {
@@ -91,84 +87,59 @@ class DbRecipeRepository() : RecipeRepository {
         }
     }
 
-    fun saveIngredients(recipe: Recipe) {
-        val ref = FirebaseDatabase.getInstance().getReference("/ingredients/")
-        for (i in recipe.ingredients) {
-            val key = ref.child("posts").push().key
-            if (key == null) {
-                Log.w("TAG", "Couldn't get push key for posts")
-                return
-            }
+    fun loadUsers() {
+        var userList: MutableList<UserAccount> = mutableListOf()
+        var currentUser: UserAccount
+        val database = FirebaseDatabase.getInstance()
+        database.getReference("/users/").addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    Log.w("Fork", "load $dataSnapshot")
+                    dataSnapshot.children
+                        .map { it.getValue(UserAccount::class.java)!! }
+                        .let { userRelay.onNext(it) }
+                }
 
-            val ingredientValues = i.toMap()
+                override fun onCancelled(error: DatabaseError) {
+                    Log.w("Fork", "load directions:onCancelled", error.toException())
+                }
+            })
+    }
 
-            val childUpdates = hashMapOf<String, Any>(
-                "$key" to ingredientValues
-            )
-
-            ref.updateChildren(childUpdates)
+    fun saveUser(user: UserAccount) {
+        val ref = FirebaseDatabase.getInstance().getReference("/users/" + user.uid)
+        ref.setValue(user.toMap()).addOnSuccessListener {
+            Log.d("Save User", "Saved user to database")
         }
     }
 
-    fun saveDirections(recipe: Recipe) {
-        val ref = FirebaseDatabase.getInstance().getReference("/directions/")
-        for (d in recipe.directions) {
-            val key = ref.child("posts").push().key
-            if (key == null) {
-                Log.w("TAG", "Couldn't get push key for posts")
-                return
-            }
-
-            val directionsValues = d.toMap()
-
-            val childUpdates = hashMapOf<String, Any>(
-                "$key" to directionsValues
-            )
-
-            ref.updateChildren(childUpdates)
-        }
-    }
-
-    fun addIngredientsToMap(list: MutableList<Ingredient>) {
-        for (i in list) {
-            val recipeID = i.recipeID
-            var temp = ingredientsMap.get(recipeID);
-            if (temp != null) {
-                temp.add(i)
-            } else {
-                temp = mutableListOf(i)
-            }
-            ingredientsMap[recipeID] = temp
-        }
-    }
-
-    fun addDirectionsToMap(list: MutableList<Direction>) {
-        for (d in list) {
-            val recipeID = d.recipeID
-            var temp: MutableList<Direction>? = directionsMap.get(recipeID);
-            if (temp != null) {
-                temp.add(d)
-            } else {
-                temp = mutableListOf(d)
-            }
-            directionsMap[recipeID] = temp
-        }
-    }
-
-    fun addDirectionsToRecipes() {
-        for (r in recipeRelay.value) {
-            if (directionsMap[r.recipeID] != null) {
-                r.directions = directionsMap[r.recipeID]!!
+    fun getUserWithUID(uid: String): Single<UserAccount>? {
+        getRecipesByUser(uid)
+        for (user in userRelay.value) {
+            if (user.uid.equals(uid)) {
+                return Single.just(user)
             }
         }
+        return null
     }
 
-    fun addIngredientsToRecipes() {
-        for (r in recipeRelay.value) {
-            if (ingredientsMap[r.recipeID] != null) {
-                r.ingredients = ingredientsMap[r.recipeID]!!
+    fun getRecipesByUser(uid: String): MutableList<Recipe>?{
+        var user: UserAccount? = null;
+        for (u in userRelay.value) {
+            if (u.uid.equals(uid)) {
+                user = u
             }
         }
-    }
 
+        var userRecipes: MutableList<Recipe> = mutableListOf()
+        if (user != null) {
+            for (r in recipeRelay.value) {
+                if (r.contributor == user.username) {
+                    userRecipes.add(r)
+                }
+            }
+            return userRecipes
+        }
+        return null
+    }
 }

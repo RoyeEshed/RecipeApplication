@@ -6,13 +6,10 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.ImageDecoder;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
@@ -31,7 +28,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.eshed.fork.Data.DbRecipeRepository;
+import com.bumptech.glide.Glide;
+import com.eshed.fork.Data.DbRepository;
 import com.eshed.fork.Fork;
 import com.eshed.fork.R;
 import com.eshed.fork.Recipe.view.Dialogs.NewRecipeDialogFragment;
@@ -46,7 +44,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.UUID;
 
 import static androidx.recyclerview.widget.RecyclerView.OnScrollListener;
@@ -72,7 +69,7 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
         int recipeID = getIntent().getExtras().getInt("recipe");
 
         vm = new RecipeViewModel(
-                DbRecipeRepository.getInstance(),
+                DbRepository.getInstance(),
                 app.getEdamamService(),
                 recipeID
         );
@@ -130,7 +127,7 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
             showNewRecipeDialog();
         });
         saveButton.setOnClickListener((View v) -> {
-            DbRecipeRepository.getInstance().saveRecipe(vm.getRecipe());
+            DbRepository.getInstance().saveRecipe(vm.getRecipe());
             toggleEditing();
         });
         //initSpinner();
@@ -248,6 +245,10 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
                 @SuppressWarnings("deprecation") Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedPhotoUri);
                 @SuppressWarnings("deprecation") Drawable drawable = new BitmapDrawable(bitmap);
                 // TODO: update image on screen
+                ImageView recipeImage = findViewById(R.id.recipe_image);
+                Glide.with(this).load(drawable).centerCrop().into(recipeImage);
+                //recipeImage.setImageDrawable(drawable);
+
                 uploadImageToStorage(selectedPhotoUri);
 
             } catch (IOException e) {
@@ -279,7 +280,7 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
         title.setText(recipeName);
 
 //        Recipe recipe = DebugRecipeRepository.getInstance().createNewRecipeFromRecipe(vm.getRecipe(), recipeName);
-        Recipe recipe = DbRecipeRepository.getInstance().createNewRecipeFromRecipe(vm.getRecipe(), recipeName);
+        Recipe recipe = DbRepository.getInstance().createNewRecipeFromRecipe(vm.getRecipe(), recipeName);
         vm = new RecipeViewModel(recipe);
         adapter.setViewModel(vm);
         toggleEditing();

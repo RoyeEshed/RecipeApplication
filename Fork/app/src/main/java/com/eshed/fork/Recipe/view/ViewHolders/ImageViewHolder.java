@@ -6,15 +6,11 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.annotation.GlideModule;
 import com.eshed.fork.R;
-import com.eshed.fork.Recipe.view.FooterCallback;
 import com.eshed.fork.Recipe.view.RecipeImageCallback;
 import com.eshed.fork.Recipe.vm.component.ImageViewModel;
 import com.eshed.fork.Recipe.vm.component.RecipeComponentViewModel;
 import com.eshed.fork.Util.GlideApp;
-import com.eshed.fork.Util.GlideAppModule;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
