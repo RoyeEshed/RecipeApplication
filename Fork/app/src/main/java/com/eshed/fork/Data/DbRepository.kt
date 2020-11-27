@@ -3,7 +3,6 @@ package com.eshed.fork.Data
 import android.util.Log
 import com.eshed.fork.Data.model.Recipe
 import com.eshed.fork.Data.model.UserAccount
-import com.eshed.fork.Login.view.User
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase

@@ -39,7 +39,8 @@ public class RecipeViewModel {
 
     private Recipe recipe;
     private List<RecipeComponentViewModel> recipeComponents;
-    private Boolean isEditable = false;
+    private boolean isEditable = false;
+    private boolean isStarred = false;
     private TotalNutrients nutrients;
     private Double servings;
     private int calories;
@@ -122,7 +123,7 @@ public class RecipeViewModel {
     private void regenerateComponents() {
         recipeComponents = new ArrayList<>();
         recipeComponents.add(new ImageViewModel(recipe.getImageURL(), isEditable));
-        recipeComponents.add(new ContributorViewModel(recipe.getContributor(), isEditable));
+        recipeComponents.add(new ContributorViewModel(recipe.getContributor(), isEditable, isStarred));
         recipeComponents.add(new HeaderViewModel("Ingredients"));
         for (int i = 0; i < recipe.getIngredients().size(); i++) {
             Ingredient ingredient = recipe.getIngredients().get(i);
