@@ -23,7 +23,9 @@ public class BrowseViewModel  {
             List<RecipeCardViewModel> recipesList = new ArrayList<>();
             for (Recipe r: recipes) {
                 int numChildren = recipeRepository.numberOfChildren(r);
-                recipesList.add(new RecipeCardViewModel(r, numChildren));
+                if (r.getParentRecipeID() == -1) {
+                    recipesList.add(new RecipeCardViewModel(r, numChildren));
+                }
             }
             Log.d("TAG", "getRecipeList: ***************************************************************");
             return recipesList;
