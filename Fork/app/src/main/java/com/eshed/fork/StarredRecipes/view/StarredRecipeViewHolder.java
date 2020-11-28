@@ -8,8 +8,8 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.eshed.fork.StarredRecipes.vm.StarredRecipeCardViewModel;
 import com.eshed.fork.R;
+import com.eshed.fork.StarredRecipes.vm.StarredRecipeCardViewModel;
 import com.eshed.fork.Util.GlideApp;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;

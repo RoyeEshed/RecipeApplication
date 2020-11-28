@@ -193,4 +193,13 @@ class DbRecipeRepository() : RecipeRepository {
         return null
     }
 
+    override fun numberOfChildren(recipe: Recipe): Int {
+        var childRecipes: MutableList<Recipe> = mutableListOf()
+        for (r in recipeRelay.value) {
+            if (r.parentRecipeID == recipe.recipeID) {
+                childRecipes.add(r)
+            }
+        }
+        return childRecipes.size
+    }
 }

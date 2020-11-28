@@ -82,6 +82,9 @@ class DebugRecipeRepository : RecipeRepository {
         TODO("Not yet implemented")
     }
 
+    override fun numberOfChildren(recipe: Recipe): Int {
+        return 0
+    }
     companion object {
         @JvmStatic
         val instance = DebugRecipeRepository()

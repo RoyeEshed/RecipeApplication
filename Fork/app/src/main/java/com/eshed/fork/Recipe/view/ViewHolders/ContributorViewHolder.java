@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.eshed.fork.Data.DbRecipeRepository;
 import com.eshed.fork.R;
 import com.eshed.fork.Recipe.view.ContributorCallback;
 import com.eshed.fork.Recipe.vm.component.ContributorViewModel;

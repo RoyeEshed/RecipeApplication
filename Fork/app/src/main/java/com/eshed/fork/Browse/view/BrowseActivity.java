@@ -9,10 +9,6 @@ import android.view.MenuItem;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
-import com.eshed.fork.Data.DbRecipeRepository;
-import com.eshed.fork.Fork;
-import com.eshed.fork.Login.view.LoginActivity;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
@@ -21,6 +17,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.eshed.fork.Browse.vm.BrowseViewModel;
 import com.eshed.fork.Browse.vm.RecipeCardViewModel;
+import com.eshed.fork.Data.DbRecipeRepository;
+import com.eshed.fork.Fork;
+import com.eshed.fork.Login.view.LoginActivity;
 import com.eshed.fork.R;
 import com.eshed.fork.Recipe.view.NewRecipeActivity;
 import com.eshed.fork.Recipe.view.RecipeActivity;

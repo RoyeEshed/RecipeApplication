@@ -12,11 +12,11 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.eshed.fork.Data.DbRecipeRepository;
-import com.eshed.fork.StarredRecipes.vm.StarredRecipeCardViewModel;
-import com.eshed.fork.StarredRecipes.vm.StarredRecipesViewModel;
 import com.eshed.fork.Fork;
 import com.eshed.fork.R;
 import com.eshed.fork.Recipe.view.RecipeActivity;
+import com.eshed.fork.StarredRecipes.vm.StarredRecipeCardViewModel;
+import com.eshed.fork.StarredRecipes.vm.StarredRecipesViewModel;
 import com.eshed.fork.Util.Util;
 
 public class StarredRecipesActivity extends AppCompatActivity implements StarredRecipesRecyclerViewAdapter.StarredRecipesAdapterHandler {

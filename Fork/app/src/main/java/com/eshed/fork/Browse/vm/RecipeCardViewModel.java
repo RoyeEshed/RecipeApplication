@@ -8,13 +8,19 @@ import java.util.List;
 
 public class RecipeCardViewModel {
     private Recipe recipe;
+    private int children;
 
-    public RecipeCardViewModel(Recipe recipe) {
+    public RecipeCardViewModel(Recipe recipe, int children) {
         this.recipe = recipe;
+        this.children = children;
     }
 
     public Recipe getRecipe() {
         return recipe;
+    }
+
+    public int getChildren() {
+        return children;
     }
 
     public List<String> getSearchTerms() {

@@ -2,7 +2,13 @@ package com.eshed.fork.Recipe.vm;
 
 import android.util.Log;
 
+import com.eshed.fork.Data.RecipeRepository;
+import com.eshed.fork.Data.model.Direction;
+import com.eshed.fork.Data.model.Ingredient;
+import com.eshed.fork.Data.model.Nutrients.TotalNutrients;
+import com.eshed.fork.Data.model.Recipe;
 import com.eshed.fork.Data.model.UserAccount;
+import com.eshed.fork.Data.service.EdamamService;
 import com.eshed.fork.R;
 import com.eshed.fork.Recipe.vm.component.ContributorViewModel;
 import com.eshed.fork.Recipe.vm.component.DirectionViewModel;
@@ -15,12 +21,6 @@ import com.eshed.fork.Recipe.vm.component.IngredientViewModel;
 import com.eshed.fork.Recipe.vm.component.NutritionViewModel;
 import com.eshed.fork.Recipe.vm.component.RecipeComponentViewModel;
 import com.eshed.fork.Recipe.vm.component.TagViewModel;
-import com.eshed.fork.Data.RecipeRepository;
-import com.eshed.fork.Data.model.Direction;
-import com.eshed.fork.Data.model.Ingredient;
-import com.eshed.fork.Data.model.Nutrients.TotalNutrients;
-import com.eshed.fork.Data.model.Recipe;
-import com.eshed.fork.Data.service.EdamamService;
 
 import java.util.ArrayList;
 import java.util.List;

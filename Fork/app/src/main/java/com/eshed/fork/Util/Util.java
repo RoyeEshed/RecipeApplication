@@ -8,9 +8,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.eshed.fork.Browse.view.BrowseActivity;
-import com.eshed.fork.StarredRecipes.view.StarredRecipesActivity;
 import com.eshed.fork.R;
 import com.eshed.fork.Settings.view.SettingsActivity;
+import com.eshed.fork.StarredRecipes.view.StarredRecipesActivity;
 
 public class Util {
     public static void setupTabBar(AppCompatActivity activity) {

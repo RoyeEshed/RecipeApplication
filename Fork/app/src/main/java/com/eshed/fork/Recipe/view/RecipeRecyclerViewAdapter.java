@@ -23,8 +23,6 @@ import com.eshed.fork.Recipe.view.ViewHolders.TagsViewHolder;
 import com.eshed.fork.Recipe.vm.RecipeViewModel;
 import com.eshed.fork.Recipe.vm.component.RecipeComponentViewModel;
 
-import java.util.List;
-
 public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeViewHolder> implements RecipeViewModel.Listener, FooterCallback, RecipeImageCallback, ContributorCallback {
 
     public interface RecipeAdapterHandler {

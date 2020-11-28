@@ -1,7 +1,5 @@
 package com.eshed.fork.Recipe.vm.component;
 
-import android.text.Editable;
-
 public class ImageViewModel implements RecipeComponentViewModel, RecipeComponentIsEditable {
     public String imageURL;
     public boolean isEditable;

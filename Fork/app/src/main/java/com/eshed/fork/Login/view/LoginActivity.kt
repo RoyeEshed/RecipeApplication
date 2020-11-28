@@ -1,13 +1,11 @@
 package com.eshed.fork.Login.view
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.eshed.fork.Browse.view.BrowseActivity
-import com.eshed.fork.Data.DbRecipeRepository
-import com.eshed.fork.Data.model.UserAccount
 import com.eshed.fork.Fork
 import com.eshed.fork.R
 import com.google.firebase.auth.FirebaseAuth

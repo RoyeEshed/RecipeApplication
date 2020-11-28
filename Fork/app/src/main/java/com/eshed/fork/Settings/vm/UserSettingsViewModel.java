@@ -1,14 +1,7 @@
 package com.eshed.fork.Settings.vm;
 
-import android.util.Log;
-
-import com.eshed.fork.Browse.vm.RecipeCardViewModel;
 import com.eshed.fork.Data.DbRecipeRepository;
-import com.eshed.fork.Data.model.Recipe;
 import com.eshed.fork.Data.model.UserAccount;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import io.reactivex.rxjava3.disposables.Disposable;
 

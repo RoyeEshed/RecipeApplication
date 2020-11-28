@@ -1,7 +1,6 @@
 package com.eshed.fork.Data.model
 
 import com.google.firebase.database.Exclude
-import java.util.HashMap
 
 data class Ingredient
 @JvmOverloads constructor(

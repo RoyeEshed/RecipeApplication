@@ -30,6 +30,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.eshed.fork.Data.DbRecipeRepository;
+import com.eshed.fork.Data.model.Recipe;
 import com.eshed.fork.Fork;
 import com.eshed.fork.R;
 import com.eshed.fork.Recipe.view.Dialogs.NewRecipeDialogFragment;
@@ -37,7 +38,6 @@ import com.eshed.fork.Recipe.view.Dialogs.NewRecipeDialogFragment.NewRecipeDialo
 import com.eshed.fork.Recipe.view.RecipeRecyclerViewAdapter.RecipeAdapterHandler;
 import com.eshed.fork.Recipe.vm.RecipeViewModel;
 import com.eshed.fork.Util.Util;
-import com.eshed.fork.Data.model.Recipe;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;

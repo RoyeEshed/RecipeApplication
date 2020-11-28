@@ -1,7 +1,6 @@
 package com.eshed.fork
 
 import android.app.Application
-import com.eshed.fork.Data.model.UserAccount
 import com.eshed.fork.Data.service.EdamamService
 import com.eshed.fork.Data.service.EdamamServiceCreator
 

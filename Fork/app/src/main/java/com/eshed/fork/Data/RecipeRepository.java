@@ -11,7 +11,7 @@ import io.reactivex.rxjava3.core.Single;
 public interface RecipeRepository {
     Observable<List<Recipe>> retrieveRecipes();
     Single<Recipe> getRecipeWithID(int recipeID);
-
+    int numberOfChildren(Recipe recipe);
     Recipe createNewRecipe();
     Recipe createNewRecipeFromRecipe(Recipe recipe, String newName);
 

@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.eshed.fork.R;
 import com.eshed.fork.StarredRecipes.vm.StarredRecipeCardViewModel;
 import com.eshed.fork.StarredRecipes.vm.StarredRecipesViewModel;
-import com.eshed.fork.R;
 
 import java.util.List;
 
@@ -44,7 +44,7 @@ public class StarredRecipesRecyclerViewAdapter extends RecyclerView.Adapter impl
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_card, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.starred_recipe_card, parent, false);
         StarredRecipeViewHolder viewHolder = new StarredRecipeViewHolder(view);
         viewHolder.callback = this;
         return viewHolder;
