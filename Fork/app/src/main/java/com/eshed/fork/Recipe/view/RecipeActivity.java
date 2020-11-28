@@ -29,7 +29,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.eshed.fork.Data.DbRepository;
+import com.eshed.fork.Data.DbRecipeRepository;
 import com.eshed.fork.Fork;
 import com.eshed.fork.R;
 import com.eshed.fork.Recipe.view.Dialogs.NewRecipeDialogFragment;
@@ -58,20 +58,22 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
     private TextView title;
     private RecipeRecyclerViewAdapter adapter;
     private Spinner spinner;
+    private Fork app;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_recipe);
-        Fork app = (Fork) getApplication();
+        app = (Fork) getApplication();
 
         int recipeID = getIntent().getExtras().getInt("recipe");
 
         vm = new RecipeViewModel(
-                DbRepository.getInstance(),
+                DbRecipeRepository.getInstance(),
                 app.getEdamamService(),
-                recipeID
+                recipeID,
+                app.getUid()
         );
 
         originalViewModel = vm;
@@ -127,7 +129,7 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
             showNewRecipeDialog();
         });
         saveButton.setOnClickListener((View v) -> {
-            DbRepository.getInstance().saveRecipe(vm.getRecipe());
+            DbRecipeRepository.getInstance().saveRecipe(vm.getRecipe());
             toggleEditing();
         });
         //initSpinner();
@@ -237,6 +239,11 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
     }
 
     @Override
+    public void recipeStarred() {
+        vm.starRecipe();
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
@@ -280,7 +287,7 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
         title.setText(recipeName);
 
 //        Recipe recipe = DebugRecipeRepository.getInstance().createNewRecipeFromRecipe(vm.getRecipe(), recipeName);
-        Recipe recipe = DbRepository.getInstance().createNewRecipeFromRecipe(vm.getRecipe(), recipeName);
+        Recipe recipe = DbRecipeRepository.getInstance().createNewRecipeFromRecipe(vm.getRecipe(), recipeName);
         vm = new RecipeViewModel(recipe);
         adapter.setViewModel(vm);
         toggleEditing();

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,7 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.eshed.fork.Data.DbRepository;
+import com.eshed.fork.Data.DbRecipeRepository;
 import com.eshed.fork.Fork;
 import com.eshed.fork.R;
 import com.eshed.fork.Settings.vm.UserSettingsViewModel;
@@ -36,14 +37,7 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_settings);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        if (this.getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
-        }
-        TextView title = toolbar.findViewById(R.id.toolbar_title);
-        title.setText("Settings");
+        setupToolbar();
 
         userImage = findViewById(R.id.user_image);
         userImage.setOnClickListener(view -> {
@@ -56,8 +50,31 @@ public class SettingsActivity extends AppCompatActivity {
         Util.setupTabBar(this);
 
         Fork app = (Fork) getApplication();
-        vm = new UserSettingsViewModel(app.uid, DbRepository.getInstance());
+        vm = new UserSettingsViewModel(app.uid, DbRecipeRepository.getInstance());
         setupUserInfo();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void setupToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (this.getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
+        TextView title = toolbar.findViewById(R.id.toolbar_title);
+        title.setText("Settings");
     }
 
     public void changeUserImage() {
@@ -78,6 +95,9 @@ public class SettingsActivity extends AppCompatActivity {
 
         String size = "" + vm.user.getSubmittedRecipes().size();
         submittedRecipes.setText(size);
+
+        size = "" + vm.user.getFavoritedRecipes().size();
+        starredRecipes.setText(size);
 
         String imageURL = vm.user.getImageURL();
         FirebaseStorage ref = FirebaseStorage.getInstance();

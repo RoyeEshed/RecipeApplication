@@ -2,8 +2,8 @@ package com.eshed.fork.Recipe.vm;
 
 import android.util.Log;
 
-import com.eshed.fork.Data.service.NutritionalAnalysisRequest;
-import com.eshed.fork.Data.service.NutritionalAnalysisResponse;
+import com.eshed.fork.Data.model.UserAccount;
+import com.eshed.fork.Fork;
 import com.eshed.fork.R;
 import com.eshed.fork.Recipe.vm.component.ContributorViewModel;
 import com.eshed.fork.Recipe.vm.component.DirectionViewModel;
@@ -25,11 +25,9 @@ import com.eshed.fork.Data.service.EdamamService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 import io.reactivex.rxjava3.disposables.Disposable;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class RecipeViewModel {
 
@@ -45,41 +43,54 @@ public class RecipeViewModel {
     private Double servings;
     private int calories;
     private Disposable disposable;
+    private RecipeRepository repository;
+    private UserAccount user;
 
     public Listener listener;
 
     public RecipeViewModel(
-            RecipeRepository recipeRepository,
+            RecipeRepository repository,
             EdamamService edamamService,
-            int recipeID
+            int recipeID,
+            String uid
     ) {
-        disposable = recipeRepository
+        this.repository = repository;
+        disposable = repository
                 .getRecipeWithID(recipeID)
                 .subscribe(recipe -> {
                     // TODO: handle async.
                     this.recipe = recipe;
-                    NutritionalAnalysisRequest request = NutritionalAnalysisRequest.fromRecipe(recipe);
-                    edamamService
-                            .getNutritionAnalysis(request)
-                            .enqueue(new Callback<NutritionalAnalysisResponse>() {
-                                @Override
-                                public void onResponse(Call<NutritionalAnalysisResponse> call, Response<NutritionalAnalysisResponse> response) {
-                                    calories = response.body().getCalories();
-                                    nutrients = response.body().getTotalNutrients();
-                                    servings = response.body().getYield();
-                                    regenerateComponents();
-
-                                    if (listener != null) {
-                                        listener.onDataChanged();
-                                    }
-                                }
-
-                                @Override
-                                public void onFailure(Call<NutritionalAnalysisResponse> call, Throwable t) {
-
-                                }
-                            });
+//                    NutritionalAnalysisRequest request = NutritionalAnalysisRequest.fromRecipe(recipe);
+//                    edamamService
+//                            .getNutritionAnalysis(request)
+//                            .enqueue(new Callback<NutritionalAnalysisResponse>() {
+//                                @Override
+//                                public void onResponse(Call<NutritionalAnalysisResponse> call, Response<NutritionalAnalysisResponse> response) {
+//                                    calories = response.body().getCalories();
+//                                    nutrients = response.body().getTotalNutrients();
+//                                    servings = response.body().getYield();
+//                                    regenerateComponents();
+//
+//                                    if (listener != null) {
+//                                        listener.onDataChanged();
+//                                    }
+//                                }
+//
+//                                @Override
+//                                public void onFailure(Call<NutritionalAnalysisResponse> call, Throwable t) {
+//
+//                                }
+//                            });
                 });
+
+
+        repository.getUserWithUID(uid).subscribe(userAccount -> {
+            this.user = userAccount;
+            Log.d("TAG", "RecipeViewModel: got user with id: " + user.getUid());
+            if (user.getFavoritedRecipes().contains(recipeID)) {
+                this.isStarred = true;
+            }
+        });
 
         regenerateComponents();
     }
@@ -118,6 +129,25 @@ public class RecipeViewModel {
 
     public List<RecipeComponentViewModel> getComponents() {
         return recipeComponents;
+    }
+
+    public boolean isStarred() {
+        return isStarred;
+    }
+
+    public void starRecipe() {
+        if (isStarred) { // unstarring it
+            if (user != null) {
+                user.getFavoritedRecipes().remove((Integer)recipe.getRecipeID());
+            }
+        } else { // starring it
+            if (user != null) {
+                user.getFavoritedRecipes().add(recipe.getRecipeID());
+            }
+        }
+        isStarred = !isStarred;
+        repository.saveUser(user);
+        regenerateComponents();
     }
 
     private void regenerateComponents() {

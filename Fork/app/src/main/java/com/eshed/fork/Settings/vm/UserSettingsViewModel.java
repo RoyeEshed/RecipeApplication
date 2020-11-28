@@ -1,16 +1,23 @@
 package com.eshed.fork.Settings.vm;
 
-import com.eshed.fork.Data.DbRepository;
+import android.util.Log;
+
+import com.eshed.fork.Browse.vm.RecipeCardViewModel;
+import com.eshed.fork.Data.DbRecipeRepository;
+import com.eshed.fork.Data.model.Recipe;
 import com.eshed.fork.Data.model.UserAccount;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.rxjava3.disposables.Disposable;
 
 public class UserSettingsViewModel {
     public UserAccount user;
     private Disposable disposable;
-    private DbRepository repository;
+    private DbRecipeRepository repository;
 
-    public UserSettingsViewModel(String userUid, DbRepository repository) {
+    public UserSettingsViewModel(String userUid, DbRecipeRepository repository) {
         this.repository = repository;
         disposable = repository
                 .getUserWithUID(userUid)

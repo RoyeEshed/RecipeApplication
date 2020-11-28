@@ -12,9 +12,9 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 
 
-class DbRepository() : RecipeRepository {
+class DbRecipeRepository() : RecipeRepository {
     companion object {
-        @JvmStatic val instance = DbRepository()
+        @JvmStatic val instance = DbRecipeRepository()
     }
 
     private var recipeRelay: BehaviorSubject<List<Recipe>> = BehaviorSubject.createDefault(listOf())
@@ -82,7 +82,7 @@ class DbRepository() : RecipeRepository {
     override fun saveRecipe(recipe: Recipe) {
         val ref = FirebaseDatabase.getInstance().getReference("/recipes/" + recipe.recipeID)
         ref.setValue(recipe.toMap()).addOnSuccessListener {
-                Log.d("Save Recipe", "Saved recipe to database")
+            Log.d("Save Recipe", "Saved recipe to database")
         }
     }
 
@@ -105,14 +105,14 @@ class DbRepository() : RecipeRepository {
             })
     }
 
-    fun saveUser(user: UserAccount) {
+    override fun saveUser(user: UserAccount) {
         val ref = FirebaseDatabase.getInstance().getReference("/users/" + user.uid)
         ref.setValue(user.toMap()).addOnSuccessListener {
             Log.d("Save User", "Saved user to database")
         }
     }
 
-    fun getUserWithUID(uid: String): Single<UserAccount>? {
+    override fun getUserWithUID(uid: String): Single<UserAccount>? {
         getRecipesByUser(uid)
         for (user in userRelay.value) {
             if (user.uid.equals(uid)) {
@@ -141,4 +141,47 @@ class DbRepository() : RecipeRepository {
         }
         return null
     }
+
+    override fun getRecipesStarredByUser(uid: String): MutableList<Recipe>? {
+        var user: UserAccount? = null;
+        for (u in userRelay.value) {
+            if (u.uid.equals(uid)) {
+                user = u
+            }
+        }
+
+        var starredRecipeIDs = user!!.favoritedRecipes
+        var starredRecipes: MutableList<Recipe> = mutableListOf()
+
+        for (i in starredRecipeIDs) {
+            for (r in recipeRelay.value) {
+                if (r.recipeID == i) {
+                    starredRecipes.add(r)
+                }
+            }
+        }
+
+        return starredRecipes;
+    }
+
+    override fun getRecipesSubmittedByUser(uid: String?): MutableList<Recipe>? {
+        var user: UserAccount? = null;
+        for (u in userRelay.value) {
+            if (u.uid.equals(uid)) {
+                user = u
+            }
+        }
+
+        var userRecipes: MutableList<Recipe> = mutableListOf()
+        if (user != null) {
+            for (r in recipeRelay.value) {
+                if (r.contributor == user.username) {
+                    userRecipes.add(r)
+                }
+            }
+            return userRecipes
+        }
+        return null
+    }
+
 }

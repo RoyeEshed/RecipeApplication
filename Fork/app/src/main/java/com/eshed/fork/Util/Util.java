@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.eshed.fork.Browse.view.BrowseActivity;
+import com.eshed.fork.Favorites.view.FavoritesActivity;
 import com.eshed.fork.R;
 import com.eshed.fork.Recipe.view.NewRecipeActivity;
 import com.eshed.fork.Settings.view.SettingsActivity;
@@ -35,7 +36,8 @@ public class Util {
         });
 
         starredRecipesButton.setOnClickListener((View v)-> {
-            Toast.makeText(activity, "TODO: starred recipes button", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(activity, FavoritesActivity.class);
+            activity.startActivity(intent);
         });
     }
 }

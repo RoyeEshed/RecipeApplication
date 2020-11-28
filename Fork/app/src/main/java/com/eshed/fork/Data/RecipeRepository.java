@@ -1,6 +1,7 @@
 package com.eshed.fork.Data;
 
 import com.eshed.fork.Data.model.Recipe;
+import com.eshed.fork.Data.model.UserAccount;
 
 import java.util.List;
 
@@ -15,4 +16,9 @@ public interface RecipeRepository {
     Recipe createNewRecipeFromRecipe(Recipe recipe, String newName);
 
     void saveRecipe(Recipe recipe);
+
+    List<Recipe> getRecipesSubmittedByUser(String uid);
+    List<Recipe> getRecipesStarredByUser(String uid);
+    void saveUser(UserAccount user);
+    Single<UserAccount> getUserWithUID(String uid);
 }

@@ -32,6 +32,7 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeViewHo
         void addDirectionComponent(RecipeViewModel vm);
         void cancelChanges(RecipeViewModel vm);
         void changeRecipeImage(String imageURL);
+        void recipeStarred();
     }
 
     private RecipeViewModel vm;
@@ -149,13 +150,9 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeViewHo
     }
 
     @Override
-    public void recipeStarred() {
-
-    }
-
-    @Override
-    public void recipeUnstarred() {
-
+    public void starTapped() {
+        handler.recipeStarred();
+        notifyDataSetChanged();
     }
 
     // endregion

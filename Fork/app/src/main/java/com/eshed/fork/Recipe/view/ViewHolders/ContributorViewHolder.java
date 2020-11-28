@@ -43,7 +43,7 @@ public class ContributorViewHolder extends RecipeViewHolder {
             star.setVisibility(View.VISIBLE);
 
             if (callback != null) {
-                callback.recipeStarred();
+                callback.starTapped();
             }
         });
 
@@ -52,7 +52,7 @@ public class ContributorViewHolder extends RecipeViewHolder {
             star.setVisibility(View.GONE);
 
             if (callback != null) {
-                callback.recipeUnstarred();
+                callback.starTapped();
             }
         });
     }

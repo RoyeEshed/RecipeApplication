@@ -9,8 +9,7 @@ import android.view.MenuItem;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
-import com.eshed.fork.Data.DbRepository;
-import com.eshed.fork.Data.model.UserAccount;
+import com.eshed.fork.Data.DbRecipeRepository;
 import com.eshed.fork.Fork;
 import com.eshed.fork.Login.view.LoginActivity;
 
@@ -38,7 +37,7 @@ public class BrowseActivity extends AppCompatActivity implements BrowseRecyclerV
         setContentView(R.layout.activity_browse);
         Util.setupTabBar(this);
         setupToolbar();
-        DbRepository dbRepository = DbRepository.getInstance();
+        DbRecipeRepository dbRepository = DbRecipeRepository.getInstance();
         Fork app = (Fork) getApplication();
         vm = new BrowseViewModel();
         dbRepository.load();

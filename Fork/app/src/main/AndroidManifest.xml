@@ -23,7 +23,7 @@
         <activity android:name="com.eshed.fork.Browse.view.BrowseActivity"/>
         <activity android:name=".Recipe.view.NewRecipeActivity"/>
         <activity android:name=".Settings.view.SettingsActivity"/>
-
+        <activity android:name=".Favorites.view.FavoritesActivity"/>
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
