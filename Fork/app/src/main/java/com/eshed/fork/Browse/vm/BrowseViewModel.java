@@ -22,9 +22,11 @@ public class BrowseViewModel  {
         return recipeRepository.retrieveRecipes().map(recipes -> {
             List<RecipeCardViewModel> recipesList = new ArrayList<>();
             for (Recipe r: recipes) {
-                recipesList.add(new RecipeCardViewModel(r));
+                int numChildren = recipeRepository.numberOfChildren(r);
+                if (r.getParentRecipeID() == -1) {
+                    recipesList.add(new RecipeCardViewModel(r, numChildren));
+                }
             }
-            Log.d("TAG", "getRecipeList: ***************************************************************");
             return recipesList;
         });
     }

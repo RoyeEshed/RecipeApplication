@@ -6,12 +6,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.eshed.fork.Data.DbRecipeRepository;
-import com.eshed.fork.Data.RecipeRepository;
-import com.eshed.fork.Login.view.LoginActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -21,10 +19,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.eshed.fork.Browse.vm.BrowseViewModel;
 import com.eshed.fork.Browse.vm.RecipeCardViewModel;
+import com.eshed.fork.Data.DbRecipeRepository;
+import com.eshed.fork.Fork;
+import com.eshed.fork.Login.view.LoginActivity;
 import com.eshed.fork.R;
 import com.eshed.fork.Recipe.view.NewRecipeActivity;
 import com.eshed.fork.Recipe.view.RecipeActivity;
-import com.eshed.fork.Util.Util;
+import com.eshed.fork.Settings.view.SettingsActivity;
+import com.eshed.fork.StarredRecipes.view.StarredRecipesActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class BrowseActivity extends AppCompatActivity implements BrowseRecyclerViewAdapter.BrowseAdapterHandler {
     private BrowseViewModel vm;
@@ -34,12 +37,21 @@ public class BrowseActivity extends AppCompatActivity implements BrowseRecyclerV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browse);
-        Util.setupTabBar(this);
+        setupTabBar();
         setupToolbar();
         DbRecipeRepository dbRepository = DbRecipeRepository.getInstance();
+        Fork app = (Fork) getApplication();
         vm = new BrowseViewModel();
         dbRepository.load();
         initRecyclerView();
+
+        FirebaseAuth ref = FirebaseAuth.getInstance();
+        String uid = ref.getCurrentUser().getUid();
+        if (uid != null) {
+            Log.d("TAG", "onCreate: USER UID = " + uid);
+        }
+        String email = ref.getCurrentUser().getEmail();
+        String username = ref.getCurrentUser().getDisplayName();
     }
 
     @Override
@@ -78,6 +90,22 @@ public class BrowseActivity extends AppCompatActivity implements BrowseRecyclerV
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void setupTabBar() {
+        Toolbar tabBar = this.findViewById(R.id.tab_bar);
+        ImageView settingsButton = tabBar.findViewById(R.id.user_settings);
+        ImageView starredRecipesButton = tabBar.findViewById(R.id.star);
+
+        settingsButton.setOnClickListener((View v)-> {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            this.startActivity(intent);
+        });
+
+        starredRecipesButton.setOnClickListener((View v)-> {
+            Intent intent = new Intent(this, StarredRecipesActivity.class);
+            this.startActivity(intent);
+        });
     }
 
     private void initRecyclerView() {

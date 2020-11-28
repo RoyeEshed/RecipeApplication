@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.eshed.fork.Data.model.UserAccount
 import com.eshed.fork.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
@@ -52,14 +53,18 @@ class RegisterActivity: AppCompatActivity() {
     private fun saveUserToFirebaseDatabase() {
         val uid = FirebaseAuth.getInstance().uid ?: ""
         val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
-        val user:User
-        var taskList = ArrayList<String>();
-        taskList.add("Example Task Here")
+
+        val username = usernameEditText.text.toString()
+        val email = emailEditText2.text.toString()
+        val imageURL = "gs://fork-15014.appspot.com/images/users/702e824c-e20f-4122-bf0e-72abb424117e.jpg"
+        val favoritedRecipes: MutableList<Int> = mutableListOf()
+        val submittedRecipes: MutableList<Int> = mutableListOf()
+        val user: UserAccount
 
         if (usernameEditText.text.toString().isEmpty()) {
-            user = User(uid, usernameEditText.text.toString(), "0", taskList)
+            user = UserAccount(email, uid, "username", imageURL, favoritedRecipes, submittedRecipes)
         } else {
-            user = User(uid, usernameEditText.text.toString(), "0", taskList)
+            user = UserAccount(email, uid, username, imageURL, favoritedRecipes, submittedRecipes)
         }
 
         ref.setValue(user)
@@ -68,4 +73,4 @@ class RegisterActivity: AppCompatActivity() {
             }
     }
 }
-class User(val uid: String, val username: String, val userInfo: String, var tasks: ArrayList<String>)
+//class User(val uid: String, val username: String, val email: String, val userInfo: String)

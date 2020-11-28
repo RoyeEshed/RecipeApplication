@@ -35,7 +35,7 @@ public class NewRecipeDialogFragment extends DialogFragment {
 
         builder.setMessage("Edit Recipe Name")
                 .setView(view)
-                .setPositiveButton("Save", (dialog, id) -> listener.onDialogPositiveClick(NewRecipeDialogFragment.this, recipeName.getText().toString()))
+                .setPositiveButton("OK", (dialog, id) -> listener.onDialogPositiveClick(NewRecipeDialogFragment.this, recipeName.getText().toString()))
                 .setNegativeButton("Cancel", (dialog, id) -> listener.onDialogNegativeClick(NewRecipeDialogFragment.this));
         return builder.create();
     }

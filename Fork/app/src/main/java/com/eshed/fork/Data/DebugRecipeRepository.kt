@@ -4,6 +4,7 @@ import android.util.Log
 import com.eshed.fork.Data.model.Direction
 import com.eshed.fork.Data.model.Ingredient
 import com.eshed.fork.Data.model.Recipe
+import com.eshed.fork.Data.model.UserAccount
 import com.google.firebase.database.FirebaseDatabase
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
@@ -45,6 +46,18 @@ class DebugRecipeRepository : RecipeRepository {
         return newRecipe
     }
 
+    override fun retrieveChildrenOfRecipe(parentRecipeID: Int): Observable<MutableList<Recipe>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getRecipesStarredByUser(uid: String?): MutableList<Recipe> {
+        TODO("Not yet implemented")
+    }
+
+    override fun saveUser(user: UserAccount?) {
+        TODO("Not yet implemented")
+    }
+
     override fun createNewRecipe(): Recipe {
         return Recipe(
             recipeID = (Math.random() * 1000).toInt(),
@@ -52,7 +65,7 @@ class DebugRecipeRepository : RecipeRepository {
         )
     }
 
-    override fun saveRecipe(recipe: Recipe) {
+    override fun saveRecipe(recipe: Recipe, uid: String) {
         Companion.recipes.add(recipe)
         recipeRelay.onNext(Companion.recipes)
         val db: DbRecipeRepository = DbRecipeRepository()
@@ -60,11 +73,22 @@ class DebugRecipeRepository : RecipeRepository {
         ref.setValue(recipe).addOnSuccessListener {
             Log.d("TAG", "saveRecipe: to firebase?")
         }
-        db.saveRecipe(recipe)
+        db.saveRecipe(recipe, "")
         db.load()
 
     }
 
+    override fun getRecipesSubmittedByUser(uid: String?): MutableList<Recipe> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getUserWithUID(uid: String?): Single<UserAccount> {
+        TODO("Not yet implemented")
+    }
+
+    override fun numberOfChildren(recipe: Recipe): Int {
+        return 0
+    }
     companion object {
         @JvmStatic
         val instance = DebugRecipeRepository()

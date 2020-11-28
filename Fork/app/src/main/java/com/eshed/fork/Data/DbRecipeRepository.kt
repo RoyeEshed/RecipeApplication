@@ -1,9 +1,8 @@
 package com.eshed.fork.Data
 
 import android.util.Log
-import com.eshed.fork.Data.model.Direction
-import com.eshed.fork.Data.model.Ingredient
 import com.eshed.fork.Data.model.Recipe
+import com.eshed.fork.Data.model.UserAccount
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -11,7 +10,6 @@ import com.google.firebase.database.ValueEventListener
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.subjects.BehaviorSubject
-import java.util.*
 
 
 class DbRecipeRepository() : RecipeRepository {
@@ -19,15 +17,12 @@ class DbRecipeRepository() : RecipeRepository {
         @JvmStatic val instance = DbRecipeRepository()
     }
 
-    private var ingredientsMap: MutableMap<Int, MutableList<Ingredient>> = HashMap()
-    private var directionsMap: MutableMap<Int, MutableList<Direction>> = HashMap()
-    private var ingredients: MutableList<Ingredient> = mutableListOf()
-    private var directions: MutableList<Direction> = mutableListOf()
     private var recipeRelay: BehaviorSubject<List<Recipe>> = BehaviorSubject.createDefault(listOf())
+    private var userRelay: BehaviorSubject<List<UserAccount>> = BehaviorSubject.createDefault(listOf())
+    private var currentUser: UserAccount? = null
 
     fun load() {
         val database = FirebaseDatabase.getInstance()
-
         database.getReference("/recipes").addValueEventListener(
             object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -41,6 +36,7 @@ class DbRecipeRepository() : RecipeRepository {
                     Log.w("Fork", "load directions:onCancelled", error.toException())
                 }
             })
+        loadUsers()
     }
 
     override fun retrieveRecipes(): Observable<List<Recipe>> {
@@ -84,91 +80,136 @@ class DbRecipeRepository() : RecipeRepository {
         return newRecipe
     }
 
-    override fun saveRecipe(recipe: Recipe) {
+    override fun retrieveChildrenOfRecipe(parentRecipeID: Int): Observable<MutableList<Recipe>> {
+        var childRecipes: MutableList<Recipe> = mutableListOf()
+        for (r in recipeRelay.value) {
+            if (r.parentRecipeID == parentRecipeID) {
+                childRecipes.add(r)
+            }
+        }
+        return Observable.just(childRecipes)
+    }
+
+    override fun saveRecipe(recipe: Recipe, uid: String) {
+        for (user in userRelay.value) {
+            if (user.uid.equals(uid)) {
+                recipe.contributor = user.username
+                user.submittedRecipes.add(recipe.recipeID)
+                saveUser(user)
+            }
+        }
         val ref = FirebaseDatabase.getInstance().getReference("/recipes/" + recipe.recipeID)
         ref.setValue(recipe.toMap()).addOnSuccessListener {
-                Log.d("Save Recipe", "Saved recipe to database")
+            Log.d("Save Recipe", "Saved recipe to database")
+        }
+
+    }
+
+    fun loadUsers() {
+        var userList: MutableList<UserAccount> = mutableListOf()
+        var currentUser: UserAccount
+        val database = FirebaseDatabase.getInstance()
+        database.getReference("/users/").addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    Log.w("Fork", "load $dataSnapshot")
+                    dataSnapshot.children
+                        .map { it.getValue(UserAccount::class.java)!! }
+                        .let { userRelay.onNext(it) }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.w("Fork", "load directions:onCancelled", error.toException())
+                }
+            })
+    }
+
+    override fun saveUser(user: UserAccount) {
+        val ref = FirebaseDatabase.getInstance().getReference("/users/" + user.uid)
+        ref.setValue(user.toMap()).addOnSuccessListener {
+            Log.d("Save User", "Saved user to database")
         }
     }
 
-    fun saveIngredients(recipe: Recipe) {
-        val ref = FirebaseDatabase.getInstance().getReference("/ingredients/")
-        for (i in recipe.ingredients) {
-            val key = ref.child("posts").push().key
-            if (key == null) {
-                Log.w("TAG", "Couldn't get push key for posts")
-                return
+    override fun getUserWithUID(uid: String): Single<UserAccount>? {
+        getRecipesByUser(uid)
+        for (user in userRelay.value) {
+            if (user.uid.equals(uid)) {
+                return Single.just(user)
             }
-
-            val ingredientValues = i.toMap()
-
-            val childUpdates = hashMapOf<String, Any>(
-                "$key" to ingredientValues
-            )
-
-            ref.updateChildren(childUpdates)
         }
+        return null
     }
 
-    fun saveDirections(recipe: Recipe) {
-        val ref = FirebaseDatabase.getInstance().getReference("/directions/")
-        for (d in recipe.directions) {
-            val key = ref.child("posts").push().key
-            if (key == null) {
-                Log.w("TAG", "Couldn't get push key for posts")
-                return
+    fun getRecipesByUser(uid: String): MutableList<Recipe>?{
+        var user: UserAccount? = null;
+        for (u in userRelay.value) {
+            if (u.uid.equals(uid)) {
+                user = u
             }
-
-            val directionsValues = d.toMap()
-
-            val childUpdates = hashMapOf<String, Any>(
-                "$key" to directionsValues
-            )
-
-            ref.updateChildren(childUpdates)
         }
-    }
 
-    fun addIngredientsToMap(list: MutableList<Ingredient>) {
-        for (i in list) {
-            val recipeID = i.recipeID
-            var temp = ingredientsMap.get(recipeID);
-            if (temp != null) {
-                temp.add(i)
-            } else {
-                temp = mutableListOf(i)
+        var userRecipes: MutableList<Recipe> = mutableListOf()
+        if (user != null) {
+            for (r in recipeRelay.value) {
+                if (r.contributor == user.username) {
+                    userRecipes.add(r)
+                }
             }
-            ingredientsMap[recipeID] = temp
+            return userRecipes
         }
+        return null
     }
 
-    fun addDirectionsToMap(list: MutableList<Direction>) {
-        for (d in list) {
-            val recipeID = d.recipeID
-            var temp: MutableList<Direction>? = directionsMap.get(recipeID);
-            if (temp != null) {
-                temp.add(d)
-            } else {
-                temp = mutableListOf(d)
+    override fun getRecipesStarredByUser(uid: String): MutableList<Recipe>? {
+        var user: UserAccount? = null;
+        for (u in userRelay.value) {
+            if (u.uid.equals(uid)) {
+                user = u
             }
-            directionsMap[recipeID] = temp
         }
+
+        var starredRecipeIDs = user!!.starredRecipes
+        var starredRecipes: MutableList<Recipe> = mutableListOf()
+
+        for (i in starredRecipeIDs) {
+            for (r in recipeRelay.value) {
+                if (r.recipeID == i) {
+                    starredRecipes.add(r)
+                }
+            }
+        }
+
+        return starredRecipes;
     }
 
-    fun addDirectionsToRecipes() {
+    override fun getRecipesSubmittedByUser(uid: String?): MutableList<Recipe>? {
+        var user: UserAccount? = null;
+        for (u in userRelay.value) {
+            if (u.uid.equals(uid)) {
+                user = u
+            }
+        }
+
+        var userRecipes: MutableList<Recipe> = mutableListOf()
+        if (user != null) {
+            for (r in recipeRelay.value) {
+                if (r.contributor == user.username) {
+                    userRecipes.add(r)
+                }
+            }
+            return userRecipes
+        }
+        return null
+    }
+
+    override fun numberOfChildren(recipe: Recipe): Int {
+        var numChildRecipes: Int = 0
         for (r in recipeRelay.value) {
-            if (directionsMap[r.recipeID] != null) {
-                r.directions = directionsMap[r.recipeID]!!
+            if (r.parentRecipeID == recipe.recipeID) {
+                numChildRecipes++
             }
         }
+        return numChildRecipes
     }
-
-    fun addIngredientsToRecipes() {
-        for (r in recipeRelay.value) {
-            if (ingredientsMap[r.recipeID] != null) {
-                r.ingredients = ingredientsMap[r.recipeID]!!
-            }
-        }
-    }
-
 }

@@ -23,15 +23,14 @@ import com.eshed.fork.Recipe.view.ViewHolders.TagsViewHolder;
 import com.eshed.fork.Recipe.vm.RecipeViewModel;
 import com.eshed.fork.Recipe.vm.component.RecipeComponentViewModel;
 
-import java.util.List;
-
-public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeViewHolder> implements RecipeViewModel.Listener, FooterCallback, RecipeImageCallback {
+public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeViewHolder> implements RecipeViewModel.Listener, FooterCallback, RecipeImageCallback, ContributorCallback {
 
     public interface RecipeAdapterHandler {
         void addIngredientComponent(RecipeViewModel vm);
         void addDirectionComponent(RecipeViewModel vm);
         void cancelChanges(RecipeViewModel vm);
         void changeRecipeImage(String imageURL);
+        void recipeStarred();
     }
 
     private RecipeViewModel vm;
@@ -85,7 +84,9 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeViewHo
                 return imageViewHolder;
             case Contributor:
                 view = inflater.inflate(R.layout.item_contribution, parent, false);
-                return new ContributorViewHolder(view);
+                ContributorViewHolder contributorViewHolder = new ContributorViewHolder(view);
+                contributorViewHolder.callback = this;
+                return contributorViewHolder;
             case Footer_Cancel:
                 view = inflater.inflate(R.layout.item_footer, parent, false);
                 CancelFooterViewHolder cancelFooterViewHolder = new CancelFooterViewHolder(view);
@@ -143,6 +144,12 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeViewHo
     @Override
     public void recipeImageTapped() {
         handler.changeRecipeImage("");
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public void starTapped() {
+        handler.recipeStarred();
         notifyDataSetChanged();
     }
 

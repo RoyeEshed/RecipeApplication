@@ -24,15 +24,17 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.eshed.fork.Browse.view.BrowseActivity;
 import com.eshed.fork.Data.DbRecipeRepository;
-import com.eshed.fork.Data.model.Recipe;
+import com.eshed.fork.Fork;
 import com.eshed.fork.R;
 import com.eshed.fork.Recipe.view.Dialogs.NewRecipeDialogFragment;
 import com.eshed.fork.Recipe.view.Dialogs.NewRecipeDialogFragment.NewRecipeDialogListener;
 import com.eshed.fork.Recipe.view.RecipeRecyclerViewAdapter.RecipeAdapterHandler;
 import com.eshed.fork.Recipe.vm.RecipeViewModel;
-import com.eshed.fork.Util.Util;
+import com.eshed.fork.Settings.view.SettingsActivity;
+import com.eshed.fork.StarredRecipes.view.StarredRecipesActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -52,20 +54,18 @@ public class NewRecipeActivity extends AppCompatActivity implements RecipeAdapte
     private TextView title;
     private RecipeRecyclerViewAdapter adapter;
     private RecipeViewModel vm;
+    private Fork app;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_new_recipe);
-
+        app = (Fork) getApplication();
         toolbar = findViewById(R.id.toolbar);
         setupToolbar();
-        Util.setupTabBar(this);
+        setupTabBar();
 
-//        vm = new RecipeViewModel(DebugRecipeRepository.getInstance().createNewRecipe());
         vm = new RecipeViewModel(DbRecipeRepository.getInstance().createNewRecipe());
-
         initRecyclerView();
         vm.toggleEditable();
         showNewRecipeDialog();
@@ -82,6 +82,29 @@ public class NewRecipeActivity extends AppCompatActivity implements RecipeAdapte
         }
     }
 
+    public void setupTabBar() {
+        Toolbar tabBar = this.findViewById(R.id.tab_bar);
+        ImageView settingsButton = tabBar.findViewById(R.id.user_settings);
+        ImageView starredRecipesButton = tabBar.findViewById(R.id.star);
+        ImageView homeButton = tabBar.findViewById(R.id.home);
+
+        homeButton.setOnClickListener((View v)-> {
+            Intent intent = new Intent(this, BrowseActivity.class);
+            this.finish();
+            this.startActivity(intent);
+        });
+
+        settingsButton.setOnClickListener((View v)-> {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            this.startActivity(intent);
+        });
+
+        starredRecipesButton.setOnClickListener((View v)-> {
+            Intent intent = new Intent(this, StarredRecipesActivity.class);
+            this.startActivity(intent);
+        });
+    }
+
     private void setupToolbar() {
         setSupportActionBar(toolbar);
         if (this.getSupportActionBar() != null) {
@@ -89,7 +112,6 @@ public class NewRecipeActivity extends AppCompatActivity implements RecipeAdapte
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
-
         title = toolbar.findViewById(R.id.toolbar_title);
         title.setText("Add New Recipe");
         addButton = toolbar.findViewById(R.id.add_recipe);
@@ -106,7 +128,7 @@ public class NewRecipeActivity extends AppCompatActivity implements RecipeAdapte
         });
         saveButton.setOnClickListener((View v) -> {
             vm.getRecipe().setName(title.getText().toString());
-            DbRecipeRepository.getInstance().saveRecipe(vm.getRecipe());
+            DbRecipeRepository.getInstance().saveRecipe(vm.getRecipe(), app.getUid());
             this.finish();
         });
     }
@@ -169,6 +191,9 @@ public class NewRecipeActivity extends AppCompatActivity implements RecipeAdapte
     }
 
     @Override
+    public void recipeStarred() {}
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
@@ -178,8 +203,8 @@ public class NewRecipeActivity extends AppCompatActivity implements RecipeAdapte
                 @SuppressWarnings("deprecation") Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedPhotoUri);
                 @SuppressWarnings("deprecation") Drawable drawable = new BitmapDrawable(bitmap);
                 // TODO: update image on screen
-                uploadImageToStorage(selectedPhotoUri);
-
+                ImageView recipeImage = findViewById(R.id.recipe_image);
+                Glide.with(this).load(drawable).centerCrop().into(recipeImage);
             } catch (IOException e) {
                 e.printStackTrace();
             }
