@@ -27,7 +27,6 @@ public class BrowseViewModel  {
                     recipesList.add(new RecipeCardViewModel(r, numChildren));
                 }
             }
-            Log.d("TAG", "getRecipeList: ***************************************************************");
             return recipesList;
         });
     }

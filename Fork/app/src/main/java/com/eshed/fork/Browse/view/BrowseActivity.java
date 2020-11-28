@@ -27,7 +27,6 @@ import com.eshed.fork.Recipe.view.NewRecipeActivity;
 import com.eshed.fork.Recipe.view.RecipeActivity;
 import com.eshed.fork.Settings.view.SettingsActivity;
 import com.eshed.fork.StarredRecipes.view.StarredRecipesActivity;
-import com.eshed.fork.Util.Util;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class BrowseActivity extends AppCompatActivity implements BrowseRecyclerViewAdapter.BrowseAdapterHandler {

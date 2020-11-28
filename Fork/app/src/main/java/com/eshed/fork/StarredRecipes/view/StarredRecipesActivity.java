@@ -20,7 +20,6 @@ import com.eshed.fork.Recipe.view.RecipeActivity;
 import com.eshed.fork.Settings.view.SettingsActivity;
 import com.eshed.fork.StarredRecipes.vm.StarredRecipeCardViewModel;
 import com.eshed.fork.StarredRecipes.vm.StarredRecipesViewModel;
-import com.eshed.fork.Util.Util;
 
 public class StarredRecipesActivity extends AppCompatActivity implements StarredRecipesRecyclerViewAdapter.StarredRecipesAdapterHandler {
     private StarredRecipesViewModel vm;

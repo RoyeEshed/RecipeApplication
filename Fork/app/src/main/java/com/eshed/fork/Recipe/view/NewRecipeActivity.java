@@ -35,7 +35,6 @@ import com.eshed.fork.Recipe.view.RecipeRecyclerViewAdapter.RecipeAdapterHandler
 import com.eshed.fork.Recipe.vm.RecipeViewModel;
 import com.eshed.fork.Settings.view.SettingsActivity;
 import com.eshed.fork.StarredRecipes.view.StarredRecipesActivity;
-import com.eshed.fork.Util.Util;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
