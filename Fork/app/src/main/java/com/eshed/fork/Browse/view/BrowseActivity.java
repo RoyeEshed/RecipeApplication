@@ -6,7 +6,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +25,8 @@ import com.eshed.fork.Login.view.LoginActivity;
 import com.eshed.fork.R;
 import com.eshed.fork.Recipe.view.NewRecipeActivity;
 import com.eshed.fork.Recipe.view.RecipeActivity;
+import com.eshed.fork.Settings.view.SettingsActivity;
+import com.eshed.fork.StarredRecipes.view.StarredRecipesActivity;
 import com.eshed.fork.Util.Util;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -34,7 +38,7 @@ public class BrowseActivity extends AppCompatActivity implements BrowseRecyclerV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browse);
-        Util.setupTabBar(this);
+        setupTabBar();
         setupToolbar();
         DbRecipeRepository dbRepository = DbRecipeRepository.getInstance();
         Fork app = (Fork) getApplication();
@@ -87,6 +91,22 @@ public class BrowseActivity extends AppCompatActivity implements BrowseRecyclerV
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void setupTabBar() {
+        Toolbar tabBar = this.findViewById(R.id.tab_bar);
+        ImageView settingsButton = tabBar.findViewById(R.id.user_settings);
+        ImageView starredRecipesButton = tabBar.findViewById(R.id.star);
+
+        settingsButton.setOnClickListener((View v)-> {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            this.startActivity(intent);
+        });
+
+        starredRecipesButton.setOnClickListener((View v)-> {
+            Intent intent = new Intent(this, StarredRecipesActivity.class);
+            this.startActivity(intent);
+        });
     }
 
     private void initRecyclerView() {

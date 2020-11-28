@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Fork</string>
     <string name="placeholder">placeholder</string>
-    <string name="modifications_label">Modifications</string>
+    <string name="modifications_label">Modifications Available:</string>
     <string name="modifications_placeholder">GF, V</string>
     <string name="search_icon">Search Icon</string>
     <string name="search">Search</string>

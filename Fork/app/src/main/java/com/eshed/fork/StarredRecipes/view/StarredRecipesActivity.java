@@ -3,7 +3,8 @@ package com.eshed.fork.StarredRecipes.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,10 +12,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.eshed.fork.Browse.view.BrowseActivity;
 import com.eshed.fork.Data.DbRecipeRepository;
 import com.eshed.fork.Fork;
 import com.eshed.fork.R;
 import com.eshed.fork.Recipe.view.RecipeActivity;
+import com.eshed.fork.Settings.view.SettingsActivity;
 import com.eshed.fork.StarredRecipes.vm.StarredRecipeCardViewModel;
 import com.eshed.fork.StarredRecipes.vm.StarredRecipesViewModel;
 import com.eshed.fork.Util.Util;
@@ -27,7 +30,7 @@ public class StarredRecipesActivity extends AppCompatActivity implements Starred
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_starred);
-        Util.setupTabBar(this);
+        setupTabBar();
         setupToolbar();
         DbRecipeRepository dbRepository = DbRecipeRepository.getInstance();
         Fork app = (Fork) getApplication();
@@ -36,15 +39,21 @@ public class StarredRecipesActivity extends AppCompatActivity implements Starred
         initRecyclerView();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                this.finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+    public void setupTabBar() {
+        Toolbar tabBar = this.findViewById(R.id.tab_bar);
+        ImageView settingsButton = tabBar.findViewById(R.id.user_settings);
+        ImageView homeButton = tabBar.findViewById(R.id.home);
+
+        homeButton.setOnClickListener((View v)-> {
+            Intent intent = new Intent(this, BrowseActivity.class);
+            this.finish();
+            this.startActivity(intent);
+        });
+
+        settingsButton.setOnClickListener((View v)-> {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            this.startActivity(intent);
+        });
     }
 
     private void initRecyclerView() {
@@ -60,8 +69,7 @@ public class StarredRecipesActivity extends AppCompatActivity implements Starred
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (this.getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
         TextView title = toolbar.findViewById(R.id.toolbar_title);

@@ -33,6 +33,8 @@ import com.eshed.fork.Recipe.view.Dialogs.NewRecipeDialogFragment;
 import com.eshed.fork.Recipe.view.Dialogs.NewRecipeDialogFragment.NewRecipeDialogListener;
 import com.eshed.fork.Recipe.view.RecipeRecyclerViewAdapter.RecipeAdapterHandler;
 import com.eshed.fork.Recipe.vm.RecipeViewModel;
+import com.eshed.fork.Settings.view.SettingsActivity;
+import com.eshed.fork.StarredRecipes.view.StarredRecipesActivity;
 import com.eshed.fork.Util.Util;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -62,7 +64,7 @@ public class NewRecipeActivity extends AppCompatActivity implements RecipeAdapte
         app = (Fork) getApplication();
         toolbar = findViewById(R.id.toolbar);
         setupToolbar();
-        Util.setupTabBar(this);
+        setupTabBar();
 
         vm = new RecipeViewModel(DbRecipeRepository.getInstance().createNewRecipe());
         initRecyclerView();
@@ -79,6 +81,29 @@ public class NewRecipeActivity extends AppCompatActivity implements RecipeAdapte
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void setupTabBar() {
+        Toolbar tabBar = this.findViewById(R.id.tab_bar);
+        ImageView settingsButton = tabBar.findViewById(R.id.user_settings);
+        ImageView starredRecipesButton = tabBar.findViewById(R.id.star);
+        ImageView homeButton = tabBar.findViewById(R.id.home);
+
+        homeButton.setOnClickListener((View v)-> {
+            Intent intent = new Intent(this, BrowseActivity.class);
+            this.finish();
+            this.startActivity(intent);
+        });
+
+        settingsButton.setOnClickListener((View v)-> {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            this.startActivity(intent);
+        });
+
+        starredRecipesButton.setOnClickListener((View v)-> {
+            Intent intent = new Intent(this, StarredRecipesActivity.class);
+            this.startActivity(intent);
+        });
     }
 
     private void setupToolbar() {

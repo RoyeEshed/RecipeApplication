@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array
+        name="options_array">
+        <item>"View modified versions"</item>
+        <item>"View recipe history"</item>
+    </array>
+</resources>
