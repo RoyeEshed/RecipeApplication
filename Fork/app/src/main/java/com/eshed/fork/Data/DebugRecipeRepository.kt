@@ -46,6 +46,10 @@ class DebugRecipeRepository : RecipeRepository {
         return newRecipe
     }
 
+    override fun retrieveChildrenOfRecipe(parentRecipeID: Int): Observable<MutableList<Recipe>> {
+        TODO("Not yet implemented")
+    }
+
     override fun getRecipesStarredByUser(uid: String?): MutableList<Recipe> {
         TODO("Not yet implemented")
     }

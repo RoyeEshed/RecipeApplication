@@ -14,6 +14,7 @@ public interface RecipeRepository {
     int numberOfChildren(Recipe recipe);
     Recipe createNewRecipe();
     Recipe createNewRecipeFromRecipe(Recipe recipe, String newName);
+    Observable<List<Recipe>> retrieveChildrenOfRecipe(int parentRecipeID);
 
     void saveRecipe(Recipe recipe, String uid);
 

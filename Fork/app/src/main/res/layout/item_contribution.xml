@@ -33,7 +33,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginEnd="15dp"
-        android:src="@drawable/ic_baseline_star_border_24_yellow"
+        android:src="@drawable/ic_baseline_star_border_24_gray"
         android:layout_alignParentEnd="true"
         android:layout_centerHorizontal="true"/>
     <ImageView

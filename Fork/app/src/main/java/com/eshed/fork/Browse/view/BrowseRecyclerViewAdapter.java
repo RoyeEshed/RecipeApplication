@@ -49,7 +49,7 @@ public class BrowseRecyclerViewAdapter extends RecyclerView.Adapter implements R
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_card, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.browse_recipe_card, parent, false);
         RecipeViewHolder viewHolder = new RecipeViewHolder(view);
         viewHolder.callback = this;
         return viewHolder;

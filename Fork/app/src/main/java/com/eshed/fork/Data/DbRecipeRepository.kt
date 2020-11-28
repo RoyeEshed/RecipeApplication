@@ -80,6 +80,16 @@ class DbRecipeRepository() : RecipeRepository {
         return newRecipe
     }
 
+    override fun retrieveChildrenOfRecipe(parentRecipeID: Int): Observable<MutableList<Recipe>> {
+        var childRecipes: MutableList<Recipe> = mutableListOf()
+        for (r in recipeRelay.value) {
+            if (r.parentRecipeID == parentRecipeID) {
+                childRecipes.add(r)
+            }
+        }
+        return Observable.just(childRecipes)
+    }
+
     override fun saveRecipe(recipe: Recipe, uid: String) {
         for (user in userRelay.value) {
             if (user.uid.equals(uid)) {
@@ -194,12 +204,12 @@ class DbRecipeRepository() : RecipeRepository {
     }
 
     override fun numberOfChildren(recipe: Recipe): Int {
-        var childRecipes: MutableList<Recipe> = mutableListOf()
+        var numChildRecipes: Int = 0
         for (r in recipeRelay.value) {
             if (r.parentRecipeID == recipe.recipeID) {
-                childRecipes.add(r)
+                numChildRecipes++
             }
         }
-        return childRecipes.size
+        return numChildRecipes
     }
 }
