@@ -129,7 +129,7 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
             showNewRecipeDialog();
         });
         saveButton.setOnClickListener((View v) -> {
-            DbRecipeRepository.getInstance().saveRecipe(vm.getRecipe());
+            DbRecipeRepository.getInstance().saveRecipe(vm.getRecipe(), app.getUid());
             toggleEditing();
         });
         //initSpinner();

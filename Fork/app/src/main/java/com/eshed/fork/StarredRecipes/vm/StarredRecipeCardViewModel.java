@@ -1,11 +1,11 @@
-package com.eshed.fork.Favorites.vm;
+package com.eshed.fork.StarredRecipes.vm;
 
 import com.eshed.fork.Data.model.Recipe;
 
-public class FavoritesCardViewModel {
+public class StarredRecipeCardViewModel {
     private Recipe recipe;
 
-    public FavoritesCardViewModel(Recipe recipe) {
+    public StarredRecipeCardViewModel(Recipe recipe) {
         this.recipe = recipe;
     }
 

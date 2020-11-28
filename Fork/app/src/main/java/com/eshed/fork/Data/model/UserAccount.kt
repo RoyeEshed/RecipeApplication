@@ -10,19 +10,9 @@ data class UserAccount
     var uid: String = "",
     var username: String = "",
     var imageURL: String = "gs://fork-15014.appspot.com/images/users/user.svg",
-    var favoritedRecipes: MutableList<Int> = mutableListOf(),
+    var starredRecipes: MutableList<Int> = mutableListOf(),
     var submittedRecipes: MutableList<Int> = mutableListOf()
 ) {
-
-    @Exclude
-    fun addFavoritedRecipe(recipeID: Int) {
-        favoritedRecipes.add(recipeID)
-    }
-
-    @Exclude
-    fun addSubmittedRecipe(recipeID: Int) {
-        submittedRecipes.add(recipeID)
-    }
 
     @Exclude
     fun toMap(): Map<String, Any?> {
@@ -31,7 +21,7 @@ data class UserAccount
             "uid" to uid,
             "username" to username,
             "imageURL" to imageURL,
-            "favoritedRecipes" to favoritedRecipes,
+            "starredRecipes" to starredRecipes,
             "submittedRecipes" to submittedRecipes
         )
     }

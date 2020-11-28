@@ -96,7 +96,7 @@ public class SettingsActivity extends AppCompatActivity {
         String size = "" + vm.user.getSubmittedRecipes().size();
         submittedRecipes.setText(size);
 
-        size = "" + vm.user.getFavoritedRecipes().size();
+        size = "" + vm.user.getStarredRecipes().size();
         starredRecipes.setText(size);
 
         String imageURL = vm.user.getImageURL();

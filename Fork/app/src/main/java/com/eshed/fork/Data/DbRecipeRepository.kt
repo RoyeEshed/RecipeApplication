@@ -19,6 +19,7 @@ class DbRecipeRepository() : RecipeRepository {
 
     private var recipeRelay: BehaviorSubject<List<Recipe>> = BehaviorSubject.createDefault(listOf())
     private var userRelay: BehaviorSubject<List<UserAccount>> = BehaviorSubject.createDefault(listOf())
+    private var currentUser: UserAccount? = null
 
     fun load() {
         val database = FirebaseDatabase.getInstance()
@@ -79,11 +80,19 @@ class DbRecipeRepository() : RecipeRepository {
         return newRecipe
     }
 
-    override fun saveRecipe(recipe: Recipe) {
+    override fun saveRecipe(recipe: Recipe, uid: String) {
+        for (user in userRelay.value) {
+            if (user.uid.equals(uid)) {
+                recipe.contributor = user.username
+                user.submittedRecipes.add(recipe.recipeID)
+                saveUser(user)
+            }
+        }
         val ref = FirebaseDatabase.getInstance().getReference("/recipes/" + recipe.recipeID)
         ref.setValue(recipe.toMap()).addOnSuccessListener {
             Log.d("Save Recipe", "Saved recipe to database")
         }
+
     }
 
     fun loadUsers() {
@@ -150,7 +159,7 @@ class DbRecipeRepository() : RecipeRepository {
             }
         }
 
-        var starredRecipeIDs = user!!.favoritedRecipes
+        var starredRecipeIDs = user!!.starredRecipes
         var starredRecipes: MutableList<Recipe> = mutableListOf()
 
         for (i in starredRecipeIDs) {

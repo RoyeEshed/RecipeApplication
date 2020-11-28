@@ -1,4 +1,4 @@
-package com.eshed.fork.Favorites.view;
+package com.eshed.fork.StarredRecipes.view;
 
 import android.view.View;
 import android.widget.ImageView;
@@ -8,25 +8,25 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.eshed.fork.Favorites.vm.FavoritesCardViewModel;
+import com.eshed.fork.StarredRecipes.vm.StarredRecipeCardViewModel;
 import com.eshed.fork.R;
 import com.eshed.fork.Util.GlideApp;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-public class FavoritesViewHolder extends RecyclerView.ViewHolder {
-    public interface FavoritesCardCallback {
-        void cardTappedOn(FavoritesCardViewModel vm);
+public class StarredRecipeViewHolder extends RecyclerView.ViewHolder {
+    public interface StarredRecipeCardCallback {
+        void cardTappedOn(StarredRecipeCardViewModel vm);
     }
 
     private TextView recipeName;
     private ImageView recipeImage;
     private ConstraintLayout layout;
-    private FavoritesCardViewModel vm;
+    private StarredRecipeCardViewModel vm;
 
-    public FavoritesViewHolder.FavoritesCardCallback callback;
+    public StarredRecipeCardCallback callback;
 
-    public FavoritesViewHolder(@NonNull View itemView) {
+    public StarredRecipeViewHolder(@NonNull View itemView) {
         super(itemView);
 
         recipeName = itemView.findViewById(R.id.recipe_name);
@@ -40,7 +40,7 @@ public class FavoritesViewHolder extends RecyclerView.ViewHolder {
         });
     }
 
-    public void setViewModel(FavoritesCardViewModel vm) {
+    public void setViewModel(StarredRecipeCardViewModel vm) {
         this.vm = vm;
         recipeName.setText(vm.getRecipe().getName());
         FirebaseStorage storage = FirebaseStorage.getInstance();

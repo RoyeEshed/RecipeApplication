@@ -61,7 +61,7 @@ class DebugRecipeRepository : RecipeRepository {
         )
     }
 
-    override fun saveRecipe(recipe: Recipe) {
+    override fun saveRecipe(recipe: Recipe, uid: String) {
         Companion.recipes.add(recipe)
         recipeRelay.onNext(Companion.recipes)
         val db: DbRecipeRepository = DbRecipeRepository()
@@ -69,7 +69,7 @@ class DebugRecipeRepository : RecipeRepository {
         ref.setValue(recipe).addOnSuccessListener {
             Log.d("TAG", "saveRecipe: to firebase?")
         }
-        db.saveRecipe(recipe)
+        db.saveRecipe(recipe, "")
         db.load()
 
     }

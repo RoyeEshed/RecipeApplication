@@ -1,4 +1,4 @@
-package com.eshed.fork.Favorites.view;
+package com.eshed.fork.StarredRecipes.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,26 +12,26 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.eshed.fork.Data.DbRecipeRepository;
-import com.eshed.fork.Favorites.vm.FavoritesCardViewModel;
-import com.eshed.fork.Favorites.vm.FavoritesViewModel;
+import com.eshed.fork.StarredRecipes.vm.StarredRecipeCardViewModel;
+import com.eshed.fork.StarredRecipes.vm.StarredRecipesViewModel;
 import com.eshed.fork.Fork;
 import com.eshed.fork.R;
 import com.eshed.fork.Recipe.view.RecipeActivity;
 import com.eshed.fork.Util.Util;
 
-public class FavoritesActivity extends AppCompatActivity implements FavoritesRecyclerViewAdapter.FavoritesAdapterHandler {
-    private FavoritesViewModel vm;
-    private FavoritesRecyclerViewAdapter adapter;
+public class StarredRecipesActivity extends AppCompatActivity implements StarredRecipesRecyclerViewAdapter.StarredRecipesAdapterHandler {
+    private StarredRecipesViewModel vm;
+    private StarredRecipesRecyclerViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_favorites);
+        setContentView(R.layout.activity_starred);
         Util.setupTabBar(this);
         setupToolbar();
         DbRecipeRepository dbRepository = DbRecipeRepository.getInstance();
         Fork app = (Fork) getApplication();
-        vm = new FavoritesViewModel(app.getUid());
+        vm = new StarredRecipesViewModel(app.getUid());
         dbRepository.load();
         initRecyclerView();
     }
@@ -50,10 +50,10 @@ public class FavoritesActivity extends AppCompatActivity implements FavoritesRec
     private void initRecyclerView() {
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        adapter = new FavoritesRecyclerViewAdapter(vm);
+        adapter = new StarredRecipesRecyclerViewAdapter(vm);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
-        ((FavoritesRecyclerViewAdapter) adapter).handler = this;
+        ((StarredRecipesRecyclerViewAdapter) adapter).handler = this;
     }
 
     private void setupToolbar() {
@@ -82,7 +82,7 @@ public class FavoritesActivity extends AppCompatActivity implements FavoritesRec
     }
 
     @Override
-    public void selectFavoritesCard(FavoritesCardViewModel vm) {
+    public void selectStarredRecipeCard(StarredRecipeCardViewModel vm) {
         Intent intent = new Intent(this, RecipeActivity.class);
         intent.putExtra("recipe", vm.getRecipe().getRecipeID());
         this.startActivity(intent);

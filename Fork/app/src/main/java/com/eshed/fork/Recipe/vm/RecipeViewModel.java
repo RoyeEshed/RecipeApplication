@@ -3,7 +3,6 @@ package com.eshed.fork.Recipe.vm;
 import android.util.Log;
 
 import com.eshed.fork.Data.model.UserAccount;
-import com.eshed.fork.Fork;
 import com.eshed.fork.R;
 import com.eshed.fork.Recipe.vm.component.ContributorViewModel;
 import com.eshed.fork.Recipe.vm.component.DirectionViewModel;
@@ -25,7 +24,6 @@ import com.eshed.fork.Data.service.EdamamService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 import io.reactivex.rxjava3.disposables.Disposable;
 
@@ -87,7 +85,7 @@ public class RecipeViewModel {
         repository.getUserWithUID(uid).subscribe(userAccount -> {
             this.user = userAccount;
             Log.d("TAG", "RecipeViewModel: got user with id: " + user.getUid());
-            if (user.getFavoritedRecipes().contains(recipeID)) {
+            if (user.getStarredRecipes().contains(recipeID)) {
                 this.isStarred = true;
             }
         });
@@ -138,11 +136,11 @@ public class RecipeViewModel {
     public void starRecipe() {
         if (isStarred) { // unstarring it
             if (user != null) {
-                user.getFavoritedRecipes().remove((Integer)recipe.getRecipeID());
+                user.getStarredRecipes().remove((Integer)recipe.getRecipeID());
             }
         } else { // starring it
             if (user != null) {
-                user.getFavoritedRecipes().add(recipe.getRecipeID());
+                user.getStarredRecipes().add(recipe.getRecipeID());
             }
         }
         isStarred = !isStarred;

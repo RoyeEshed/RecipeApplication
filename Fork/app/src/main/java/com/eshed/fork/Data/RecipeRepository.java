@@ -15,7 +15,7 @@ public interface RecipeRepository {
     Recipe createNewRecipe();
     Recipe createNewRecipeFromRecipe(Recipe recipe, String newName);
 
-    void saveRecipe(Recipe recipe);
+    void saveRecipe(Recipe recipe, String uid);
 
     List<Recipe> getRecipesSubmittedByUser(String uid);
     List<Recipe> getRecipesStarredByUser(String uid);

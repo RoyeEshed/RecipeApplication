@@ -1,4 +1,4 @@
-package com.eshed.fork.Favorites.vm;
+package com.eshed.fork.StarredRecipes.vm;
 
 import com.eshed.fork.Data.DbRecipeRepository;
 import com.eshed.fork.Data.RecipeRepository;
@@ -10,29 +10,29 @@ import java.util.List;
 
 import io.reactivex.rxjava3.core.Observable;
 
-public class FavoritesViewModel  {
+public class StarredRecipesViewModel {
     private UserAccount user;
-    private List<Integer> favoritedRecipes = new ArrayList<>();
+    private List<Integer> starredRecipes = new ArrayList<>();
     private RecipeRepository repository;
 
-    public FavoritesViewModel(String uid) {
+    public StarredRecipesViewModel(String uid) {
         repository = DbRecipeRepository.getInstance();
         repository.getUserWithUID(uid).subscribe(userAccount -> {
             this.user = userAccount;
-            this.favoritedRecipes = user.getFavoritedRecipes();
+            this.starredRecipes = user.getStarredRecipes();
         });
 
     }
 
-    public Observable<List<FavoritesCardViewModel>> getRecipeList() {
+    public Observable<List<StarredRecipeCardViewModel>> getRecipeList() {
         return repository.retrieveRecipes().map(recipes -> {
-            List<FavoritesCardViewModel> favoritesList = new ArrayList<>();
+            List<StarredRecipeCardViewModel> starredList = new ArrayList<>();
             for (Recipe r: recipes) {
-                if (favoritedRecipes.contains((Integer)r.getRecipeID())) {
-                    favoritesList.add(new FavoritesCardViewModel(r));
+                if (starredRecipes.contains((Integer)r.getRecipeID())) {
+                    starredList.add(new StarredRecipeCardViewModel(r));
                 }
             }
-            return favoritesList;
+            return starredList;
         });
     }
 }
