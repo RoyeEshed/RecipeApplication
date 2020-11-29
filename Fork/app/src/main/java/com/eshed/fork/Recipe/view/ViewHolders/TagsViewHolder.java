@@ -40,12 +40,16 @@ public class TagsViewHolder extends RecipeViewHolder {
     @Override
     public void bind(RecipeComponentViewModel vm) {
         tagViewModel = (TagViewModel) vm;
+
         String temp = "";
-        for (String s: ((TagViewModel) vm).tags) {
-            temp += s;
+        int size =  tagViewModel.tags.size();
+        for (int i = 0; i < size - 1; i++) {
+            temp += tagViewModel.tags.get(i);
             temp += ", ";
         }
-        Log.d("TAG", "bind: tags = " + ((TagViewModel) vm).tags.size());
+        if (!tagViewModel.tags.isEmpty()) {
+            temp += tagViewModel.tags.get(size - 1);
+        }
 
         if (!tagViewModel.isEditable()) {
             tagsText.setBackgroundTintMode(PorterDuff.Mode.CLEAR);

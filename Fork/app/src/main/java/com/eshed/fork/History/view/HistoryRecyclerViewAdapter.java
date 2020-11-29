@@ -1,4 +1,4 @@
-package com.eshed.fork.Recipe.ViewOptions.view;
+package com.eshed.fork.History.view;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.eshed.fork.History.vm.AncestorCardViewModel;
+import com.eshed.fork.History.vm.HistoryViewModel;
 import com.eshed.fork.R;
-import com.eshed.fork.Recipe.ViewOptions.vm.AncestorCardViewModel;
-import com.eshed.fork.Recipe.ViewOptions.vm.HistoryViewModel;
 
 import java.util.List;
 

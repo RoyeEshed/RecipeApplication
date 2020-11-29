@@ -10,6 +10,7 @@ import com.google.firebase.database.ValueEventListener
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.subjects.BehaviorSubject
+import kotlinx.android.synthetic.main.item_description.view.*
 
 
 class DbRecipeRepository() : RecipeRepository {

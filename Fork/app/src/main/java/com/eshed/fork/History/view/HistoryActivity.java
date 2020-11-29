@@ -1,16 +1,13 @@
-package com.eshed.fork.Recipe.ViewOptions.view;
+package com.eshed.fork.History.view;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -19,19 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.eshed.fork.Browse.view.BrowseActivity;
 import com.eshed.fork.Data.DbRecipeRepository;
 import com.eshed.fork.Fork;
+import com.eshed.fork.History.vm.AncestorCardViewModel;
+import com.eshed.fork.History.vm.HistoryViewModel;
 import com.eshed.fork.R;
-import com.eshed.fork.Recipe.ViewOptions.vm.AncestorCardViewModel;
-import com.eshed.fork.Recipe.ViewOptions.vm.HistoryViewModel;
-import com.eshed.fork.Recipe.ViewOptions.vm.ModificationCardViewModel;
-import com.eshed.fork.Recipe.ViewOptions.vm.ModificationsViewModel;
 import com.eshed.fork.Recipe.view.RecipeActivity;
 import com.eshed.fork.Settings.view.SettingsActivity;
-
-import de.blox.graphview.Graph;
-import de.blox.graphview.GraphAdapter;
-import de.blox.graphview.GraphView;
-import de.blox.graphview.tree.BuchheimWalkerAlgorithm;
-import de.blox.graphview.tree.BuchheimWalkerConfiguration;
 
 public class HistoryActivity extends AppCompatActivity implements HistoryRecyclerViewAdapter.HistoryAdapterHandler {
     private HistoryViewModel vm;

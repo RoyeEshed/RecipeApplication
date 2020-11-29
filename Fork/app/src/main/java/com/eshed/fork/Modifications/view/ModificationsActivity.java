@@ -1,4 +1,4 @@
-package com.eshed.fork.Recipe.ViewOptions.view;
+package com.eshed.fork.Modifications.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,9 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.eshed.fork.Browse.view.BrowseActivity;
 import com.eshed.fork.Data.DbRecipeRepository;
 import com.eshed.fork.Fork;
+import com.eshed.fork.Modifications.vm.ModificationCardViewModel;
+import com.eshed.fork.Modifications.vm.ModificationsViewModel;
 import com.eshed.fork.R;
-import com.eshed.fork.Recipe.ViewOptions.vm.ModificationCardViewModel;
-import com.eshed.fork.Recipe.ViewOptions.vm.ModificationsViewModel;
 import com.eshed.fork.Recipe.view.RecipeActivity;
 import com.eshed.fork.Settings.view.SettingsActivity;
 

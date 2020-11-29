@@ -1,4 +1,4 @@
-package com.eshed.fork.Recipe.ViewOptions.view;
+package com.eshed.fork.Modifications.view;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.eshed.fork.Modifications.vm.ModificationCardViewModel;
+import com.eshed.fork.Modifications.vm.ModificationsViewModel;
 import com.eshed.fork.R;
-import com.eshed.fork.Recipe.ViewOptions.vm.ModificationCardViewModel;
-import com.eshed.fork.Recipe.ViewOptions.vm.ModificationsViewModel;
 
 import java.util.List;
 

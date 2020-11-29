@@ -11,7 +11,8 @@ public interface RecipeComponentViewModel {
         Image,
         Contributor,
         Footer_Cancel,
-        Nutrition
+        Nutrition,
+        Description
     }
 
     Type getType();
