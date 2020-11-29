@@ -3,6 +3,7 @@ package com.eshed.fork.Recipe.vm;
 import android.util.Log;
 
 import com.eshed.fork.Data.RecipeRepository;
+import com.eshed.fork.Data.model.Comment;
 import com.eshed.fork.Data.model.Direction;
 import com.eshed.fork.Data.model.Ingredient;
 import com.eshed.fork.Data.model.Nutrients.TotalNutrients;
@@ -10,8 +11,8 @@ import com.eshed.fork.Data.model.Recipe;
 import com.eshed.fork.Data.model.UserAccount;
 import com.eshed.fork.Data.service.EdamamService;
 import com.eshed.fork.R;
+import com.eshed.fork.Recipe.vm.component.CommentViewModel;
 import com.eshed.fork.Recipe.vm.component.ContributorViewModel;
-import com.eshed.fork.Recipe.vm.component.DescriptionViewModel;
 import com.eshed.fork.Recipe.vm.component.DirectionViewModel;
 import com.eshed.fork.Recipe.vm.component.Footer.CancelFooterViewModel;
 import com.eshed.fork.Recipe.vm.component.Footer.DirectionFooterViewModel;
@@ -152,7 +153,6 @@ public class RecipeViewModel {
     private void regenerateComponents() {
         recipeComponents = new ArrayList<>();
         recipeComponents.add(new ImageViewModel(recipe.getImageURL(), isEditable));
-        recipeComponents.add(new DescriptionViewModel(recipe.getDescription(), isEditable));
         recipeComponents.add(new ContributorViewModel(recipe.getContributor(), isEditable, isStarred));
         recipeComponents.add(new HeaderViewModel("Ingredients"));
         for (int i = 0; i < recipe.getIngredients().size(); i++) {
@@ -169,6 +169,11 @@ public class RecipeViewModel {
         recipeComponents.add(new HeaderViewModel("Tags"));
         recipeComponents.add(new TagViewModel(recipe.getTags(), isEditable));
         Log.d("TAG", "regenerateComponents: tags: " + recipe.getTags().size());
+        recipeComponents.add(new HeaderViewModel("Comments"));
+        for (int i = 0; i < recipe.getComments().size(); i++) {
+            Comment comment = recipe.getComments().get(i);
+            recipeComponents.add(new CommentViewModel(comment, isEditable));
+        }
         recipeComponents.add(new CancelFooterViewModel((isEditable)));
         if (nutrients != null) {
             recipeComponents.add(new HeaderViewModel("Nutrition Information"));
