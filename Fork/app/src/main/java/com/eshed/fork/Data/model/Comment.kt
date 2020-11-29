@@ -7,7 +7,6 @@ data class Comment
     var content: String = "",
     var uid: String = "",
     var uimg: String = "",
-    var timestamp: String = "",
     var recipeID: Int = -1
 ){
 
@@ -22,7 +21,7 @@ data class Comment
             "content" to content,
             "uid" to uid,
             "uimg" to uimg,
-            "timestamp" to timestamp
+            "recipeID" to recipeID
         )
     }
 }
