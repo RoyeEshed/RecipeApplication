@@ -38,7 +38,11 @@ public class HistoryViewModel {
 
         while (index > 0) {
             Recipe r = getRecipe(index);
-            ancestors.add(new AncestorCardViewModel(r));
+            AncestorCardViewModel cardViewModel = new AncestorCardViewModel(r);
+            if (index == recipeID) {
+                cardViewModel.setEmphasis(true);
+            }
+            ancestors.add(cardViewModel);
             index = r.getParentRecipeID();
         }
 
@@ -48,6 +52,23 @@ public class HistoryViewModel {
             ancestors.set(i, ancestors.get(ancestors.size() - i - 1));
             ancestors.set(ancestors.size() - i - 1, temp);
         }
+
+        index = recipeID;
+        List<AncestorCardViewModel> children = new ArrayList<>();
+        do {
+            children = getChildrenOf(index);
+            ancestors.addAll(children);
+            if (children.size() > 0) {
+                index = children.get(children.size() - 1).getRecipe().getRecipeID();
+            }
+        } while (children.size() > 0);
+
+//        for (Recipe r: recipeList) {
+//            if (r.getRecipeID() == index && index != recipeID) {
+//                ancestors.add(new AncestorCardViewModel(r));
+//                index = r.getRecipeID();
+//            }
+//        }
 
         return Observable.just(ancestors);
     }
@@ -59,6 +80,18 @@ public class HistoryViewModel {
             }
         }
         return null;
+    }
+
+    private List<AncestorCardViewModel> getChildrenOf(int index) {
+        List<AncestorCardViewModel> children = new ArrayList<>();
+        for (Recipe r: recipeList) {
+            if (r.getParentRecipeID() == index) {
+                AncestorCardViewModel ancestorCardViewModel = new AncestorCardViewModel(r);
+                ancestorCardViewModel.setEmphasis(false);
+                children.add(ancestorCardViewModel);
+            }
+        }
+        return children;
     }
 
 }
