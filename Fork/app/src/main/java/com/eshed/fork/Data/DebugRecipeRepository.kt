@@ -1,10 +1,7 @@
 package com.eshed.fork.Data
 
 import android.util.Log
-import com.eshed.fork.Data.model.Direction
-import com.eshed.fork.Data.model.Ingredient
-import com.eshed.fork.Data.model.Recipe
-import com.eshed.fork.Data.model.UserAccount
+import com.eshed.fork.Data.model.*
 import com.google.firebase.database.FirebaseDatabase
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
@@ -160,6 +157,7 @@ class DebugRecipeRepository : RecipeRepository {
                         1
                     )
                 ),
+                mutableListOf(Comment("abcd","Andy Pakriel", "", 1)),
                 mutableListOf("Breakfast, Vegetarian, Eggs")
             ),
             Recipe(
@@ -191,6 +189,7 @@ class DebugRecipeRepository : RecipeRepository {
                         2
                     )
                 ),
+                mutableListOf(Comment("abcd","Andy Pakriel", "", 2)),
                 mutableListOf("Vegetarian, Dinner, Italian")
             ),
             Recipe(
@@ -221,6 +220,7 @@ class DebugRecipeRepository : RecipeRepository {
                         3
                     )
                 ),
+                mutableListOf(Comment("abcd","Andy Pakriel", "", 3)),
                 mutableListOf("Vegetarian, Vegan, Breakfast")
             )
         )
