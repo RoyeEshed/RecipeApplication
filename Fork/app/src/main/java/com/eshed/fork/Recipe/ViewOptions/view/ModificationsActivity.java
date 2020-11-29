@@ -1,8 +1,9 @@
-package com.eshed.fork.Recipe.ViewOptions.View;
+package com.eshed.fork.Recipe.ViewOptions.view;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -39,6 +40,17 @@ public class ModificationsActivity extends AppCompatActivity implements Modifica
         initRecyclerView();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     public void setupTabBar() {
         Toolbar tabBar = this.findViewById(R.id.tab_bar);
         ImageView settingsButton = tabBar.findViewById(R.id.user_settings);
@@ -69,7 +81,8 @@ public class ModificationsActivity extends AppCompatActivity implements Modifica
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (this.getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
         TextView title = toolbar.findViewById(R.id.toolbar_title);

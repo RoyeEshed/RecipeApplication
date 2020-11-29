@@ -24,7 +24,8 @@
         <activity android:name=".Recipe.view.NewRecipeActivity"/>
         <activity android:name=".Settings.view.SettingsActivity"/>
         <activity android:name=".StarredRecipes.view.StarredRecipesActivity"/>
-        <activity android:name=".Recipe.ViewOptions.View.ModificationsActivity"/>
+        <activity android:name=".Recipe.ViewOptions.view.ModificationsActivity"/>
+        <activity android:name=".Recipe.ViewOptions.view.HistoryActivity"/>
 
         <meta-data
             android:name="preloaded_fonts"

@@ -1,4 +1,4 @@
-package com.eshed.fork.Recipe.ViewOptions.View;
+package com.eshed.fork.Recipe.ViewOptions.view;
 
 import android.view.View;
 import android.widget.ImageView;
