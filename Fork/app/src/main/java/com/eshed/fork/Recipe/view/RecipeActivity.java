@@ -33,7 +33,8 @@ import com.eshed.fork.Data.DbRecipeRepository;
 import com.eshed.fork.Data.model.Recipe;
 import com.eshed.fork.Fork;
 import com.eshed.fork.R;
-import com.eshed.fork.Recipe.ViewOptions.View.ModificationsActivity;
+import com.eshed.fork.History.view.HistoryActivity;
+import com.eshed.fork.Modifications.view.ModificationsActivity;
 import com.eshed.fork.Recipe.view.Dialogs.NewRecipeDialogFragment;
 import com.eshed.fork.Recipe.view.Dialogs.NewRecipeDialogFragment.NewRecipeDialogListener;
 import com.eshed.fork.Recipe.view.Dialogs.RecipeOptionsDialogFragment;
@@ -72,7 +73,7 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
         app = (Fork) getApplication();
 
         int recipeID = getIntent().getExtras().getInt("recipe");
-
+        Log.d("Errors are liars", "onCreate: " + app.getUid());
         vm = new RecipeViewModel(
                 DbRecipeRepository.getInstance(),
                 app.getEdamamService(),
@@ -309,7 +310,9 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
 
     @Override
     public void onViewRecipeHistoryTapped(DialogFragment dialog) {
-
+        Intent intent = new Intent(this, HistoryActivity.class);
+        intent.putExtra("recipe", vm.getRecipe().getRecipeID());
+        this.startActivity(intent);
     }
     // endregion
 }

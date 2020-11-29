@@ -1,8 +1,9 @@
-package com.eshed.fork.Recipe.ViewOptions.View;
+package com.eshed.fork.Modifications.view;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,9 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.eshed.fork.Browse.view.BrowseActivity;
 import com.eshed.fork.Data.DbRecipeRepository;
 import com.eshed.fork.Fork;
+import com.eshed.fork.Modifications.vm.ModificationCardViewModel;
+import com.eshed.fork.Modifications.vm.ModificationsViewModel;
 import com.eshed.fork.R;
-import com.eshed.fork.Recipe.ViewOptions.vm.ModificationCardViewModel;
-import com.eshed.fork.Recipe.ViewOptions.vm.ModificationsViewModel;
 import com.eshed.fork.Recipe.view.RecipeActivity;
 import com.eshed.fork.Settings.view.SettingsActivity;
 
@@ -37,6 +38,17 @@ public class ModificationsActivity extends AppCompatActivity implements Modifica
         vm = new ModificationsViewModel(dbRepository, parentRecipeID);
         dbRepository.load();
         initRecyclerView();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     public void setupTabBar() {
@@ -69,7 +81,8 @@ public class ModificationsActivity extends AppCompatActivity implements Modifica
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (this.getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
         TextView title = toolbar.findViewById(R.id.toolbar_title);

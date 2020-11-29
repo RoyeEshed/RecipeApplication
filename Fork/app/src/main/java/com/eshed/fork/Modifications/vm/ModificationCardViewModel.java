@@ -1,4 +1,4 @@
-package com.eshed.fork.Recipe.ViewOptions.vm;
+package com.eshed.fork.Modifications.vm;
 
 import com.eshed.fork.Data.model.Recipe;
 

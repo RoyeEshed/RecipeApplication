@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingStart="20dp"
-    android:paddingEnd="20dp"
-    android:paddingBottom="5dp">
-
+    android:paddingStart="15dp"
+    android:paddingEnd="15dp">
     <EditText
-        android:id="@+id/tags_text"
+        android:id="@+id/description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif"
-        android:text="Vegetarian, Vegan, Breakfast"
+        android:hint="Enter a description of the modification"
         android:textColor="@color/black"
         android:textSize="18dp" />
+
 </LinearLayout>

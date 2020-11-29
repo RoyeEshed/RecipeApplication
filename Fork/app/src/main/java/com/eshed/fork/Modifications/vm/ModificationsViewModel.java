@@ -1,8 +1,7 @@
-package com.eshed.fork.Recipe.ViewOptions.vm;
+package com.eshed.fork.Modifications.vm;
 
 import com.eshed.fork.Data.DbRecipeRepository;
 import com.eshed.fork.Data.model.Recipe;
-import com.eshed.fork.Data.model.UserAccount;
 
 import java.util.ArrayList;
 import java.util.List;
