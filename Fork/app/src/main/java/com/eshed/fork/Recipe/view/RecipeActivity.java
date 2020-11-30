@@ -17,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -59,7 +60,7 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapterHa
     private Toolbar toolbar;
     private ImageView saveButton;
     private ImageView addButton;
-    private ImageView forkButton;
+    private LinearLayout forkButton;
     private TextView title;
     private RecipeRecyclerViewAdapter adapter;
     private Spinner spinner;

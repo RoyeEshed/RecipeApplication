@@ -56,7 +56,7 @@ class DbRecipeRepository() : RecipeRepository {
 
     override fun createNewRecipe(): Recipe? {
         return Recipe(
-            recipeID = (Math.random() * 1000).toInt(),
+            recipeID = (Math.random() * 10000).toInt(),
             imageURL = "gs://fork-15014.appspot.com/images/e4c84136-75af-4bda-a9dc-62de473d79b6",
             ingredients = mutableListOf(),
             directions = mutableListOf(),
@@ -66,7 +66,7 @@ class DbRecipeRepository() : RecipeRepository {
 
     override fun createNewRecipeFromRecipe(recipe: Recipe, newName: String): Recipe? {
         var newRecipe = recipe.deepCopy(
-            recipeID = (Math.random() * 1000).toInt(),
+            recipeID = (Math.random() * 10000).toInt(),
             name = newName,
             parentRecipeID = recipe.recipeID
         )

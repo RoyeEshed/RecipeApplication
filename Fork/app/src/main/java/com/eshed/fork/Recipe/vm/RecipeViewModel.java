@@ -170,10 +170,10 @@ public class RecipeViewModel {
         recipeComponents.add(new TagViewModel(recipe.getTags(), isEditable));
         Log.d("TAG", "regenerateComponents: tags: " + recipe.getTags().size());
         recipeComponents.add(new HeaderViewModel("Comments"));
-        for (int i = 0; i < recipe.getComments().size(); i++) {
-            Comment comment = recipe.getComments().get(i);
+        //for (int i = 0; i < recipe.getComments().size(); i++) {
+            Comment comment = new Comment("Comment");
             recipeComponents.add(new CommentViewModel(comment, isEditable));
-        }
+        //}
         recipeComponents.add(new CancelFooterViewModel((isEditable)));
         if (nutrients != null) {
             recipeComponents.add(new HeaderViewModel("Nutrition Information"));
