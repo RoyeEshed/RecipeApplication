@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.eshed.fork.R;
-import com.eshed.fork.Recipe.view.ViewHolders.CancelFooterViewHolderr;
+import com.eshed.fork.Recipe.view.ViewHolders.CancelFooterViewHolder;
 import com.eshed.fork.Recipe.view.ViewHolders.CommentViewHolder;
 import com.eshed.fork.Recipe.view.ViewHolders.ContributorViewHolder;
 import com.eshed.fork.Recipe.view.ViewHolders.DirectionFooterViewHolder;

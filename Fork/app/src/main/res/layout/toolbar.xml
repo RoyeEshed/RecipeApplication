@@ -24,13 +24,23 @@
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-        <ImageView
+        <LinearLayout
             android:id="@+id/fork_recipe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_fork"
-            android:visibility="visible"/>
-
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_fork"
+                android:layout_gravity="center"
+                android:visibility="visible"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:text="Modify" />
+        </LinearLayout>
         <ImageView
             android:id="@+id/add_recipe"
             android:layout_width="wrap_content"

@@ -40,9 +40,9 @@
         android:id="@+id/comment_user_img"
         android:layout_width="42dp"
         android:layout_height="42dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/comment_comment"
         tools:srcCompat="@tools:sample/avatars" />
 
@@ -51,13 +51,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
         android:textColor="#969595"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/comment_user_img"
-        app:layout_constraintTop_toBottomOf="@+id/comment_comment"/>
+        app:layout_constraintTop_toBottomOf="@+id/comment_comment" />
 
     <TextView
         android:id="@+id/comment_content"
@@ -72,7 +71,6 @@
         android:text="Text Comment Goes Here"
         android:textColor="#969595"
         app:layout_constraintStart_toEndOf="@+id/comment_user_img"
-        app:layout_constraintEnd_toEndof="parent"
         app:layout_constraintTop_toBottomOf="@+id/comment_username"/>
 
 
@@ -81,12 +79,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="8dp"
         android:text="10:20"
         android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@+id/comment_username"
-        app:layout_contraintTop_toTopOf="@+id/comment_content"
-        app:layout_constraintTop_toBottomOf="@+id/comment_comment"/>
+        app:layout_constraintTop_toTopOf="@+id/comment_username" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
