@@ -1,5 +1,6 @@
 package com.eshed.fork.Recipe.view;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,10 +36,12 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeViewHo
         void recipeStarred();
     }
 
-    private RecipeViewModel vm;
+    public RecipeViewModel vm;
     public RecipeAdapterHandler handler;
+    private Context context;
 
-    public RecipeRecyclerViewAdapter(RecipeViewModel vm) {
+    public RecipeRecyclerViewAdapter(Context context, RecipeViewModel vm) {
+        this.context = context;
         this.vm = vm;
         vm.listener = this;
     }
@@ -162,4 +165,9 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeViewHo
     }
 
     // endregion
+
+    public Context getContext() {
+        return context;
+    }
+
 }

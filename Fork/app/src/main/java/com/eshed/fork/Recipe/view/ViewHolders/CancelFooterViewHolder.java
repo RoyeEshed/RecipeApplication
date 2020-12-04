@@ -16,6 +16,7 @@ public class CancelFooterViewHolder extends RecipeViewHolder {
     TextView cancelButton;
     ImageView addButton;
     TextView addHintTextView;
+    boolean isEditable;
 
     public CancelFooterViewHolder(@NonNull View itemView) {
         super(itemView);

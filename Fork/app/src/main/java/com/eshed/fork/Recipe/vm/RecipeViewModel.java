@@ -13,6 +13,8 @@ import com.eshed.fork.Data.service.EdamamService;
 import com.eshed.fork.Data.service.NutritionalAnalysisRequest;
 import com.eshed.fork.Data.service.NutritionalAnalysisResponse;
 import com.eshed.fork.R;
+import com.eshed.fork.Recipe.view.ViewHolders.DirectionViewHolder;
+import com.eshed.fork.Recipe.view.ViewHolders.IngredientViewHolder;
 import com.eshed.fork.Recipe.vm.component.CommentViewModel;
 import com.eshed.fork.Recipe.vm.component.ContributorViewModel;
 import com.eshed.fork.Recipe.vm.component.DescriptionViewModel;
@@ -152,6 +154,33 @@ public class RecipeViewModel {
 
     public List<RecipeComponentViewModel> getComponents() {
         return recipeComponents;
+    }
+
+    public void remove(RecipeComponentViewModel cvm) {
+        if (cvm instanceof DirectionViewModel) {
+            Direction direction = ((DirectionViewModel) cvm).direction;
+            for (int i = 0;  i < recipe.getDirections().size(); i++) {
+                if (recipe.getDirections().get(i).getDirectionNumber() == direction.getDirectionNumber()) {
+                    recipe.getDirections().remove(i);
+                    for (int j = 0; j < recipe.getDirections().size(); j++) {
+                        int number = j + 1;
+                        recipe.getDirections().get(j).setDirectionNumber(number);
+                    }
+                    break;
+                }
+            }
+        } else if (cvm instanceof IngredientViewModel) {
+            Ingredient ingredient = ((IngredientViewModel) cvm).ingredient;
+            for (int i = 0; i < recipe.getIngredients().size(); i++) {
+                if (recipe.getIngredients().get(i).getIngredientName().equals(ingredient.getIngredientName())) {
+                    if (recipe.getIngredients().get(i).getAmount().equals(ingredient.getAmount())) {
+                        recipe.getIngredients().remove(i);
+                        break;
+                    }
+                }
+            }
+        }
+        regenerateComponents();
     }
 
     private void regenerateComponents() {
