@@ -15,6 +15,7 @@ import com.eshed.fork.Data.service.NutritionalAnalysisResponse;
 import com.eshed.fork.R;
 import com.eshed.fork.Recipe.vm.component.CommentViewModel;
 import com.eshed.fork.Recipe.vm.component.ContributorViewModel;
+import com.eshed.fork.Recipe.vm.component.DescriptionViewModel;
 import com.eshed.fork.Recipe.vm.component.DirectionViewModel;
 import com.eshed.fork.Recipe.vm.component.Footer.CancelFooterViewModel;
 import com.eshed.fork.Recipe.vm.component.Footer.DirectionFooterViewModel;
@@ -157,6 +158,7 @@ public class RecipeViewModel {
         recipeComponents = new ArrayList<>();
         recipeComponents.add(new ImageViewModel(recipe.getImageURL(), isEditable));
         recipeComponents.add(new ContributorViewModel(recipe.getContributor(), isEditable, isStarred));
+        recipeComponents.add(new DescriptionViewModel(recipe.getDescription(), isEditable));
         recipeComponents.add(new HeaderViewModel("Ingredients"));
         for (int i = 0; i < recipe.getIngredients().size(); i++) {
             Ingredient ingredient = recipe.getIngredients().get(i);

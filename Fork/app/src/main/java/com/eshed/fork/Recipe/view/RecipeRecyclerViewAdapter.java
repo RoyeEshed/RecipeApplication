@@ -12,6 +12,7 @@ import com.eshed.fork.R;
 import com.eshed.fork.Recipe.view.ViewHolders.CancelFooterViewHolder;
 import com.eshed.fork.Recipe.view.ViewHolders.CommentViewHolder;
 import com.eshed.fork.Recipe.view.ViewHolders.ContributorViewHolder;
+import com.eshed.fork.Recipe.view.ViewHolders.DescriptionViewHolder;
 import com.eshed.fork.Recipe.view.ViewHolders.DirectionFooterViewHolder;
 import com.eshed.fork.Recipe.view.ViewHolders.DirectionViewHolder;
 import com.eshed.fork.Recipe.view.ViewHolders.HeaderViewHolder;
@@ -99,6 +100,9 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeViewHo
             case Comment:
                 view = inflater.inflate(R.layout.item_comment, parent, false);
                 return new CommentViewHolder(view);
+            case Description:
+                view = inflater.inflate(R.layout.item_description, parent, false);
+                return new DescriptionViewHolder(view);
             default:
                 throw new RuntimeException("Invalid viewType: " + viewType);
         }
