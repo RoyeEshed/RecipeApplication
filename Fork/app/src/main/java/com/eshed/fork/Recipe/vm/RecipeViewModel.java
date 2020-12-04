@@ -10,9 +10,14 @@ import com.eshed.fork.Data.model.Nutrients.TotalNutrients;
 import com.eshed.fork.Data.model.Recipe;
 import com.eshed.fork.Data.model.UserAccount;
 import com.eshed.fork.Data.service.EdamamService;
+import com.eshed.fork.Data.service.NutritionalAnalysisRequest;
+import com.eshed.fork.Data.service.NutritionalAnalysisResponse;
 import com.eshed.fork.R;
+import com.eshed.fork.Recipe.view.ViewHolders.DirectionViewHolder;
+import com.eshed.fork.Recipe.view.ViewHolders.IngredientViewHolder;
 import com.eshed.fork.Recipe.vm.component.CommentViewModel;
 import com.eshed.fork.Recipe.vm.component.ContributorViewModel;
+import com.eshed.fork.Recipe.vm.component.DescriptionViewModel;
 import com.eshed.fork.Recipe.vm.component.DirectionViewModel;
 import com.eshed.fork.Recipe.vm.component.Footer.CancelFooterViewModel;
 import com.eshed.fork.Recipe.vm.component.Footer.DirectionFooterViewModel;
@@ -28,9 +33,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.rxjava3.disposables.Disposable;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RecipeViewModel {
-
     public interface Listener {
         void onDataChanged();
     }
@@ -58,29 +65,28 @@ public class RecipeViewModel {
         disposable = repository
                 .getRecipeWithID(recipeID)
                 .subscribe(recipe -> {
-                    // TODO: handle async.
                     this.recipe = recipe;
-//                    NutritionalAnalysisRequest request = NutritionalAnalysisRequest.fromRecipe(recipe);
-//                    edamamService
-//                            .getNutritionAnalysis(request)
-//                            .enqueue(new Callback<NutritionalAnalysisResponse>() {
-//                                @Override
-//                                public void onResponse(Call<NutritionalAnalysisResponse> call, Response<NutritionalAnalysisResponse> response) {
-//                                    calories = response.body().getCalories();
-//                                    nutrients = response.body().getTotalNutrients();
-//                                    servings = response.body().getYield();
-//                                    regenerateComponents();
-//
-//                                    if (listener != null) {
-//                                        listener.onDataChanged();
-//                                    }
-//                                }
-//
-//                                @Override
-//                                public void onFailure(Call<NutritionalAnalysisResponse> call, Throwable t) {
-//
-//                                }
-//                            });
+                    NutritionalAnalysisRequest request = NutritionalAnalysisRequest.fromRecipe(recipe);
+                    edamamService
+                            .getNutritionAnalysis(request)
+                            .enqueue(new Callback<NutritionalAnalysisResponse>() {
+                                @Override
+                                public void onResponse(Call<NutritionalAnalysisResponse> call, Response<NutritionalAnalysisResponse> response) {
+                                    calories = response.body().getCalories();
+                                    nutrients = response.body().getTotalNutrients();
+                                    servings = response.body().getYield();
+                                    regenerateComponents();
+
+                                    if (listener != null) {
+                                        listener.onDataChanged();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<NutritionalAnalysisResponse> call, Throwable t) {
+
+                                }
+                            });
                 });
 
 
@@ -97,6 +103,25 @@ public class RecipeViewModel {
 
     public RecipeViewModel(Recipe recipe) {
         this.recipe = recipe;
+        regenerateComponents();
+    }
+
+    public boolean isStarred() {
+        return isStarred;
+    }
+
+    public void starRecipe() {
+        if (isStarred) { // unstarring it
+            if (user != null) {
+                user.getStarredRecipes().remove((Integer)recipe.getRecipeID());
+            }
+        } else { // starring it
+            if (user != null) {
+                user.getStarredRecipes().add(recipe.getRecipeID());
+            }
+        }
+        isStarred = !isStarred;
+        repository.saveUser(user);
         regenerateComponents();
     }
 
@@ -131,22 +156,30 @@ public class RecipeViewModel {
         return recipeComponents;
     }
 
-    public boolean isStarred() {
-        return isStarred;
-    }
-
-    public void starRecipe() {
-        if (isStarred) { // unstarring it
-            if (user != null) {
-                user.getStarredRecipes().remove((Integer)recipe.getRecipeID());
+    public void remove(RecipeComponentViewModel cvm) {
+        if (cvm instanceof DirectionViewModel) {
+            Direction direction = ((DirectionViewModel) cvm).direction;
+            for (int i = 0;  i < recipe.getDirections().size(); i++) {
+                if (recipe.getDirections().get(i).getDirectionNumber() == direction.getDirectionNumber()) {
+                    recipe.getDirections().remove(i);
+                    for (int j = 0; j < recipe.getDirections().size(); j++) {
+                        int number = j + 1;
+                        recipe.getDirections().get(j).setDirectionNumber(number);
+                    }
+                    break;
+                }
             }
-        } else { // starring it
-            if (user != null) {
-                user.getStarredRecipes().add(recipe.getRecipeID());
+        } else if (cvm instanceof IngredientViewModel) {
+            Ingredient ingredient = ((IngredientViewModel) cvm).ingredient;
+            for (int i = 0; i < recipe.getIngredients().size(); i++) {
+                if (recipe.getIngredients().get(i).getIngredientName().equals(ingredient.getIngredientName())) {
+                    if (recipe.getIngredients().get(i).getAmount().equals(ingredient.getAmount())) {
+                        recipe.getIngredients().remove(i);
+                        break;
+                    }
+                }
             }
         }
-        isStarred = !isStarred;
-        repository.saveUser(user);
         regenerateComponents();
     }
 
@@ -154,6 +187,7 @@ public class RecipeViewModel {
         recipeComponents = new ArrayList<>();
         recipeComponents.add(new ImageViewModel(recipe.getImageURL(), isEditable));
         recipeComponents.add(new ContributorViewModel(recipe.getContributor(), isEditable, isStarred));
+        recipeComponents.add(new DescriptionViewModel(recipe.getDescription(), isEditable));
         recipeComponents.add(new HeaderViewModel("Ingredients"));
         for (int i = 0; i < recipe.getIngredients().size(); i++) {
             Ingredient ingredient = recipe.getIngredients().get(i);
@@ -170,10 +204,7 @@ public class RecipeViewModel {
         recipeComponents.add(new TagViewModel(recipe.getTags(), isEditable));
         Log.d("TAG", "regenerateComponents: tags: " + recipe.getTags().size());
         recipeComponents.add(new HeaderViewModel("Comments"));
-        //for (int i = 0; i < recipe.getComments().size(); i++) {
-            Comment comment = new Comment("Comment");
-            recipeComponents.add(new CommentViewModel(comment, isEditable));
-        //}
+        recipeComponents.add(new CommentViewModel(new Comment("Comment"), isEditable));
         recipeComponents.add(new CancelFooterViewModel((isEditable)));
         if (nutrients != null) {
             recipeComponents.add(new HeaderViewModel("Nutrition Information"));

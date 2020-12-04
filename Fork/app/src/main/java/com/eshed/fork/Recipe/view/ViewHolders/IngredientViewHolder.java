@@ -15,7 +15,9 @@ import com.eshed.fork.Recipe.vm.component.RecipeComponentViewModel;
 public class IngredientViewHolder extends RecipeViewHolder {
     private EditText amount;
     private EditText ingredientText;
-    private IngredientViewModel ingredientViewModel;
+    public IngredientViewModel ingredientViewModel;
+    public boolean inEditMode;
+
 
     public IngredientViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -69,5 +71,6 @@ public class IngredientViewHolder extends RecipeViewHolder {
 
         amount.setEnabled(ingredientViewModel.isEditable());
         ingredientText.setEnabled(ingredientViewModel.isEditable());
+        inEditMode = ingredientViewModel.isEditable;
     }
 }

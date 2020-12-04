@@ -18,9 +18,10 @@ class DbRecipeRepository() : RecipeRepository {
         @JvmStatic val instance = DbRecipeRepository()
     }
 
-    private var recipeRelay: BehaviorSubject<List<Recipe>> = BehaviorSubject.createDefault(listOf())
     private var userRelay: BehaviorSubject<List<UserAccount>> = BehaviorSubject.createDefault(listOf())
     private var currentUser: UserAccount? = null
+
+    private var recipeRelay: BehaviorSubject<List<Recipe>> = BehaviorSubject.createDefault(listOf())
 
     fun load() {
         val database = FirebaseDatabase.getInstance()
@@ -38,20 +39,6 @@ class DbRecipeRepository() : RecipeRepository {
                 }
             })
         loadUsers()
-    }
-
-    override fun retrieveRecipes(): Observable<List<Recipe>> {
-        return recipeRelay
-    }
-
-
-    override fun getRecipeWithID(recipeID: Int): Single<Recipe>? {
-        for (r in recipeRelay.value) {
-            if (r.recipeID == recipeID) {
-                return Single.just(r)
-            }
-        }
-        return null
     }
 
     override fun createNewRecipe(): Recipe? {
@@ -79,6 +66,20 @@ class DbRecipeRepository() : RecipeRepository {
         }
 
         return newRecipe
+    }
+
+    override fun retrieveRecipes(): Observable<List<Recipe>> {
+        return recipeRelay
+    }
+
+
+    override fun getRecipeWithID(recipeID: Int): Single<Recipe>? {
+        for (r in recipeRelay.value) {
+            if (r.recipeID == recipeID) {
+                return Single.just(r)
+            }
+        }
+        return null
     }
 
     override fun retrieveChildrenOfRecipe(parentRecipeID: Int): Observable<MutableList<Recipe>> {

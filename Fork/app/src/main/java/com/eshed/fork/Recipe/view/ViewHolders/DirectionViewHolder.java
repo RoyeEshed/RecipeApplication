@@ -17,8 +17,9 @@ import com.eshed.fork.Recipe.vm.component.RecipeComponentViewModel;
 public class DirectionViewHolder extends RecipeViewHolder {
     TextView directionNumber;
     EditText directionText;
+    public boolean inEditMode;
 
-    private DirectionViewModel directionViewModel;
+    public DirectionViewModel directionViewModel;
 
     public DirectionViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -53,5 +54,6 @@ public class DirectionViewHolder extends RecipeViewHolder {
             directionText.setBackgroundTintMode(PorterDuff.Mode.MULTIPLY);
         }
         directionText.setEnabled(directionViewModel.isEditable());
+        inEditMode = directionViewModel.isEditable;
     }
 }

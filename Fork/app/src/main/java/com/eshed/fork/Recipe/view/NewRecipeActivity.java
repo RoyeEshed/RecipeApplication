@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,6 +23,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -33,6 +35,7 @@ import com.eshed.fork.Recipe.view.Dialogs.NewRecipeDialogFragment;
 import com.eshed.fork.Recipe.view.Dialogs.NewRecipeDialogFragment.NewRecipeDialogListener;
 import com.eshed.fork.Recipe.view.RecipeRecyclerViewAdapter.RecipeAdapterHandler;
 import com.eshed.fork.Recipe.vm.RecipeViewModel;
+import com.eshed.fork.Recipe.vm.component.RecipeComponentViewModel;
 import com.eshed.fork.Settings.view.SettingsActivity;
 import com.eshed.fork.StarredRecipes.view.StarredRecipesActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -46,11 +49,11 @@ import java.util.UUID;
 import static android.widget.LinearLayout.GONE;
 import static android.widget.LinearLayout.VISIBLE;
 
-public class NewRecipeActivity extends AppCompatActivity implements RecipeAdapterHandler, NewRecipeDialogListener {
+public class NewRecipeActivity extends AppCompatActivity implements RecipeAdapterHandler, NewRecipeDialogListener, SwipeToDeleteCallback.SwipeListener {
     private Toolbar toolbar;
     private ImageView addButton;
     private ImageView saveButton;
-    private ImageView forkButton;
+    private LinearLayout forkButton;
     private TextView title;
     private RecipeRecyclerViewAdapter adapter;
     private RecipeViewModel vm;
@@ -137,10 +140,14 @@ public class NewRecipeActivity extends AppCompatActivity implements RecipeAdapte
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
 
-        adapter = new RecipeRecyclerViewAdapter(vm);
+        adapter = new RecipeRecyclerViewAdapter(this, vm);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
         ((RecipeRecyclerViewAdapter) adapter).handler = this;
+        SwipeToDeleteCallback callback = new SwipeToDeleteCallback(adapter);
+        callback.listener = this;
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -239,6 +246,12 @@ public class NewRecipeActivity extends AppCompatActivity implements RecipeAdapte
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
         this.finish();
+    }
+
+    @Override
+    public void onItemDeleted(int position, RecipeComponentViewModel componentViewModel) {
+        vm.remove(componentViewModel);
+        adapter.notifyDataSetChanged();
     }
     // endregion
 }

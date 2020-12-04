@@ -1,5 +1,6 @@
 package com.eshed.fork.Recipe.view;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import com.eshed.fork.R;
 import com.eshed.fork.Recipe.view.ViewHolders.CancelFooterViewHolder;
 import com.eshed.fork.Recipe.view.ViewHolders.CommentViewHolder;
 import com.eshed.fork.Recipe.view.ViewHolders.ContributorViewHolder;
+import com.eshed.fork.Recipe.view.ViewHolders.DescriptionViewHolder;
 import com.eshed.fork.Recipe.view.ViewHolders.DirectionFooterViewHolder;
 import com.eshed.fork.Recipe.view.ViewHolders.DirectionViewHolder;
 import com.eshed.fork.Recipe.view.ViewHolders.HeaderViewHolder;
@@ -34,10 +36,12 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeViewHo
         void recipeStarred();
     }
 
-    private RecipeViewModel vm;
+    public RecipeViewModel vm;
     public RecipeAdapterHandler handler;
+    private Context context;
 
-    public RecipeRecyclerViewAdapter(RecipeViewModel vm) {
+    public RecipeRecyclerViewAdapter(Context context, RecipeViewModel vm) {
+        this.context = context;
         this.vm = vm;
         vm.listener = this;
     }
@@ -99,6 +103,9 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeViewHo
             case Comment:
                 view = inflater.inflate(R.layout.item_comment, parent, false);
                 return new CommentViewHolder(view);
+            case Description:
+                view = inflater.inflate(R.layout.item_description, parent, false);
+                return new DescriptionViewHolder(view);
             default:
                 throw new RuntimeException("Invalid viewType: " + viewType);
         }
@@ -158,4 +165,9 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeViewHo
     }
 
     // endregion
+
+    public Context getContext() {
+        return context;
+    }
+
 }
