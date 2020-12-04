@@ -29,15 +29,9 @@ class NutritionalAnalysisResponse {
     @Expose
     private var totalNutrients: TotalNutrients? = null
 
-    fun getUri(): String? { return uri }
-
     fun getYield(): Double? { return `yield` }
 
     fun getCalories(): Int? { return calories }
-
-    fun getDietLabels(): Array<String>? { return dietLabels }
-
-    fun getHealthLabels(): Array<String>? { return healthLabels }
 
     fun getTotalNutrients(): TotalNutrients? { return totalNutrients }
 }

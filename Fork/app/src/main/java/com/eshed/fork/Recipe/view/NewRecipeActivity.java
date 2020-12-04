@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -50,7 +51,7 @@ public class NewRecipeActivity extends AppCompatActivity implements RecipeAdapte
     private Toolbar toolbar;
     private ImageView addButton;
     private ImageView saveButton;
-    private ImageView forkButton;
+    private LinearLayout forkButton;
     private TextView title;
     private RecipeRecyclerViewAdapter adapter;
     private RecipeViewModel vm;
